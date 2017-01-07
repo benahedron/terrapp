@@ -1,8 +1,10 @@
 'use strict';
 
 import User from './user.model';
+import Membership from '../membership/membership.model';
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
+import _ from 'lodash';
 
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
@@ -34,17 +36,27 @@ export function index(req, res) {
  * Creates a new user
  */
 export function create(req, res) {
-  var newUser = new User(req.body);
-  newUser.provider = 'local';
-  newUser.role = 'user';
-  newUser.save()
-    .then(function(user) {
-      var token = jwt.sign({ _id: user._id }, config.secrets.session, {
-        expiresIn: 60 * 60 * 5
-      });
-      res.json({ token });
-    })
-    .catch(validationError(res));
+  if (!_.has(req.body, 'membership')){
+    validationError(res);
+  } else {
+    var newMembership =  Membership(req.body.membership);
+    newMembership.save()
+      .then(function(membership) {
+        var newUser = new User(req.body);
+        newUser.provider = 'local';
+        newUser.role = 'user';
+        newUser.membership = membership;
+        newUser.save()
+          .then(function(user) {
+            var token = jwt.sign({ _id: user._id }, config.secrets.session, {
+              expiresIn: 60 * 60 * 5
+            });
+            res.json({ token });
+          })
+          .catch(validationError(res));
+      })
+      .catch(validationError(res));
+  }
 }
 
 /**

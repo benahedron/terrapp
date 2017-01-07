@@ -1,0 +1,5 @@
+[
+  {"year":2015,"active": false, "eventInterval": 14},
+  {"year":2016,"active": false, "eventInterval": 7},
+  {"year":2017,"active": true, "eventInterval": 7}
+]

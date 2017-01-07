@@ -7,7 +7,7 @@ module.exports = {
 
   // MongoDB connection options
   mongo: {
-    uri: 'mongodb://localhost/terrapp-dev'
+    uri: 'mongodb://localhost/terrapp-development'
   },
 
   // Seed database on startup

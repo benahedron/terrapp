@@ -3,16 +3,32 @@
 const angular = require('angular');
 
 interface User {
-  name: string;
   email: string;
   password: string;
+  membership: {
+    firstName: string;
+    lastName: string;
+    address1: string;
+    address2: string;
+    city: string;
+    zip: string;
+    country: string;
+  }
 }
 
 export default class SignupController {
   user: User = {
-    name: '',
     email: '',
-    password: ''
+    password: '',
+    membership: {
+      firstName: '',
+      lastName: '',
+      address1: '',
+      address2: '',
+      city: '',
+      zip: '',
+      country: ''
+    }
   };
   errors = {};
   submitted = false;
@@ -30,9 +46,17 @@ export default class SignupController {
 
     if(form.$valid) {
       return this.Auth.createUser({
-        name: this.user.name,
         email: this.user.email,
-        password: this.user.password
+        password: this.user.password,
+        membership: {
+          firstName: this.user.membership.firstName,
+          lastName: this.user.membership.lastName,
+          address1: this.user.membership.address1,
+          address2: this.user.membership.address2,
+          city: this.user.membership.city,
+          zip: this.user.membership.zip,
+          country: this.user.membership.country
+        }
       })
       .then(() => {
         // Account created, redirect to home

@@ -8,8 +8,8 @@ var PickupOptionSchema = new mongoose.Schema({
   weekDay: Number,
   startMinute: Number,
   durationMinutes: Number,
-  hoursBeforeLocking: Boolean,
-  active: Boolean
+  hoursBeforeLocking: Number,
+  active: {type: Boolean, default: true}
 });
 
 export default mongoose.model('PickupOption', PickupOptionSchema);

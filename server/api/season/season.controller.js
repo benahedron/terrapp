@@ -78,6 +78,7 @@ export function show(req, res) {
     .catch(handleError(res));
 }
 
+
 // Creates a new Season in the DB
 export function create(req, res) {
   return Season.create(req.body)
@@ -91,7 +92,6 @@ export function upsert(req, res) {
     delete req.body._id;
   }
   return Season.findOneAndUpdate({_id: req.params.id}, req.body, {new: true, upsert: true, setDefaultsOnInsert: true, runValidators: true}).exec()
-
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
