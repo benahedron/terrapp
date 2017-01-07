@@ -8,7 +8,7 @@ var SeasonSchema = new mongoose.Schema({
   eventIntervalInDays: {type: Number, default: 7},
   eventIntervalOffset: {type: Number, default: 0},
   firstEventOffset: {type: Number, default: 0},
-  lastEventOffset: {type: Number, default: 52},
+  numberOfEvents: {type: Number, default: 52},
 });
 
 export default mongoose.model('Season', SeasonSchema);

@@ -6,6 +6,10 @@
 
 import {EventEmitter} from 'events';
 import Season from './season.model';
+import PickupEvent from '../pickupEvent/pickupEvent.model';
+import PickupOption from '../pickupOption/pickupOption.model';
+import _ from 'lodash';
+
 var SeasonEvents = new EventEmitter();
 
 // Set max event listeners (0 == unlimited)
@@ -29,5 +33,36 @@ function emitEvent(event) {
     SeasonEvents.emit(event, doc);
   };
 }
+
+function createPickupEventsForOption(season, pickupOption) {
+  let newEvents = [];
+  for(let i = 0;i < season.numberOfEvents; ++i) {
+    let newEvent = {
+      season: season,
+      pickupOption: pickupOption,
+      eventNumber: i
+    };
+    newEvents.push(newEvent);
+  }
+  PickupEvent.create(newEvents);
+}
+
+function recreateAllPickupEvents(season) {
+  if (season.active === false) {
+    PickupOption.find().
+    then(pickupOptions => {
+      PickupEvent.find({season: season._id}).remove()
+      .then(() => {
+        _.each(pickupOptions, pickupOption => {
+          createPickupEventsForOption(season, pickupOption);
+        });
+      });
+    });
+  }
+}
+
+SeasonEvents.on('save', (season) => {
+  recreateAllPickupEvents(season);
+})
 
 export default SeasonEvents;

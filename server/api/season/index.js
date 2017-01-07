@@ -3,6 +3,8 @@
 var express = require('express');
 var controller = require('./season.controller');
 import * as auth from '../../auth/auth.service';
+/// Load the season events to register them properly
+import * as events from './season.events';
 
 var router = express.Router();
 

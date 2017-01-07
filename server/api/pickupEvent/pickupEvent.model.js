@@ -3,11 +3,11 @@
 import mongoose, {Schema} from 'mongoose';
 
 var PickupEventSchema = new mongoose.Schema({
-  season: {type: Schema.Types.ObjectId, ref: 'Membership'},
+  season: {type: Schema.Types.ObjectId, ref: 'Season'},
   pickupOption: {type: Schema.Types.ObjectId, ref: 'PickupOption'},
   eventNumber: Number,
-  adminNote: String,
-  adminPickupOptionOverride: {type: Schema.Types.ObjectId, ref: 'PickupOption'},
+  adminNote: {type: String, default: null},
+  adminPickupOptionOverride: {type: Schema.Types.ObjectId, ref: 'PickupOption', default: null},
   weekdayOverride: {type: Number, default: null},
   startMinuteOverride: {type: Number, default: null},
   durationMinutesOverride: {type: Number, default: null},

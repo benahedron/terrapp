@@ -1,5 +1,5 @@
 [
-  {"year":2015,"active": false, "eventInterval": 14},
-  {"year":2016,"active": false, "eventInterval": 7},
-  {"year":2017,"active": true, "eventInterval": 7}
+  {"year":2015,"active": false, "eventIntervalInDays": 14, "eventIntervalOffset": 0, "firstEventOffset": 10, "numberOfEvents": 20},
+  {"year":2016,"active": false, "eventIntervalInDays": 7, "eventIntervalOffset": 1, "firstEventOffset": 5, "numberOfEvents": 43},
+  {"year":2017,"active": false, "eventIntervalInDays": 7, "eventIntervalOffset": 2, "firstEventOffset": 5, "numberOfEvents": 40}
 ]

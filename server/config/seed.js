@@ -25,11 +25,11 @@ var seededBaskets = [];
 function createSeasons() {
   Season.find({}).remove()
   .then(() => {
-    Season.create(devSeasons).
-      then(seasons => {
-        seededSeasons = seasons;
-        createPickupOptions();
-      });
+    Season.create(devSeasons)
+    .then(seasons => {
+      seededSeasons = seasons;
+      createPickupOptions();
+    });
   });
 }
 
@@ -38,10 +38,10 @@ function createPickupOptions() {
   PickupOption.find({}).remove()
   .then(() => {
     PickupOption.create(devPickupOptions)
-      .then((pickupOptions) => {
-        seededPickupOptions = pickupOptions;
-        createMembers();
-      })
+    .then(pickupOptions => {
+      seededPickupOptions = pickupOptions;
+      createMembers();
+    });
   });
 }
 
@@ -49,10 +49,10 @@ function createMembers() {
   Membership.find({}).remove()
   .then(() => {
     Membership.create(devMemberships)
-      .then((memberships) => {
-        seededMemberships = memberships;
-        createUsers();
-      })
+    .then(memberships => {
+      seededMemberships = memberships;
+      createUsers();
+    });
   });
 }
 
@@ -60,7 +60,7 @@ function createUsers() {
   User.find({}).remove()
   .then(() => {
     _.each(seededMemberships, (member, index) => {
-        devUsers[index].membership = member;
+      devUsers[index].membership = member;
     });
 
     _.each(devUsers, user => {
@@ -68,7 +68,7 @@ function createUsers() {
     });
 
     User.create(devUsers)
-    .then((users) => {
+    .then(users => {
       seededUsers = users;
       createBaskets();
     });
@@ -76,11 +76,11 @@ function createUsers() {
 }
 
 function createBaskets() {
-  var baskets = [];
-  _.each(seededMemberships, (membership) => {
-    let seasons = _.random(1,4);
+  var newBaskets = [];
+  _.each(seededMemberships, membership => {
+    let seasons = _.random(1, 4);
     for(let i = 0; i < seasons; ++i) {
-      baskets.push({
+      newBaskets.push({
         membership: membership,
         season: _.sample(seededSeasons),
         defaultPickupOption: _.sample(seededPickupOptions)
@@ -88,11 +88,11 @@ function createBaskets() {
     }
   });
 
-  Basket.create(baskets)
-  .then(function(baskets) {
+  Basket.create(newBaskets)
+  .then(baskets => {
     seededBaskets = baskets;
-    console.log("Data seeded.");
+    console.log('Data seeded.');
   });
-};
+}
 
 createSeasons();
