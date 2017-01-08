@@ -32,7 +32,6 @@ export class AdminMembersComponent {
 
     let scope = this;
     modalInstance.result.then((user) => {
-      user.$remove();
       scope.users.splice(scope.users.indexOf(user), 1);
     }, function () {
 
@@ -69,7 +68,24 @@ export class AdminMembersComponent {
     let scope = this;
     modalInstance.result.then((newUser) => {
       scope.users.push(newUser);
-      
+
+    }, function () {
+    });
+  }
+
+  changePassword(user) {
+    var modalInstance = this.$uibModal.open({
+        component: 'adminMemberPassword',
+        resolve: {
+          user: function () {
+            return user;
+          }
+        }
+      } as ng.ui.bootstrap.IModalSettings
+    );
+
+    let scope = this;
+    modalInstance.result.then((user) => {
     }, function () {
     });
   }

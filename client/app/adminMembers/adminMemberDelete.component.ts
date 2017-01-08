@@ -11,6 +11,7 @@ export class AdminMemberDeleteComponent{
   }
 
   ok() {
+    this.user.$remove();
     (this as any).close({$value: this.user});
   };
 

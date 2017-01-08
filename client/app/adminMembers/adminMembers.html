@@ -27,6 +27,7 @@
             </td>
             <td>
               <button class="btn btn-primary" ng-click="$ctrl.edit(user)"><span class="glyphicon glyphicon-pencil"> </span></button>
+              <button class="btn btn-primary" ng-click="$ctrl.changePassword(user)"><span class="glyphicon glyphicon-lock"> </span></button>
               <button class="btn btn-primary" ng-if="user._id !== $ctrl.getCurrentUser()._id" ng-click="$ctrl.delete(user)"><span class="glyphicon glyphicon-trash"> </span></button>
             </td>
           </tr>

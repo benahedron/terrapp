@@ -164,6 +164,7 @@ export function changePassword(req, res) {
 export function changePasswordAsAdmin(req, res) {
   User.findById(req.params.id).exec()
     .then(user => {
+      console.log(req.body);
       user.password = req.body.password;
       return user.save()
         .then(() => {

@@ -58,7 +58,7 @@
                                             'has-error': form.firstName.$invalid && vm.submitted }">
           <label>First Name</label>
 
-          <input type="text" name="name" class="form-control" ng-model="vm.user.membership.firstName"
+          <input type="text" name="firstName" class="form-control" ng-model="vm.user.membership.firstName"
                  required/>
           <p class="help-block" ng-show="form.firstName.$error.required && vm.submitted">
             A first name is required
@@ -68,7 +68,7 @@
                                             'has-error': form.lastName.$invalid && vm.submitted }">
           <label>Last Name</label>
 
-          <input type="text" name="name" class="form-control" ng-model="vm.user.membership.lastName"
+          <input type="text" name="lastName" class="form-control" ng-model="vm.user.membership.lastName"
                  required/>
           <p class="help-block" ng-show="form.lastName.$error.required && vm.submitted">
             A last name is required
@@ -78,7 +78,7 @@
                                             'has-error': form.address1.$invalid && vm.submitted }">
           <label>Address 1</label>
 
-          <input type="text" name="name" class="form-control" ng-model="vm.user.membership.address1"
+          <input type="text" name="address1" class="form-control" ng-model="vm.user.membership.address1"
                  required/>
           <p class="help-block" ng-show="form.address1.$error.required && vm.submitted">
             An address is required
@@ -88,14 +88,14 @@
                                             'has-error': form.address2.$invalid && vm.submitted }">
           <label>Address 2</label>
 
-          <input type="text" name="name" class="form-control" ng-model="vm.user.membership.address2"
+          <input type="text" name="address2" class="form-control" ng-model="vm.user.membership.address2"
                  />
         </div>
         <div class="form-group" ng-class="{ 'has-success': form.zip.$valid && vm.submitted,
                                             'has-error': form.zip.$invalid && vm.submitted }">
           <label>ZIP</label>
 
-          <input type="text" name="name" class="form-control" ng-model="vm.user.membership.zip"
+          <input type="text" name="zip" class="form-control" ng-model="vm.user.membership.zip"
                  required/>
           <p class="help-block" ng-show="form.zip.$error.required && vm.submitted">
             A ZIP code is required
@@ -105,7 +105,7 @@
                                             'has-error': form.city.$invalid && vm.submitted }">
           <label>City</label>
 
-          <input type="text" name="name" class="form-control" ng-model="vm.user.membership.city"
+          <input type="text" name="city" class="form-control" ng-model="vm.user.membership.city"
                  required/>
           <p class="help-block" ng-show="form.city.$error.required && vm.submitted">
             An city is required
@@ -115,7 +115,7 @@
                                             'has-error': form.country.$invalid && vm.submitted }">
           <label>Country</label>
 
-          <input type="text" name="name" class="form-control" ng-model="vm.user.membership.country"
+          <input type="text" name="country" class="form-control" ng-model="vm.user.membership.country"
                  required/>
           <p class="help-block" ng-show="form.country.$error.required && vm.submitted">
             An country is required
