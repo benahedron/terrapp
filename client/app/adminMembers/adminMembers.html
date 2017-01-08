@@ -1,0 +1,37 @@
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Members</h1>
+      <button class="btn btn-primary pull-right" ng-click="$ctrl.create()">
+        <span class="glyphicon glyphicon-plus"> </span> Create
+      </button>
+      <p>Manage your members here.</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Options</th>
+          </tr>
+        </thead>
+        <tbody ng-repeat="user in $ctrl.users">
+          <tr>
+            <td>
+              <span ng-if="user.role==='admin'" class="label label-warning"><span class="glyphicon glyphicon-star"> </span>Admin</span>
+              <span ng-if="user.membership !== undefined" class="label label-primary"><span class="glyphicon glyphicon-star"> </span>Member</span>
+              {{user.membership.lastName}} {{user.membership.firstName}} ({{user.email}})
+            </td>
+            <td>
+              <button class="btn btn-primary" ng-click="$ctrl.edit(user)"><span class="glyphicon glyphicon-pencil"> </span></button>
+              <button class="btn btn-primary" ng-if="user._id !== $ctrl.getCurrentUser()._id" ng-click="$ctrl.delete(user)"><span class="glyphicon glyphicon-trash"> </span></button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

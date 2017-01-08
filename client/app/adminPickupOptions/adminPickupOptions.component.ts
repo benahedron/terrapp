@@ -4,7 +4,6 @@ const angular = require('angular');
 const uiRouter = require('angular-ui-router');
 
 import routes from './adminPickupOptions.routes';
-import adminPickupOptionDeleteComponent from './adminPickupOptionDelete.component';
 
 
 export class AdminPickupOptionsComponent {

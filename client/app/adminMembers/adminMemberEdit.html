@@ -1,0 +1,108 @@
+<form class="form" name="form" ng-submit="$ctrl.save(form)" novalidate>
+  <div class="modal-header">
+    <h3 class="modal-title" id="modal-title">
+      <span ng-if="!$ctrl.isNew">Edit</span>
+      <span ng-if="$ctrl.isNew">Create</span>
+      member
+    </h3>
+  </div>
+  <div class="modal-body" id="modal-body">
+    <div class="form-group" ng-class="{ 'has-success': form.email.$valid && $ctrl.submitted, 'has-error': form.email.$invalid && $ctrl.submitted }">
+      <label>Email</label>
+      <input type="email" name="email" class="form-control" ng-model="$ctrl.user.email" required mongoose-error/>
+      <p class="help-block" ng-show="form.email.$error.email && $ctrl.submitted">
+        Doesn't look like a valid email.
+      </p>
+      <p class="help-block" ng-show="form.email.$error.required && $ctrl.submitted">
+        What's your email address?
+      </p>
+      <p class="help-block" ng-show="form.email.$error.mongoose">
+        {{ $ctrl.errors.email }}
+      </p>
+    </div>
+    <div class="form-group" ng-if="$ctrl.isNew" ng-class="{ 'has-success': form.password.$valid && $ctrl.submitted, 'has-error': form.password.$invalid && $ctrl.submitted }">
+      <label>Password</label>
+      <input type="password" name="password" class="form-control" ng-model="$ctrl.user.password" ng-minlength="3" required mongoose-error/>
+      <p class="help-block" ng-show="(form.password.$error.minlength || form.password.$error.required) && $ctrl.submitted">
+        Password must be at least 3 characters.
+      </p>
+      <p class="help-block" ng-show="form.password.$error.mongoose">
+        {{ $ctrl.errors.password }}
+      </p>
+    </div>
+
+    <div class="form-group"  ng-if="$ctrl.isNew" ng-class="{ 'has-success': form.confirmPassword.$valid && $ctrl.submitted, 'has-error': form.confirmPassword.$invalid && $ctrl.submitted }">
+      <label>Confirm Password</label>
+      <input type="password" name="confirmPassword" class="form-control" ng-model="$ctrl.user.confirmPassword" match="$ctrl.user.password" ng-minlength="3" required/>
+      <p class="help-block" ng-show="form.confirmPassword.$error.match && $ctrl.submitted">
+        Passwords must match.
+      </p>
+    </div>
+    <div class="form-group">
+      <label>Role</label>
+      <span class="form-control">
+        <a class="btn btn-xs btn-primary" ng-click="$ctrl.toggleRole()">
+          <span class="glyphicon" ng-class="{'glyphicon-remove': $ctrl.user.role!=='admin', 'glyphicon-ok': $ctrl.user.role==='admin'}">
+        </a> Is administrator
+      </span>
+    </div>
+    <div>
+      <hr/>
+    </div>
+    <div class="form-group" ng-class="{ 'has-success': form.firstName.$valid && $ctrl.submitted, 'has-error': form.firstName.$invalid && $ctrl.submitted }">
+      <label>First Name</label>
+      <input type="text" name="firstName" class="form-control" ng-model="$ctrl.user.membership.firstName" ng-required="!$ctrl.isAdmin()"/>
+      <p class="help-block" ng-show="form.firstName.$error.required && $ctrl.submitted">
+        A first name is required
+      </p>
+    </div>
+    <div class="form-group" ng-class="{ 'has-success': form.lastName.$valid && $ctrl.submitted, 'has-error': form.lastName.$invalid && $ctrl.submitted }">
+      <label>Last Name</label>
+      <input type="text" name="lastName" class="form-control" ng-model="$ctrl.user.membership.lastName" ng-required="!$ctrl.isAdmin()"/>
+      <p class="help-block" ng-show="form.lastName.$error.required && $ctrl.submitted">
+        A last name is required
+      </p>
+    </div>
+    <div class="form-group" ng-class="{ 'has-success': form.address1.$valid && $ctrl.submitted, 'has-error': form.address1.$invalid && $ctrl.submitted }">
+      <label>Address 1</label>
+
+      <input type="text" name="address1" class="form-control" ng-model="$ctrl.user.membership.address1" ng-required="!$ctrl.isAdmin()"/>
+      <p class="help-block" ng-show="form.address1.$error.required && $ctrl.submitted">
+        An address is required
+      </p>
+    </div>
+    <div class="form-group" ng-class="{ 'has-success': form.address2.$valid && $ctrl.submitted, 'has-error': form.address2.$invalid && $ctrl.submitted }">
+      <label>Address 2</label>
+
+      <input type="text" name="address2" class="form-control" ng-model="$ctrl.user.membership.address2" />
+    </div>
+    <div class="form-group" ng-class="{ 'has-success': form.zip.$valid && $ctrl.submitted, 'has-error': form.zip.$invalid && $ctrl.submitted }">
+      <label>ZIP</label>
+
+      <input type="text" name="zip" class="form-control" ng-model="$ctrl.user.membership.zip" ng-required="!$ctrl.isAdmin()"/>
+      <p class="help-block" ng-show="form.zip.$error.required && $ctrl.submitted">
+        A ZIP code is required
+      </p>
+    </div>
+    <div class="form-group" ng-class="{ 'has-success': form.city.$valid && $ctrl.submitted, 'has-error': form.city.$invalid && $ctrl.submitted }">
+      <label>City</label>
+
+      <input type="text" name="city" class="form-control" ng-model="$ctrl.user.membership.city" ng-required="!$ctrl.isAdmin()"/>
+      <p class="help-block" ng-show="form.city.$error.required && $ctrl.submitted">
+        An city is required
+      </p>
+    </div>
+    <div class="form-group" ng-class="{ 'has-success': form.country.$valid && $ctrl.submitted, 'has-error': form.country.$invalid && $ctrl.submitted }">
+      <label>Country</label>
+
+      <input type="text" name="country" class="form-control" ng-model="$ctrl.user.membership.country" ng-required="!$ctrl.isAdmin()"/>
+      <p class="help-block" ng-show="form.country.$error.required && $ctrl.submitted">
+        An country is required
+      </p>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="submit">Save</button>
+    <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+  </div>
+</form>

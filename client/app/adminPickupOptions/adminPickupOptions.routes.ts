@@ -5,6 +5,7 @@ export default function($stateProvider) {
   $stateProvider
     .state('adminPickupOptions', {
       url: '/admin/pickupoptions',
-      template: '<admin-pickup-options></admin-pickup-options>'
+      template: '<admin-pickup-options></admin-pickup-options>',
+      authenticate: 'admin'
     });
 }

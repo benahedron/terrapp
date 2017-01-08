@@ -3,9 +3,9 @@
 export default function($stateProvider) {
   'ngInject';
   $stateProvider
-    .state('admin', {
-      url: '/admin',
-      template: '<admin></admin>',
+    .state('adminMembers', {
+      url: '/admin/members',
+      template: '<admin-members></admin-members>',
       authenticate: 'admin'
     });
 }

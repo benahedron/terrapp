@@ -25,7 +25,7 @@ function handleError(res, statusCode) {
  * restriction: 'admin'
  */
 export function index(req, res) {
-  return User.find({}, '-salt -password').exec()
+  return User.find({}, '-salt -password').populate('membership').exec()
     .then(users => {
       res.status(200).json(users);
     })
@@ -58,6 +58,54 @@ export function create(req, res) {
       .catch(validationError(res));
   }
 }
+
+/**
+ *
+ */
+export function createAsAdmin(req, res) {
+  var newUser = new User(req.body);
+
+  if (_.has(req.body, 'membership')) {
+    var newMembership =  Membership(req.body.membership);
+    newMembership.save()
+      .then(function(membership) {
+        newUser.membership = membership;
+        newUser.save()
+          .then(function(user) {
+            res.json(user);
+          })
+          .catch(validationError(res));
+      })
+      .catch(validationError(res));
+    } else{
+      newUser.save()
+        .then(function(user) {
+          res.json(user);
+        })
+        .catch(validationError(res));
+    }
+}
+
+/**
+ * Upsert a user with membership (only allowed as admin, as the "role" can be enforced)
+ */
+export function upsert(req, res) {
+  var newUser =  new User(req.body);
+  User.findOneAndUpdate({_id: req.body._id}, newUser)
+    .then(function(user) {
+      if (_.has(req.body, 'membership')) {
+        Membership.findOneAndUpdate({_id: req.body.membership._id}, req.body.membership)
+          .then(function(membership) {
+            user.membership = membership;
+            res.json(user);
+          });
+      } else {
+        res.json(user);
+      }
+    })
+    .catch(validationError(res));
+}
+
 
 /**
  * Get a single user
@@ -107,6 +155,21 @@ export function changePassword(req, res) {
       } else {
         return res.status(403).end();
       }
+    });
+}
+
+/**
+ * Change the password of any user as admin.
+ */
+export function changePasswordAsAdmin(req, res) {
+  User.findById(req.params.id).exec()
+    .then(user => {
+      user.password = req.body.password;
+      return user.save()
+        .then(() => {
+          res.status(204).end();
+        })
+        .catch(validationError(res));
     });
 }
 

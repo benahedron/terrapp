@@ -1,14 +1,14 @@
 'use strict';
 
-describe('Component: AdminComponent', function() {
+describe('Component: AdminMembersComponent', function() {
   // load the controller's module
   beforeEach(module('terrappApp.admin'));
 
-  var AdminComponent;
+  var AdminMembersComponent;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function($componentController) {
-    AdminComponent = $componentController('admin', {});
+    AdminMembersComponent = $componentController('adminMembers', {});
   }));
 
   it('should ...', function() {

@@ -8,8 +8,8 @@ export class NavbarComponent {
     'state': 'schedule'
   }];
   adminMenu = [{
-    'title': 'Dashboard',
-    'state': 'admin'
+    'title': 'Members',
+    'state': 'adminMembers'
   }, {
     'title': 'Pickup Options',
     'state': 'adminPickupOptions'

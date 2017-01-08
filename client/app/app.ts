@@ -16,7 +16,9 @@ import {routeConfig} from './app.config';
 
 import _Auth from '../components/auth/auth.module';
 import account from './account';
-import admin from './admin/admin.component';
+import adminMembers from './adminMembers/adminMembers.component';
+import adminMemberDelete from './adminMembers/adminMemberDelete.component';
+import adminMemberEdit from './adminMembers/adminMemberEdit.component';
 import adminPickupOptions from './adminPickupOptions/adminPickupOptions.component';
 import adminPickupOptionDelete from './adminPickupOptions/adminPickupOptionDelete.component';
 import navbar from '../components/navbar/navbar.component';
@@ -42,7 +44,9 @@ angular.module('terrappApp', [
 
   _Auth,
   account,
-  admin,
+  adminMembers,
+  adminMemberDelete,
+  adminMemberEdit,
   adminPickupOptions,
   adminPickupOptionDelete,
   navbar,
