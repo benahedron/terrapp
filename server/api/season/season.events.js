@@ -36,7 +36,7 @@ function emitEvent(event) {
 
 function createPickupEventsForOption(season, pickupOption) {
   let newEvents = [];
-  for(let i = 0;i < season.numberOfEvents; ++i) {
+  for(let i = 0; i < season.numberOfEvents; ++i) {
     let newEvent = {
       season: season,
       pickupOption: pickupOption,
@@ -48,9 +48,9 @@ function createPickupEventsForOption(season, pickupOption) {
 }
 
 function recreateAllPickupEvents(season) {
-  if (season.active === false) {
-    PickupOption.find().
-    then(pickupOptions => {
+  if(season.active === false) {
+    PickupOption.find()
+    .then(pickupOptions => {
       PickupEvent.find({season: season._id}).remove()
       .then(() => {
         _.each(pickupOptions, pickupOption => {
@@ -61,8 +61,8 @@ function recreateAllPickupEvents(season) {
   }
 }
 
-SeasonEvents.on('save', (season) => {
+SeasonEvents.on('save', season => {
   recreateAllPickupEvents(season);
-})
+});
 
 export default SeasonEvents;

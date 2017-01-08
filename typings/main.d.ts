@@ -1,4 +1,6 @@
 /// <reference path="main/ambient/angular-resource/index.d.ts" />
+/// <reference path="main/ambient/angular-ui-bootstrap/index.d.ts" />
+/// <reference path="main/ambient/angular-ui-router/index.d.ts" />
 /// <reference path="main/ambient/angular/index.d.ts" />
 /// <reference path="main/ambient/core-js/index.d.ts" />
 /// <reference path="main/ambient/jasmine/index.d.ts" />

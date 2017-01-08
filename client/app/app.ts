@@ -17,12 +17,15 @@ import {routeConfig} from './app.config';
 import _Auth from '../components/auth/auth.module';
 import account from './account';
 import admin from './admin/admin.component';
+import adminPickupOptions from './adminPickupOptions/adminPickupOptions.component';
+import adminPickupOptionDelete from './adminPickupOptions/adminPickupOptionDelete.component';
 import navbar from '../components/navbar/navbar.component';
 import footer from '../components/footer/footer.component';
 import main from './main/main.component';
 import constants from './app.constants';
 import util from '../components/util/util.module';
 
+import pickupOptionsService from './services/pickupOptionsService/pickupOptionsService.service';
 
 
 import './app.less';
@@ -32,13 +35,17 @@ angular.module('terrappApp', [
   ngResource,
   ngSanitize,
 
-
   uiRouter,
   uiBootstrap,
 
+  pickupOptionsService,
+
   _Auth,
   account,
-  admin,  navbar,
+  admin,
+  adminPickupOptions,
+  adminPickupOptionDelete,
+  navbar,
   footer,
   main,
   constants,

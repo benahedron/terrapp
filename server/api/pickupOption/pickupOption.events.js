@@ -6,6 +6,7 @@
 
 import {EventEmitter} from 'events';
 import PickupOption from './pickupOption.model';
+import PickupEvent from '../pickupEvent/pickupEvent.model';
 var PickupOptionEvents = new EventEmitter();
 
 // Set max event listeners (0 == unlimited)
@@ -29,5 +30,9 @@ function emitEvent(event) {
     PickupOptionEvents.emit(event, doc);
   };
 }
+
+PickupOptionEvents.on('remove', (pickupOption) => {
+  PickupEvent.find({pickupOption: pickupOption}).remove();
+})
 
 export default PickupOptionEvents;

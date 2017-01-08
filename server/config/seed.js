@@ -7,6 +7,8 @@
 import Season from '../api/season/season.model';
 import Membership from '../api/membership/membership.model';
 import PickupOption from '../api/pickupOption/pickupOption.model';
+import PickupEvent from '../api/pickupEvent/pickupEvent.model';
+import PickupUserEvent from '../api/pickupUserEvent/pickupUserEvent.model';
 import User from '../api/user/user.model';
 import Basket from '../api/basket/basket.model';
 import _ from 'lodash';
@@ -21,6 +23,22 @@ var seededPickupOptions = [];
 var seededMemberships = [];
 var seededUsers = [];
 var seededBaskets = [];
+
+removePickupEvents();
+
+function removePickupEvents() {
+  PickupEvent.find({}).remove().
+  then(() => {
+    removePickupUserEvents();
+  });
+}
+
+function removePickupUserEvents() {
+  PickupUserEvent.find({}).remove().
+  then(() => {
+    createSeasons();
+  });
+}
 
 function createSeasons() {
   Season.find({}).remove()
@@ -94,5 +112,3 @@ function createBaskets() {
     console.log('Data seeded.');
   });
 }
-
-createSeasons();

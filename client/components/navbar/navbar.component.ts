@@ -3,12 +3,21 @@
 const angular = require('angular');
 
 export class NavbarComponent {
-  menu = [{
-    'title': 'Home',
-    'state': 'main'
+  memberMenu = [{
+    'title': 'Schedule',
+    'state': 'schedule'
   }];
+  adminMenu = [{
+    'title': 'Dashboard',
+    'state': 'admin'
+  }, {
+    'title': 'Pickup Options',
+    'state': 'adminPickupOptions'
+  }];
+
   isLoggedIn: Function;
   isAdmin: Function;
+  isMember: Function;
   getCurrentUser: Function;
   isCollapsed = true;
 
@@ -16,6 +25,7 @@ export class NavbarComponent {
     'ngInject';
     this.isLoggedIn = Auth.isLoggedInSync;
     this.isAdmin = Auth.isAdminSync;
+    this.isMember = Auth.isMemberSync;
     this.getCurrentUser = Auth.getCurrentUserSync;
   }
 

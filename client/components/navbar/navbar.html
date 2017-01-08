@@ -1,4 +1,4 @@
-<div class="navbar navbar-default navbar-static-top">
+<div class="navbar navbar-default navbar-fixed-top">
   <div class="container">
     <div class="navbar-header">
       <button class="navbar-toggle" type="button" ng-click="$ctrl.isCollapsed = !$ctrl.isCollapsed">
@@ -11,10 +11,18 @@
     </div>
     <div uib-collapse="$ctrl.isCollapsed" class="navbar-collapse collapse" id="navbar-main">
       <ul class="nav navbar-nav">
-        <li ng-repeat="item in $ctrl.menu" ui-sref-active="active">
+        <li ui-sref-active="active"><a ui-sref="main">Home</a></li>
+      </ul>
+      <ul class="nav navbar-nav"  ng-if="$ctrl.isMember()">
+        <li ng-repeat="item in $ctrl.memberMenu" ui-sref-active="active">
             <a ui-sref="{{item.state}}">{{item.title}}</a>
         </li>
-        <li ng-show="$ctrl.isAdmin()" ui-sref-active="active"><a ui-sref="admin">Admin</a></li>
+      </ul>
+      
+      <ul class="nav navbar-nav adminNavbar" ng-if="$ctrl.isAdmin()">
+        <li ng-repeat="item in $ctrl.adminMenu" ui-sref-active="active">
+            <a ui-sref="{{item.state}}">{{item.title}}</a>
+        </li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">

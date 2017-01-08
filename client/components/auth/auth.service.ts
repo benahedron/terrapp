@@ -190,6 +190,16 @@ export function AuthService($location, $http, $cookies, $q, appConfig, Util, Use
         .apply(Auth, [].concat.apply(['admin'], arguments));
     },
 
+    /**
+     * Check if the user is a member.
+     * If a user has a membership, he is a member.
+     *
+     * @return {Bool}
+     */
+    isMemberSync() {
+      return _.get(currentUser, 'membership') !== undefined;
+    },
+
      /**
       * Check if a user is an admin
       *
