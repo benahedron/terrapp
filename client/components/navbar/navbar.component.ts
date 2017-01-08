@@ -11,6 +11,9 @@ export class NavbarComponent {
     'title': 'Members',
     'state': 'adminMembers'
   }, {
+    'title': 'Seasons',
+    'state': 'adminSeasons'
+  }, {
     'title': 'Pickup Options',
     'state': 'adminPickupOptions'
   }];

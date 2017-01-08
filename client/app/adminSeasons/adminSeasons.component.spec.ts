@@ -1,14 +1,14 @@
 'use strict';
 
-describe('Component: DashboardComponent', function() {
+describe('Component: AdminSeasonsComponent', function() {
   // load the controller's module
-  beforeEach(module('terrappApp.dashboard'));
+  beforeEach(module('terrappApp.adminSeasons'));
 
-  var DashboardComponent;
+  var AdminSeasonsComponent;
 
   // Initialize the controller and a mock scope
   beforeEach(inject(function($componentController) {
-    DashboardComponent = $componentController('dashboard', {});
+    AdminSeasonsComponent = $componentController('adminSeasons', {});
   }));
 
   it('should ...', function() {

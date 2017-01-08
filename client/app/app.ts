@@ -22,6 +22,7 @@ import adminMemberEdit from './adminMembers/adminMemberEdit.component';
 import adminMemberPassword from './adminMembers/adminMemberPassword.component';
 import adminPickupOptions from './adminPickupOptions/adminPickupOptions.component';
 import adminPickupOptionDelete from './adminPickupOptions/adminPickupOptionDelete.component';
+import adminSeasons from './adminSeasons/adminSeasons.component';
 import navbar from '../components/navbar/navbar.component';
 import footer from '../components/footer/footer.component';
 import main from './main/main.component';
@@ -29,6 +30,7 @@ import constants from './app.constants';
 import util from '../components/util/util.module';
 
 import pickupOptionsService from './services/pickupOptionsService/pickupOptionsService.service';
+import seasonUtilsService from './services/seasonUtils/seasonUtils.service';
 
 
 import './app.less';
@@ -42,6 +44,7 @@ angular.module('terrappApp', [
   uiBootstrap,
 
   pickupOptionsService,
+  seasonUtilsService,
 
   _Auth,
   account,
@@ -49,6 +52,7 @@ angular.module('terrappApp', [
   adminMemberDelete,
   adminMemberEdit,
   adminMemberPassword,
+  adminSeasons,
   adminPickupOptions,
   adminPickupOptionDelete,
   navbar,

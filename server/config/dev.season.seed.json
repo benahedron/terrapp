@@ -1,5 +1,5 @@
 [
-  {"year":2015,"active": false, "eventIntervalInDays": 14, "eventIntervalOffset": 0, "firstEventOffset": 10, "numberOfEvents": 20},
-  {"year":2016,"active": false, "eventIntervalInDays": 7, "eventIntervalOffset": 1, "firstEventOffset": 5, "numberOfEvents": 43},
-  {"year":2017,"active": false, "eventIntervalInDays": 7, "eventIntervalOffset": 2, "firstEventOffset": 5, "numberOfEvents": 40}
+  {"name": "2015", "active": false, "eventIntervalInDays": 14, "firstEventDate": "2014-03-01", "numberOfEvents": 20},
+  {"name": "2016", "active": false, "eventIntervalInDays": 7, "firstEventDate": "2015-02-03", "numberOfEvents": 43},
+  {"name": "2017", "active": false, "eventIntervalInDays": 7, "firstEventDate": "2017-03-05", "numberOfEvents": 36}
 ]
