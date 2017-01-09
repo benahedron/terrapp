@@ -11,13 +11,31 @@ export class AdminSeasonsComponent {
   getDateForInterval: Function;
   activeSeason: string;
   OptionsService: Object;
+  $uibModal: ng.ui.bootstrap.IModalService;
 
   /*@ngInject*/
-  constructor($http, SeasonUtils, OptionsService) {
+  constructor($http, SeasonUtils, OptionsService, $uibModal) {
+    this.$uibModal = $uibModal;
     this.$http = $http;
     this.getDateForInterval = SeasonUtils.getDateForInterval;
     this.OptionsService = OptionsService;
     this.reload();
+  }
+
+  modal(season, component, successCallback) {
+    var modalInstance = this.$uibModal.open({
+        component: component,
+        resolve: {
+          season: function () {
+            return season;
+          }
+        }
+    } as ng.ui.bootstrap.IModalSettings);
+
+    let scope = this;
+    modalInstance.result.then((editedSeason) => {
+      successCallback(editedSeason);
+    });
   }
 
   private isActive(season) {
@@ -41,6 +59,26 @@ export class AdminSeasonsComponent {
     this.$http.get("/api/seasons")
     .then((res) => {
       this.seasons = res.data;
+    });
+  }
+
+  delete(season) {
+    let scope = this;
+    this.modal(season, 'adminSeasonDelete', (user) => {
+      scope.users.splice(scope.seasons.indexOf(season), 1);
+    });
+  }
+
+  edit(season) {
+    this.modal(season, 'adminSeasonEdit', (editedSeason) => {
+      _.assign(season, editedSeason);
+    });
+  }
+
+  create() {
+    let scope = this;
+    this.modal(null, 'adminSeasonEdit', (season) => {
+      scope.seasons.push(season);
     });
   }
 }

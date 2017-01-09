@@ -2,7 +2,11 @@
   <div class="row">
     <div class="col-md-12">
       <h1>Seasons</h1>
-      <p>Create & change seasons to your needs. Only the active season can be seend and edited by members.</p>
+      <button class="btn btn-primary pull-right" ng-click="$ctrl.create()">
+        <span class="glyphicon glyphicon-plus"> </span> Create
+      </button>
+      <p>Create & change seasons to your needs. Only the active season can be seend and edited by members.
+      Only desativated seasons can be permanently deleted!</p>
     </div>
   </div>
   <div class="row">
@@ -28,7 +32,7 @@
             <td>{{season.numberOfEvents}}</td>
             <td>
               <button class="btn btn-primary" ng-click="$ctrl.edit(season)"><span class="glyphicon glyphicon-pencil"> </span> Edit</button>
-              <button class="btn btn-primary" ng-click="$ctrl.delete(season)"><span class="glyphicon glyphicon-trash"> </span> Delete</button>
+              <button ng-if="!$ctrl.isActive(season)" class="btn btn-primary" ng-click="$ctrl.delete(season)"><span class="glyphicon glyphicon-trash"> </span> Delete</button>
               <button ng-if="!$ctrl.isActive(season)" class="btn btn-primary" ng-click="$ctrl.setActive(season)"><span class="glyphicon glyphicon-play"> </span> Activate</button>
             </td>
           </tr>

@@ -19,75 +19,44 @@ export class AdminMembersComponent {
     this.getCurrentUser = Auth.getCurrentUserSync;
   }
 
-  delete(user) {
+  modal(user, component, successCallback) {
     var modalInstance = this.$uibModal.open({
-        component: 'adminMemberDelete',
+        component: component,
         resolve: {
           user: function () {
             return user;
           }
         }
-      } as ng.ui.bootstrap.IModalSettings
-    );
+      } as ng.ui.bootstrap.IModalSettings);
 
     let scope = this;
-    modalInstance.result.then((user) => {
-      scope.users.splice(scope.users.indexOf(user), 1);
-    }, function () {
+    modalInstance.result.then((editedUser) => {
+      successCallback(editedUser);
+    });
+  }
 
+  delete(user) {
+    let scope = this;
+    this.modal(user, 'adminMemberDelete', (user) => {
+      scope.users.splice(scope.users.indexOf(user), 1);
     });
   }
 
   edit(user) {
-    var modalInstance = this.$uibModal.open({
-        component: 'adminMemberEdit',
-        resolve: {
-          user: function () {
-            return user;
-          }
-        }
-      } as ng.ui.bootstrap.IModalSettings
-    );
-
-    let scope = this;
-    modalInstance.result.then((editedUser) => {
+    this.modal(user, 'adminMemberEdit', (editedUser) => {
       _.assign(user, editedUser);
-
-    }, function () {
-
     });
   }
 
   create() {
-    var modalInstance = this.$uibModal.open({
-        component: 'adminMemberEdit',
-        resolve: {}
-      } as ng.ui.bootstrap.IModalSettings
-    );
-
     let scope = this;
-    modalInstance.result.then((newUser) => {
-      scope.users.push(newUser);
-
-    }, function () {
+    this.modal(null, 'adminMemberEdit', (user) => {
+      scope.users.push(user);
     });
   }
 
   changePassword(user) {
-    var modalInstance = this.$uibModal.open({
-        component: 'adminMemberPassword',
-        resolve: {
-          user: function () {
-            return user;
-          }
-        }
-      } as ng.ui.bootstrap.IModalSettings
-    );
-
-    let scope = this;
-    modalInstance.result.then((user) => {
-    }, function () {
-    });
+    this.modal(user, 'adminMemberPassword', (user) => {});
   }
 }
 

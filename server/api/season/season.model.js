@@ -3,8 +3,11 @@
 import mongoose from 'mongoose';
 
 var SeasonSchema = new mongoose.Schema({
-  name: String,
-  active: {type: Boolean, default: false},
+  name: {
+    type: String,
+    required: true,
+    unique: true
+  },
   firstEventDate: {type: Date},
   numberOfEvents: {type: Number, default: 52},
   eventIntervalInDays: {type: Number, default: 7},

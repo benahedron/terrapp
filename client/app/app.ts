@@ -23,6 +23,7 @@ import adminMemberPassword from './adminMembers/adminMemberPassword.component';
 import adminPickupOptions from './adminPickupOptions/adminPickupOptions.component';
 import adminPickupOptionDelete from './adminPickupOptions/adminPickupOptionDelete.component';
 import adminSeasons from './adminSeasons/adminSeasons.component';
+import adminSeasonEdit from './adminSeasons/adminSeasonEdit.component';
 import navbar from '../components/navbar/navbar.component';
 import footer from '../components/footer/footer.component';
 import main from './main/main.component';
@@ -55,6 +56,7 @@ angular.module('terrappApp', [
   adminMemberEdit,
   adminMemberPassword,
   adminSeasons,
+  adminSeasonEdit,
   adminPickupOptions,
   adminPickupOptionDelete,
   navbar,

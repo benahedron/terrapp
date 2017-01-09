@@ -1,0 +1,50 @@
+<form class="form" name="form" ng-submit="$ctrl.save(form)" novalidate>
+  <div class="modal-header">
+    <h3 class="modal-title" id="modal-title">
+      <span ng-if="!$ctrl.isNew">Edit</span>
+      <span ng-if="$ctrl.isNew">Create</span>
+      season
+    </h3>
+  </div>
+  <div class="modal-body" id="modal-body">
+    <div class="form-group" ng-class="{ 'has-success': form.name.$valid && $ctrl.submitted, 'has-error': form.name.$invalid && $ctrl.submitted }">
+      <label>Name</label>
+      <input type="name" name="name" class="form-control" ng-model="$ctrl.season.name" required mongoose-error/>
+      <p class="help-block" ng-show="form.name.$error.required && $ctrl.submitted">
+        Name your season (e.g. Season 2017)
+      </p>
+      <p class="help-block" ng-show="form.name.$error.mongoose">
+        {{ $ctrl.errors.name }}
+      </p>
+    </div>
+    <div class="form-group" ng-class="{ 'has-success': form.firstEventDate.$valid && $ctrl.submitted, 'has-error': form.firstEventDate.$invalid && $ctrl.submitted }">
+      <label>First event date</label>
+      <div class="form-control" style="display:inline-block; min-height:290px;">
+        <div uib-datepicker name="firstEventDate" ng-model="$ctrl.season.firstEventDate" class="well well-sm" datepicker-options="options"></div>
+      </div>
+    </div>
+
+    <div class="form-group" ng-class="{ 'has-success': form.eventIntervalInDays.$valid && $ctrl.submitted, 'has-error': form.eventIntervalInDays.$invalid && $ctrl.submitted }">
+      <label>Event interval</label>
+      <input type="number" name="eventIntervalInDays" class="form-control" ng-model="$ctrl.season.eventIntervalInDays" min="1" max="31" required/> in days.
+      <p class="help-block" ng-show="form.eventIntervalInDays.$error.required && $ctrl.submitted">
+        Interval is required.
+      </p>
+    </div>
+    <div class="form-group" ng-class="{ 'has-success': form.numberOfEvents.$valid && $ctrl.submitted, 'has-error': form.numberOfEvents.$invalid && $ctrl.submitted }">
+      <label>Number of events</label>
+      <input type="number" name="numberOfEvents" class="form-control" ng-model="$ctrl.season.numberOfEvents" min="1" max="365" required/>
+      <p class="help-block" ng-show="form.numberOfEvents.$error.required && $ctrl.submitted">
+        Number of events is required.
+      </p>
+    </div>
+    <div class="form-group" >
+      <label>Last interval starts:</label>
+      <p>{{$ctrl.getDateForInterval($ctrl.season, $ctrl.season.numberOfEvents-1) | date: 'yyyy.MM.dd'}}</p>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="submit">Save</button>
+    <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+  </div>
+</form>

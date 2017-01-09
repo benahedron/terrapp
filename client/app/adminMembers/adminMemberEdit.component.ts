@@ -18,20 +18,7 @@ interface User {
 }
 
 export class AdminMemberEditComponent{
-  user: User = {
-    email: '',
-    password: '',
-    role: '',
-    membership: {
-      firstName: '',
-      lastName: '',
-      address1: '',
-      address2: '',
-      city: '',
-      zip: '',
-      country: ''
-    }
-  };
+  user: User;
   errors = {};
   isNew: Boolean = false;
   submitted: Boolean = false;
@@ -44,7 +31,7 @@ export class AdminMemberEditComponent{
 
   $onInit() {
     let resolve = (this as any).resolve;
-    if (_.has(resolve, 'user')) {
+    if (_.has(resolve, 'user') && resolve.user !== null) {
       this.user = _.cloneDeep(resolve.user);
       this.isNew = false;
     } else {
