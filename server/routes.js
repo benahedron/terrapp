@@ -9,6 +9,7 @@ import path from 'path';
 
 export default function(app) {
   // Insert routes below
+  app.use('/api/options', require('./api/options'));
   app.use('/api/pickupUserEvents', require('./api/pickupUserEvent'));
   app.use('/api/pickupEvents', require('./api/pickupEvent'));
   app.use('/api/baskets', require('./api/basket'));

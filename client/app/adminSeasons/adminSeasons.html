@@ -1,9 +1,48 @@
 <div class="container">
   <div class="row">
-    <div ng-repeat="season in $ctrl.seasons">
-      <b>{{season.name}}</b>
-      {{$ctrl.getDateForInterval(season, 0) | date:'yyyy.MM.dd'}} -
-      {{$ctrl.getDateForInterval(season, season.numberOfEvents-1) | date:'yyyy.MM.dd'}}
+    <div class="col-md-12">
+      <h1>Seasons</h1>
+      <p>Create & change seasons to your needs. Only the active season can be seend and edited by members.</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>First Pickup</th>
+            <th>Last Pickup</th>
+            <th>Number of Pickups</th>
+            <th>Options</th>
+          </tr>
+        </thead>
+        <tbody ng-repeat="season in $ctrl.seasons">
+          <tr>
+            <td>
+              <span ng-if="$ctrl.isActive(season)" class="label label-warning"><span class="glyphicon glyphicon-star"> </span>Current</span>
+              <b>{{season.name}}</b>
+            </td>
+            <td>{{$ctrl.getDateForInterval(season, 0) | date:'yyyy.MM.dd'}}</td>
+            <td>{{$ctrl.getDateForInterval(season, season.numberOfEvents-1) | date:'yyyy.MM.dd'}}</td>
+            <td>{{season.numberOfEvents}}</td>
+            <td>
+              <button class="btn btn-primary" ng-click="$ctrl.edit(season)"><span class="glyphicon glyphicon-pencil"> </span> Edit</button>
+              <button class="btn btn-primary" ng-click="$ctrl.delete(season)"><span class="glyphicon glyphicon-trash"> </span> Delete</button>
+              <button ng-if="!$ctrl.isActive(season)" class="btn btn-primary" ng-click="$ctrl.setActive(season)"><span class="glyphicon glyphicon-play"> </span> Activate</button>
+            </td>
+          </tr>
+        </tbody>
+        <tbody>
+          <tr>
+            <td colspan="4">
+            </td>
+            <td>
+              <button ng-if="!$ctrl.isActive(null)" class="btn btn-primary" ng-click="$ctrl.setActive(null)"><span class="glyphicon glyphicon-pause"> </span> Deactivate All</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

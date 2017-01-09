@@ -29,6 +29,7 @@ import main from './main/main.component';
 import constants from './app.constants';
 import util from '../components/util/util.module';
 
+import optionsService from './services/optionsService/optionsService.service';
 import pickupOptionsService from './services/pickupOptionsService/pickupOptionsService.service';
 import seasonUtilsService from './services/seasonUtils/seasonUtils.service';
 
@@ -43,6 +44,7 @@ angular.module('terrappApp', [
   uiRouter,
   uiBootstrap,
 
+  optionsService,
   pickupOptionsService,
   seasonUtilsService,
 
