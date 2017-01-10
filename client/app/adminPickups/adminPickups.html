@@ -1,4 +1,47 @@
 <div class="container">
   <div class="row">
+    <div class="col-md-12">
+      <h1>Pickups</h1>
+      <div class="btn-group"  uib-dropdown >
+        <button type="button" class="btn btn-primary" uib-dropdown-toggle>Season: {{$ctrl.selectedSeason.name || "Select season"}}</button>
+        <button type="button" class="btn btn-primary" uib-dropdown-toggle aria-haspopup="true" aria-expanded="false">
+          <span class="caret"></span>
+          <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu">
+          <li ng-repeat="season in $ctrl.seasons"><a href="#" ng-click="$ctrl.selectSeason(season)">{{season.name}}</a></li>
+        </ul>
+      </div>
+      <div class="btn-group"  uib-dropdown >
+        <button type="button" class="btn btn-primary" uib-dropdown-toggle>Pickup Option: {{$ctrl.selectedPickupOption.name || "Select pickup option"}}</button>
+        <button type="button" class="btn btn-primary" uib-dropdown-toggle aria-haspopup="true" aria-expanded="false">
+          <span class="caret"></span>
+          <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu">
+          <li ng-repeat="pickupOption in $ctrl.pickupOptions"><a href="#" ng-click="$ctrl.selectPickupOption(pickupOption)">{{pickupOption.name}}</a></li>
+        </ul>
+      </div>
+      <p>Here you can edit pickups for various seasons</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      {{$ctrl.selectedSeason}}
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody ng-repeat="pickup in pickups">
+          <tr>
+            <td>
+              {{$index}}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

@@ -3,33 +3,30 @@ const angular = require('angular');
 
 
 export class PickupOptionsService {
-  $http: ng.IHttpService;
-  deferred: ng.IDeferred<any>;
-  $q: ng.IQService;
+  promise: Object;
+  PickupOption: Object;
 
   /*@ngInject*/
-  constructor($http, $q: ng.IQService) {
-    this.$http = $http;
-    this.deferred = null;
-    this.$q = $q;
+  constructor(PickupOption) {
+    this.PickupOption = PickupOption;
     this.reload();
   }
 
   public reload() {
-    this.deferred = this.$q.defer();
-    this.$http.get("/api/pickupOptions")
-    .then((res) => {
-      this.deferred.resolve(res.data);
-    },() => {
-      this.deferred.reject();
-    });
+    this.promise = this.PickupOption.query();
+    console.log(this.promise);
   }
 
   public get() {
-    return this.deferred.promise;
+    return this.promise.$promise;
   }
+}
+function PickupOptionResource($resource) {
+  'ngInject';
+  return $resource('/api/pickupOptions/', {}, {});
 }
 
 export default angular.module('terrappApp.PickupOptionsService', [])
+  .factory('PickupOption', PickupOptionResource)
   .service('PickupOptionsService', PickupOptionsService)
   .name;

@@ -70,6 +70,13 @@ export function index(req, res) {
     .catch(handleError(res));
 }
 
+/// Get a lost of PickupEvents for a given season and pickup option
+export function indexPrecise(req, res) {
+  return PickupEvent.find({season: req.params.seasonId, pickupOption: req.params.pickupOptionId}).exec()
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
 // Gets a single PickupEvent from the DB
 export function show(req, res) {
   return PickupEvent.findById(req.params.id).exec()

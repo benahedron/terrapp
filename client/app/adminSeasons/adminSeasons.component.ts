@@ -12,9 +12,11 @@ export class AdminSeasonsComponent {
   activeSeason: string;
   OptionsService: Object;
   $uibModal: ng.ui.bootstrap.IModalService;
+  $state: ng.IStateService;
 
   /*@ngInject*/
-  constructor($http, SeasonUtils, OptionsService, $uibModal) {
+  constructor($http, SeasonUtils, OptionsService, $uibModal, $state) {
+    this.$state = $state;
     this.$uibModal = $uibModal;
     this.$http = $http;
     this.getDateForInterval = SeasonUtils.getDateForInterval;
@@ -82,6 +84,10 @@ export class AdminSeasonsComponent {
     this.modal(null, 'adminSeasonEdit', (season) => {
       scope.seasons.push(season);
     });
+  }
+
+  manage(season) {
+    this.$state.go('adminPickups', {seasonId: season._id});
   }
 }
 

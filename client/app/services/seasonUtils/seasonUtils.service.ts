@@ -1,6 +1,7 @@
 'use strict';
 const angular = require('angular');
 
+
 /*@ngInject*/
 export class SeasonUtilsService {
 
@@ -11,6 +12,13 @@ export class SeasonUtilsService {
 
 }
 
+function SeasonResource($resource) {
+  'ngInject';
+  return $resource('/api/seasons/', {}, {});
+}
+
+
 export default angular.module('terrappApp.seasonUtils', [])
+  .factory('Season', SeasonResource)
   .service('SeasonUtils', SeasonUtilsService)
   .name;

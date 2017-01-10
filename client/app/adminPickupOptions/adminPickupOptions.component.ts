@@ -45,7 +45,7 @@ export class AdminPickupOptionsComponent {
 
   reload() {
     (this.PickupOptionsService as any).get()
-    .then((pickupOptions) => {
+    .then(pickupOptions => {
       this.pickupOptions = pickupOptions;
     });
   }
