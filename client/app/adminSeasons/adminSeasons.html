@@ -32,8 +32,10 @@
             <td>{{season.numberOfEvents}}</td>
             <td>
               <button class="btn btn-primary" ng-click="$ctrl.edit(season)"><span class="glyphicon glyphicon-pencil"> </span> Edit</button>
+              <button class="btn btn-primary" ng-click="$ctrl.manage(season)"><span class="glyphicon glyphicon-time"> </span> Manage Pickups</button>
               <button ng-if="!$ctrl.isActive(season)" class="btn btn-primary" ng-click="$ctrl.delete(season)"><span class="glyphicon glyphicon-trash"> </span> Delete</button>
               <button ng-if="!$ctrl.isActive(season)" class="btn btn-primary" ng-click="$ctrl.setActive(season)"><span class="glyphicon glyphicon-play"> </span> Activate</button>
+
             </td>
           </tr>
         </tbody>

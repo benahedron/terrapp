@@ -36,7 +36,7 @@ export class OptionsService {
     }
 
     this.activeDeferred = this.$q.defer();
-    this.$http.post("/api/options/"+ACTIVE_SEASON_FIELD, {value: activeSeasonId})
+    return this.$http.post("/api/options/"+ACTIVE_SEASON_FIELD, {value: activeSeasonId})
     .then(() => {
       this.reload();
     });

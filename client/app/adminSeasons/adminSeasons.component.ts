@@ -48,7 +48,9 @@ export class AdminSeasonsComponent {
 
   private setActive(season){
     this.OptionsService.setActiveSeason(season)
-    this.reload();
+    .then(() => {
+      this.reload();
+    });
   }
 
   private reload() {
@@ -64,8 +66,8 @@ export class AdminSeasonsComponent {
 
   delete(season) {
     let scope = this;
-    this.modal(season, 'adminSeasonDelete', (user) => {
-      scope.users.splice(scope.seasons.indexOf(season), 1);
+    this.modal(season, 'adminSeasonDelete', (season) => {
+      scope.seasons.splice(scope.seasons.indexOf(season), 1);
     });
   }
 
