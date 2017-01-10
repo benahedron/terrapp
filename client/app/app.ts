@@ -22,6 +22,7 @@ import adminMemberEdit from './adminMembers/adminMemberEdit.component';
 import adminMemberPassword from './adminMembers/adminMemberPassword.component';
 import adminPickupOptions from './adminPickupOptions/adminPickupOptions.component';
 import adminPickupOptionDelete from './adminPickupOptions/adminPickupOptionDelete.component';
+import adminPickups from './adminPickups/adminPickups.component';
 import adminSeasons from './adminSeasons/adminSeasons.component';
 import adminSeasonDelete from './adminSeasons/adminSeasonDelete.component';
 import adminSeasonEdit from './adminSeasons/adminSeasonEdit.component';
@@ -59,6 +60,7 @@ angular.module('terrappApp', [
   adminSeasons,
   adminSeasonDelete,
   adminSeasonEdit,
+  adminPickups,
   adminPickupOptions,
   adminPickupOptionDelete,
   navbar,
