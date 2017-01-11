@@ -1,0 +1,48 @@
+<form class="form" name="form" ng-submit="$ctrl.ok()" novalidate>
+  <div class="modal-header">
+    <h3 class="modal-title" id="modal-title">
+      Edit baskets for the season: {{$ctrl.season.name}}
+    </h3>
+  </div>
+  <div class="modal-body" id="modal-body">
+    <div class="row basketCreation">
+      <div class="col-md-12">
+        <h4>Add baskets:</h4>
+        <div class="form-group">
+          <label>Set default pickup option:</label>
+          <div class="btn-group"  uib-dropdown >
+            <button type="button" class="btn btn-primary" uib-dropdown-toggle>{{$ctrl.selectedPickupOption.name || "Select pickup option"}}</button>
+            <button type="button" class="btn btn-primary" uib-dropdown-toggle aria-haspopup="true" aria-expanded="false">
+              <span class="caret"></span>
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu">
+              <li ng-repeat="pickupOption in $ctrl.pickupOptions"><a href="#" ng-click="$ctrl.selectedPickupOption = pickupOption">{{pickupOption.name}}</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Find members:</label>
+          <input type="name" name="searchString" class="form-control" ng-model="$ctrl.searchString" ng-change="$ctrl.updateSearch()"/>
+        </div>
+        <ul ng-repeat="member in $ctrl.members">
+          <li>{{member.firstName}} {{member.lastName}} <button class="btn btn-xs btn-primary" type="button" ng-click="$ctrl.createBasket(member)" type="submit"><span class="glyphicon glyphicon-plus"> </span></button></li>
+        </ul>
+      </div>
+    </div>
+    <hr/>
+    <div class="row">
+      <div class="col-md-12">
+        <h4>Current baskets: ({{$ctrl.baskets.length}})</h4>
+        <div ng-repeat="basket in $ctrl.baskets" class="basketDeclaration">
+          <button class="btn btn-xs btn-primary" ng-click="$ctrl.deleteBasket(basket)" type="button"><span class="glyphicon glyphicon-remove"> </span></button>
+          <b>{{basket.membership.firstName}} {{basket.membership.lastName}}</b>
+          <i>@{{basket.defaultPickupOption.name}}</i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="submit">Ok</button>
+  </div>
+</form>

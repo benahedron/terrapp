@@ -86,8 +86,14 @@ export class AdminSeasonsComponent {
     });
   }
 
-  manage(season) {
+  managePickups(season) {
     this.$state.go('adminPickups', {seasonId: season._id});
+  }
+
+  manageBaskets(season) {
+    let scope = this;
+    this.modal(season, 'adminSeasonBaskets', (season) => {
+    });
   }
 }
 

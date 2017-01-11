@@ -12,6 +12,7 @@
 
 import jsonpatch from 'fast-json-patch';
 import Membership from './membership.model';
+import _ from 'lodash';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -20,6 +21,23 @@ function respondWithResult(res, statusCode) {
       return res.status(statusCode).json(entity);
     }
     return null;
+  };
+}
+
+function filterQuery(query) {
+  let simpleQuery = query.toLowerCase();
+  return function(entities) {
+    if(entities) {
+      let filtered = _.filter(entities, membership => {
+        let candidate = membership.firstName.toLowerCase() +
+                        membership.lastName.toLowerCase() +
+                        membership.firstName.toLowerCase();
+        return candidate.indexOf(simpleQuery) >= 0;
+      });
+      return filtered;
+    } else {
+      return null;
+    }
   };
 }
 
@@ -66,6 +84,14 @@ function handleError(res, statusCode) {
 // Gets a list of Memberships
 export function index(req, res) {
   return Membership.find().exec()
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
+// Find members
+export function find(req, res) {
+  return Membership.find().exec()
+    .then(filterQuery(req.body.query, res))
     .then(respondWithResult(res))
     .catch(handleError(res));
 }

@@ -70,6 +70,13 @@ export function index(req, res) {
     .catch(handleError(res));
 }
 
+// Gets a list of Baskets by season
+export function indexBySeason(req, res) {
+  return Basket.find({season: req.params.seasonId}).populate('membership defaultPickupOption').exec()
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
 // Gets a single Basket from the DB
 export function show(req, res) {
   return Basket.findById(req.params.id).exec()
