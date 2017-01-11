@@ -10,7 +10,6 @@
 
 'use strict';
 
-import jsonpatch from 'fast-json-patch';
 import Options from './options.model';
 
 function respondWithResult(res, statusCode) {
@@ -51,8 +50,8 @@ export function load(req, res) {
 // Creates a new Options in the DB
 export function save(req, res) {
   return Options.findOne({name: req.params.name}).exec()
-    .then((entity) => {
-      if (!entity) {
+    .then(entity => {
+      if(!entity) {
         return Options.create({name: req.params.name, value: req.body.value});
       } else {
         entity.value = req.body.value;

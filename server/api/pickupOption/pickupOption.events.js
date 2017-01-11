@@ -31,8 +31,8 @@ function emitEvent(event) {
   };
 }
 
-PickupOptionEvents.on('remove', (pickupOption) => {
+PickupOptionEvents.on('remove', pickupOption => {
   PickupEvent.find({pickupOption: pickupOption}).remove();
-})
+});
 
 export default PickupOptionEvents;

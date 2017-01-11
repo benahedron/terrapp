@@ -3,7 +3,7 @@
 var express = require('express');
 var controller = require('./pickupOption.controller');
 import * as auth from '../../auth/auth.service';
-import * as events from './pickupOption.events';
+import './pickupOption.events';
 var router = express.Router();
 
 router.get('/', auth.isAuthenticated(), controller.index);

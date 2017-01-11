@@ -21,23 +21,25 @@ var devUsers = require('./dev.user.seed.json');
 var seededSeasons = [];
 var seededPickupOptions = [];
 var seededMemberships = [];
-var seededUsers = [];
-var seededBaskets = [];
+//var seededUsers = [];
+//var seededBaskets = [];
 
 removePickupEvents();
 
 function removePickupEvents() {
-  PickupEvent.find({}).remove().
-  then(() => {
-    removePickupUserEvents();
-  });
+  PickupEvent.find({})
+    .remove()
+    .then(() => {
+      removePickupUserEvents();
+    });
 }
 
 function removePickupUserEvents() {
-  PickupUserEvent.find({}).remove().
-  then(() => {
-    createSeasons();
-  });
+  PickupUserEvent.find({})
+    .remove()
+    .then(() => {
+      createSeasons();
+    });
 }
 
 function createSeasons() {
@@ -86,8 +88,8 @@ function createUsers() {
     });
 
     User.create(devUsers)
-    .then(users => {
-      seededUsers = users;
+    .then(/*users*/() => {
+      //seededUsers = users;
       createBaskets();
     });
   });
@@ -107,8 +109,8 @@ function createBaskets() {
   });
 
   Basket.create(newBaskets)
-  .then(baskets => {
-    seededBaskets = baskets;
+  .then(/*baskets*/() => {
+    //seededBaskets = baskets;
     console.log('Data seeded.');
   });
 }

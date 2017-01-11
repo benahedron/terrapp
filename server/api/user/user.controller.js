@@ -25,7 +25,9 @@ function handleError(res, statusCode) {
  * restriction: 'admin'
  */
 export function index(req, res) {
-  return User.find({}, '-salt -password').populate('membership').exec()
+  return User.find({}, '-salt -password')
+    .populate('membership')
+    .exec()
     .then(users => {
       res.status(200).json(users);
     })
@@ -36,10 +38,10 @@ export function index(req, res) {
  * Creates a new user
  */
 export function create(req, res) {
-  if (!_.has(req.body, 'membership')){
+  if(!_.has(req.body, 'membership')) {
     validationError(res);
   } else {
-    var newMembership =  Membership(req.body.membership);
+    var newMembership = Membership(req.body.membership);
     newMembership.save()
       .then(function(membership) {
         var newUser = new User(req.body);
@@ -65,8 +67,8 @@ export function create(req, res) {
 export function createAsAdmin(req, res) {
   var newUser = new User(req.body);
 
-  if (_.has(req.body, 'membership')) {
-    var newMembership =  Membership(req.body.membership);
+  if(_.has(req.body, 'membership')) {
+    var newMembership = Membership(req.body.membership);
     newMembership.save()
       .then(function(membership) {
         newUser.membership = membership;
@@ -77,23 +79,23 @@ export function createAsAdmin(req, res) {
           .catch(validationError(res));
       })
       .catch(validationError(res));
-    } else{
-      newUser.save()
-        .then(function(user) {
-          res.json(user);
-        })
-        .catch(validationError(res));
-    }
+  } else {
+    newUser.save()
+      .then(function(user) {
+        res.json(user);
+      })
+      .catch(validationError(res));
+  }
 }
 
 /**
  * Upsert a user with membership (only allowed as admin, as the "role" can be enforced)
  */
 export function upsert(req, res) {
-  var newUser =  new User(req.body);
+  var newUser = new User(req.body);
   User.findOneAndUpdate({_id: req.body._id}, newUser)
     .then(function(user) {
-      if (_.has(req.body, 'membership')) {
+      if(_.has(req.body, 'membership')) {
         Membership.findOneAndUpdate({_id: req.body.membership._id}, req.body.membership)
           .then(function(membership) {
             user.membership = membership;
