@@ -33,11 +33,10 @@ function emitEvent(event) {
 }
 
 function recreateAllPickupEvents(basket) {
-  /*console.log(basket.execPopulate);
   basket.execPopulate('season')
     .then( populatedBasket => {
-      console.log(populatedBasket);
-    });*/
+      //console.log(populatedBasket);
+    });
 }
 
 BasketEvents.on('save', basket => {

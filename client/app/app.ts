@@ -36,6 +36,7 @@ import util from '../components/util/util.module';
 import optionsService from './services/optionsService/optionsService.service';
 import pickupOptionsService from './services/pickupOptionsService/pickupOptionsService.service';
 import seasonUtilsService from './services/seasonUtils/seasonUtils.service';
+import pickupUtilsService from './services/pickupUtils/pickupUtils.service';
 
 
 import './app.less';
@@ -50,6 +51,7 @@ angular.module('terrappApp', [
 
   optionsService,
   pickupOptionsService,
+  pickupUtilsService,
   seasonUtilsService,
 
   _Auth,

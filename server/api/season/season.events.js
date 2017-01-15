@@ -8,6 +8,7 @@ import {EventEmitter} from 'events';
 import Season from './season.model';
 import PickupEvent from '../pickupEvent/pickupEvent.model';
 import PickupOption from '../pickupOption/pickupOption.model';
+import * as PickupEventHelper from '../pickupEvent/pickupEvent.helper';
 import _ from 'lodash';
 
 var SeasonEvents = new EventEmitter();
@@ -36,21 +37,10 @@ function emitEvent(event) {
 
 
 function recreateAllPickupEvents(season) {
-  if(season.active === false) {
-    PickupOption.find()
-    .then(pickupOptions => {
-      PickupEvent.find({season: season._id}).remove()
-      .then(() => {
-        _.each(pickupOptions, pickupOption => {
-          PickupEvent.createPickupEventsForOption(season, pickupOption);
-        });
-      });
-    });
-  }
 }
 
 SeasonEvents.on('save', season => {
-  recreateAllPickupEvents(season);
+  PickupEventHelper.updateForSeason(season);
 });
 
 export default SeasonEvents;

@@ -20,18 +20,4 @@ var PickupEventSchema = new mongoose.Schema({
   ]
 });
 
-
-export function createPickupEventsForOption(season, pickupOption) {
-  let newEvents = [];
-  for(let i = 0; i < season.numberOfEvents; ++i) {
-    let newEvent = {
-      season: season,
-      pickupOption: pickupOption,
-      eventNumber: i
-    };
-    newEvents.push(newEvent);
-  }
-  PickupEvent.create(newEvents);
-}
-
 export default mongoose.model('PickupEvent', PickupEventSchema);

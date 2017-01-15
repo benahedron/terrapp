@@ -14,11 +14,15 @@ export class AdminPickupsComponent {
   selectedSeason: Object = null;
   selectedPickupOption: Object = null;
   pickups: Object[];
+  getStartDate: Function;
+  getEndDate: Function;
 
   /*@ngInject*/
-  constructor(PickupOptionsService, OptionsService, $stateParams, $state, $http, Season) {
+  constructor(PickupOptionsService, OptionsService, PickupUtils, $stateParams, $state, $http, Season) {
     this.$state = $state;
     this.$http = $http;
+    this.PickupUtils = PickupUtils;
+
     let scope = this;
     if ($stateParams.seasonId === '') {
       OptionsService.getActiveSeason().
@@ -65,8 +69,12 @@ export class AdminPickupsComponent {
   }
 
   private loadPickups() {
+    let scope = this;
     if (this.selectedSeason && this.selectedPickupOption) {
-      this.pickups = this.$http.get('/api/pickupEvents/' + this.selectedSeason._id + '/' + this.selectedPickupOption._id );
+      this.$http.get('/api/pickupEvents/' + this.selectedSeason._id + '/' + this.selectedPickupOption._id )
+      .then(res => {
+        scope.pickups = res.data;
+      });
     }
   }
 

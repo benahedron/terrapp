@@ -2,6 +2,7 @@
 
 var express = require('express');
 var controller = require('./basket.controller');
+import * as auth from '../../auth/auth.service';
 /// Load the basket events to register them properly
 import './basket.events';
 var router = express.Router();

@@ -22,7 +22,7 @@
           <li ng-repeat="pickupOption in $ctrl.getAvailablePickupOptions()"><a href="#" ng-click="$ctrl.selectPickupOption(pickupOption)">{{pickupOption.name}}</a></li>
         </ul>
       </div>
-      <p>Here you can edit pickups for various seasons</p>
+      <p>Edit pickup events</p>
     </div>
   </div>
   <div class="row">
@@ -33,10 +33,11 @@
             <th>Date</th>
           </tr>
         </thead>
-        <tbody ng-repeat="pickup in pickups">
+        <tbody ng-repeat="pickup in $ctrl.pickups">
           <tr>
             <td>
-              {{$index}}
+              {{$ctrl.PickupUtils.getStartDateFor($ctrl.selectedSeason, $ctrl.selectedPickupOption, pickup) | date:'dd.MM.yyyy HH:mm' }} -
+              {{$ctrl.PickupUtils.getEndDateFor($ctrl.selectedSeason, $ctrl.selectedPickupOption, pickup) | date:'dd.MM.yyyy HH:mm' }}
             </td>
           </tr>
         </tbody>

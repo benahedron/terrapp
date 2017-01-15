@@ -4,13 +4,13 @@ The creation of entities in the database triggers updates on other data. These u
 through events.
 
 
-# Affections
+# Influences
 ## Season
 ### Save
 - **PickupEvent**
 
   *Required actions:*
-  - [ ]Make sure all associated PickupEvents in the season do exist, but not more, based on the number of events.
+  - [x]Make sure all associated PickupEvents in the season do exist, but not more, based on the number of events.
 
 ### Delete
 - **PickupEvent**
