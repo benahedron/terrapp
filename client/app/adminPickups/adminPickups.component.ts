@@ -16,7 +16,7 @@ export class AdminPickupsComponent {
   pickups: Object[];
 
   /*@ngInject*/
-  constructor(PickupOptionsService, OptionsService, $stateParams, $state, $http;, Season) {
+  constructor(PickupOptionsService, OptionsService, $stateParams, $state, $http, Season) {
     this.$state = $state;
     this.$http = $http;
     let scope = this;
@@ -50,39 +50,46 @@ export class AdminPickupsComponent {
 
     PickupOptionsService.get().then((pickupOptions) => {
       scope.pickupOptions = pickupOptions;
-
-      if ($stateParams.pickupOptionId !== '') {
+      if (_.has($stateParams, 'pickupOptionId') && $stateParams.pickupOptionId && $stateParams.pickupOptionId !== '') {
         scope.selectedPickupOption = _.find(scope.pickupOptions, (pickupOption) => {
           return pickupOption._id+'' === $stateParams.pickupOptionId;
         });
+      } else if(scope.selectedSeason) {
+        scope.selectedPickupOption = _.first(scope.selectedSeason.availablePickupOptions);
       } else {
-        scope.selectedPickupOption = _.first(seaons);
+        scope.selectedPickupOption = null;
       }
+
       scope.loadPickups();
-    }
+    });
   }
 
   private loadPickups() {
-    this.pickups = this.$http.get(
-      '/api/pickupEvents/' + this.selectedSeason._id +
-      '/' + this.selectedPickupOption._id );
+    if (this.selectedSeason && this.selectedPickupOption) {
+      this.pickups = this.$http.get('/api/pickupEvents/' + this.selectedSeason._id + '/' + this.selectedPickupOption._id );
+    }
+  }
 
+  public getAvailablePickupOptions() {
+    if (!this.selectedSeason) {
+      return [];
+    } else {
+      return _.union(this.selectedSeason.activePickupOptions, this.pickupOption);
+    }
   }
 
   public selectPickupOption(pickupOption) {
     let season = '';
-    if(this.selectSeason) {
-      season = this.selectSeason._id
+    if(this.selectedSeason) {
+      season = this.selectedSeason._id;
+
     }
     this.$state.go('adminPickups', {seasonId: season, pickupOptionId: pickupOption._id});
   }
 
   public selectSeason(season) {
-    let pickupOption = '';
-    if(this.selectedPickupOption) {
-      pickupOption = this.selectedPickupOption._id
-    }
-    this.$state.go('adminPickups', {seasonId: season._id, pickupOptionId: pickupOption});
+    let pickupOption = _.first(season.activePickupOptions);
+    this.$state.go('adminPickups', {seasonId: season._id, pickupOptionId: pickupOption._id});
   }
 }
 

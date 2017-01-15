@@ -6,6 +6,8 @@
 
 import {EventEmitter} from 'events';
 import Basket from './basket.model';
+import Season from '../season/season.model';
+import PickupEvent from '../pickupEvent/pickupEvent.model';
 var BasketEvents = new EventEmitter();
 
 // Set max event listeners (0 == unlimited)
@@ -29,5 +31,17 @@ function emitEvent(event) {
     BasketEvents.emit(event, doc);
   };
 }
+
+function recreateAllPickupEvents(basket) {
+  /*console.log(basket.execPopulate);
+  basket.execPopulate('season')
+    .then( populatedBasket => {
+      console.log(populatedBasket);
+    });*/
+}
+
+BasketEvents.on('save', basket => {
+  recreateAllPickupEvents(basket);
+});
 
 export default BasketEvents;

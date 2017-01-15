@@ -15,9 +15,10 @@
         <thead>
           <tr>
             <th>Name</th>
-            <th>First Pickup</th>
-            <th>Last Pickup</th>
-            <th>Number of Pickups</th>
+            <th>First pickup</th>
+            <th>Last pickup</th>
+            <th>Number of pickups</th>
+            <th>Active pickup options</th>
             <th>Options</th>
           </tr>
         </thead>
@@ -30,19 +31,19 @@
             <td>{{$ctrl.getDateForInterval(season, 0) | date:'yyyy.MM.dd'}}</td>
             <td>{{$ctrl.getDateForInterval(season, season.numberOfEvents-1) | date:'yyyy.MM.dd'}}</td>
             <td>{{season.numberOfEvents}}</td>
+            <td>{{season.activePickupOptions.length}}</td>
             <td>
               <button class="btn btn-primary" ng-click="$ctrl.edit(season)"><span class="glyphicon glyphicon-pencil"> </span> Edit</button>
               <button class="btn btn-primary" ng-click="$ctrl.manageBaskets(season)"><span class="glyphicon glyphicon-apple"> </span> Baskets</button>
               <button class="btn btn-primary" ng-click="$ctrl.managePickups(season)"><span class="glyphicon glyphicon-time"> </span> Pickups</button>
               <button ng-if="!$ctrl.isActive(season)" class="btn btn-primary" ng-click="$ctrl.delete(season)"><span class="glyphicon glyphicon-trash"> </span> Delete</button>
               <button ng-if="!$ctrl.isActive(season)" class="btn btn-primary" ng-click="$ctrl.setActive(season)"><span class="glyphicon glyphicon-play"> </span> Activate</button>
-
             </td>
           </tr>
         </tbody>
         <tbody>
           <tr>
-            <td colspan="4">
+            <td colspan="5">
             </td>
             <td>
               <button ng-if="!$ctrl.isActive(null)" class="btn btn-primary" ng-click="$ctrl.setActive(null)"><span class="glyphicon glyphicon-pause"> </span> Deactivate All</button>

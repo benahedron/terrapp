@@ -42,6 +42,32 @@
       <label>Last interval starts:</label>
       <p>{{$ctrl.getDateForInterval($ctrl.season, $ctrl.season.numberOfEvents-1) | date: 'yyyy.MM.dd'}}</p>
     </div>
+
+    <div class="form-group">
+      <label>Active pickup options ({{$ctrl.season.activePickupOptions.length}}):</label>
+      <div class="container">
+        <div class="btn-group"  uib-dropdown >
+          <button type="button" class="btn btn-primary" uib-dropdown-toggle>{{"Add a pickup option"}}</button>
+          <button type="button" class="btn btn-primary" uib-dropdown-toggle aria-haspopup="true" aria-expanded="false">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+          <ul class="dropdown-menu">
+            <li ng-repeat="pickupOption in $ctrl.getInactivePickupOptions()"><a href="#" ng-click="$ctrl.addActivePickupOption(pickupOption)">{{pickupOption.name}}</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="form-control seasonActivePickupOptions">
+        <div class="row">
+          <div ng-repeat="pickupOption in $ctrl.season.activePickupOptions" class="pickupOptionDeclaration">
+            <button class="btn btn-xs btn-primary" ng-click="$ctrl.removeActivePickupOption(pickupOption)" type="button"><span class="glyphicon glyphicon-remove"> </span></button>
+            <b>{{pickupOption.name}}</b>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="modal-footer">
     <button class="btn btn-primary" type="submit">Save</button>

@@ -17,10 +17,17 @@ export class AdminSeasonEditComponent{
   $http: ng.IHttpService;
   getDateForInterval: Function;
 
+  pickupOptions: Object[];
+
   /*ngInjector*/
-  constructor($http, SeasonUtils) {
+  constructor($http, SeasonUtils, PickupOptionsService) {
     this.$http = $http;
     this.getDateForInterval = SeasonUtils.getDateForInterval;
+
+    let scope = this;
+    PickupOptionsService.get().then((pickupOptions) => {
+      scope.pickupOptions = _.difference(pickupOptions, scope.season.activePickupOptions);
+    });
   }
 
   $onInit() {
@@ -35,6 +42,18 @@ export class AdminSeasonEditComponent{
       };
       this.isNew = true;
     }
+  }
+
+  addActivePickupOption(pickupOption) {
+    this.season.activePickupOptions.push(pickupOption);
+  }
+
+  getInactivePickupOptions() {
+    return _.difference(this.pickupOptions, this.season.activePickupOptions);
+  }
+
+  removeActivePickupOption(pickupOption) {
+    this.season.activePickupOptions = _.without(this.season.activePickupOptions, pickupOption);
   }
 
   save(form) {

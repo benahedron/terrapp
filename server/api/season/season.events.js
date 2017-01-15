@@ -34,18 +34,6 @@ function emitEvent(event) {
   };
 }
 
-function createPickupEventsForOption(season, pickupOption) {
-  let newEvents = [];
-  for(let i = 0; i < season.numberOfEvents; ++i) {
-    let newEvent = {
-      season: season,
-      pickupOption: pickupOption,
-      eventNumber: i
-    };
-    newEvents.push(newEvent);
-  }
-  PickupEvent.create(newEvents);
-}
 
 function recreateAllPickupEvents(season) {
   if(season.active === false) {
@@ -54,7 +42,7 @@ function recreateAllPickupEvents(season) {
       PickupEvent.find({season: season._id}).remove()
       .then(() => {
         _.each(pickupOptions, pickupOption => {
-          createPickupEventsForOption(season, pickupOption);
+          PickupEvent.createPickupEventsForOption(season, pickupOption);
         });
       });
     });

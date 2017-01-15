@@ -14,7 +14,6 @@ export class PickupOptionsService {
 
   public reload() {
     this.promise = this.PickupOption.query();
-    console.log(this.promise);
   }
 
   public get() {

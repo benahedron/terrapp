@@ -11,6 +11,9 @@ var SeasonSchema = new mongoose.Schema({
   firstEventDate: {type: Date},
   numberOfEvents: {type: Number, default: 52},
   eventIntervalInDays: {type: Number, default: 7},
+  activePickupOptions: [
+    {type: mongoose.Schema.Types.ObjectId, ref: 'PickupOption'}
+  ]
 });
 
 export default mongoose.model('Season', SeasonSchema);

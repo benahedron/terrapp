@@ -65,7 +65,7 @@ function handleError(res, statusCode) {
 
 // Gets a list of Seasons
 export function index(req, res) {
-  return Season.find().exec()
+  return Season.find().populate('activePickupOptions').exec()
     .then(respondWithResult(res))
     .catch(handleError(res));
 }

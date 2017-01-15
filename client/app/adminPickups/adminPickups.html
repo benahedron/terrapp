@@ -19,7 +19,7 @@
           <span class="sr-only">Toggle Dropdown</span>
         </button>
         <ul class="dropdown-menu">
-          <li ng-repeat="pickupOption in $ctrl.pickupOptions"><a href="#" ng-click="$ctrl.selectPickupOption(pickupOption)">{{pickupOption.name}}</a></li>
+          <li ng-repeat="pickupOption in $ctrl.getAvailablePickupOptions()"><a href="#" ng-click="$ctrl.selectPickupOption(pickupOption)">{{pickupOption.name}}</a></li>
         </ul>
       </div>
       <p>Here you can edit pickups for various seasons</p>
@@ -27,7 +27,6 @@
   </div>
   <div class="row">
     <div class="col-md-12">
-      {{$ctrl.selectedSeason}}
       <table class="table table-hover">
         <thead>
           <tr>

@@ -38,21 +38,9 @@ function removePickupUserEvents() {
   PickupUserEvent.find({})
     .remove()
     .then(() => {
-      createSeasons();
-    });
-}
-
-function createSeasons() {
-  Season.find({}).remove()
-  .then(() => {
-    Season.create(devSeasons)
-    .then(seasons => {
-      seededSeasons = seasons;
       createPickupOptions();
     });
-  });
 }
-
 
 function createPickupOptions() {
   PickupOption.find({}).remove()
@@ -60,6 +48,28 @@ function createPickupOptions() {
     PickupOption.create(devPickupOptions)
     .then(pickupOptions => {
       seededPickupOptions = pickupOptions;
+      createSeasons();
+    });
+  });
+}
+
+
+function createSeasons() {
+  Season.find({}).remove()
+  .then(() => {
+    _.each(devSeasons, season => {
+      season.activePickupOptions = [];
+      _.each(seededPickupOptions, pickupOption => {
+        let active = _.random(0, 1, true);
+        if (active<0.1) {
+          season.activePickupOptions.push(pickupOption);
+        }
+      });
+    });
+
+    Season.create(devSeasons)
+    .then(seasons => {
+      seededSeasons = seasons;
       createMembers();
     });
   });
