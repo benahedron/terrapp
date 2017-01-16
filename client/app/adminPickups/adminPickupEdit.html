@@ -1,0 +1,48 @@
+<form class="form" name="form" ng-submit="$ctrl.save(form)" novalidate>
+  <div class="modal-header">
+    <h3 class="modal-title" id="modal-title">
+      Edit pickup event
+    </h3>
+  </div>
+  <div class="modal-body" id="modal-body">
+
+    <div class="form-group" ng-class="{ 'has-success': form.date.$valid && $ctrl.submitted, 'has-error': form.date.$invalid && $ctrl.submitted }">
+      <label>Set Date</label>
+      <div class="form-control" style="display:inline-block; min-height:290px;" >
+        <div uib-datepicker name="date" ng-model="$ctrl.startDateOverride" ng-change="$ctrl.update()" datepicker-options="$ctrl.dateOptions" class="well well-sm" datepicker-options="options"></div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{ 'has-success': form.date.$valid && $ctrl.submitted, 'has-error': form.date.$invalid && $ctrl.submitted }">
+      <label>Set Time</label>
+      <div class="form-control" style="display:inline-block; min-height:130px;">
+        <div uib-timepicker ng-model="$ctrl.startDateOverride" ng-change="$ctrl.update()" show-meridian="false"></div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{ 'has-success': form.date.$valid && $ctrl.submitted, 'has-error': form.date.$invalid && $ctrl.submitted }">
+      <label>Durration</label>
+      <input type="number" class="form-control" ng-model="$ctrl.durrationOverride" ng-change="$ctrl.update()" />
+    </div>
+    <div class="form-group" ng-class="{ 'has-success': form.location.$valid && $ctrl.submitted, 'has-error': form.location.$invalid && $ctrl.submitted }">
+      <label>Location</label>
+      <div class="form-control" style="display:inline-block; min-height:130px;">
+        <div class="btn-group"  uib-dropdown >
+          <button type="button" class="btn btn-primary" uib-dropdown-toggle>Pickup Location: {{$ctrl.pickupOptionOverride.name || "No change"}}</button>
+          <button type="button" class="btn btn-primary" uib-dropdown-toggle aria-haspopup="true" aria-expanded="false">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+          <ul class="dropdown-menu">
+            <li ng-repeat="pickupOption in $ctrl.pickupOptions"><a href="#" ng-click="$ctrl.selectPickupOption(pickupOption)">{{pickupOption.name}}</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    {{$ctrl.getCurrentStartDate()|date:'dd.MM.yyyy HH:mm'}}
+    -
+    {{$ctrl.getCurrentEndDate()|date:'dd.MM.yyyy HH:mm'}}
+    <button class="btn btn-primary" type="submit">Save</button>
+    <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+  </div>
+</form>

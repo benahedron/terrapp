@@ -11,15 +11,27 @@ export class PickupUtilsService {
   }
 
   public getStartDateFor(season: Object, pickupOption: Object, pickupEvent: Object) {
-    let day = this.SeasonUtils.getDateForInterval(season, pickupEvent.eventNumber);
-    let offsetInMinutes = pickupOption.weekDay * 24 * 60 + pickupOption.startMinute;
-    return new Date(day.getTime() + offsetInMinutes * 60000);
+    if (!pickupEvent.startDateOverride) {
+      let day = this.SeasonUtils.getDateForInterval(season, pickupEvent.eventNumber);
+      let startMinute = pickupOption.startMinute;
+      let offsetInMinutes = (pickupOption.weekDay) * 24 * 60 + startMinute;
+      return new Date(day.getTime() + offsetInMinutes * 60000);
+    } else {
+      return pickupEvent.startDateOverride;
+    }
   }
 
   public getEndDateFor(season: Object, pickupOption: Object, pickupEvent: Object) {
-    let day = this.SeasonUtils.getDateForInterval(season, pickupEvent.eventNumber);
-    let offsetInMinutes = pickupOption.weekDay * 24 * 60 + pickupOption.startMinute + pickupOption.durationMinutes;
-    return new Date(day.getTime() + offsetInMinutes * 60000);
+    let durationMinutes = pickupEvent.durationMinutesOverride || pickupOption.durationMinutes;
+    let date = null;
+    if (!pickupEvent.startDateOverride) {
+      let day = this.SeasonUtils.getDateForInterval(season, pickupEvent.eventNumber);
+      let startMinute = pickupOption.startMinute;
+      let offsetInMinutes = (pickupOption.weekDay) * 24 * 60 + durationMinutes;
+      return new Date(day.getTime() + offsetInMinutes * 60000);
+    } else {
+      return new Date(new Date(pickupEvent.startDateOverride).getTime() + 60000 * durationMinutes);
+    }
   }
 
 }

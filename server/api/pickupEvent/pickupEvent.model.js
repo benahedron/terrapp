@@ -7,9 +7,8 @@ var PickupEventSchema = new mongoose.Schema({
   pickupOption: {type: Schema.Types.ObjectId, ref: 'PickupOption'},
   eventNumber: Number,
   adminNote: {type: String, default: null},
-  adminPickupOptionOverride: {type: Schema.Types.ObjectId, ref: 'PickupOption', default: null},
-  weekdayOverride: {type: Number, default: null},
-  startMinuteOverride: {type: Number, default: null},
+  pickupOptionOverride: {type: Schema.Types.ObjectId, ref: 'PickupOption', default: null},
+  startDateOverride: {type: Date, default: null},
   durationMinutesOverride: {type: Number, default: null},
   canceled: {type: Boolean, default: false},
   mails: [

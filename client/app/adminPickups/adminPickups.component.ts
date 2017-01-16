@@ -9,6 +9,7 @@ import routes from './adminPickups.routes';
 export class AdminPickupsComponent {
   $state: ng.IStateService;
   $http: ng.IHttpService;
+  $uibModal: Object;
   seasons: Object[];
   pickupOptions: Object[];
   selectedSeason: Object = null;
@@ -18,10 +19,11 @@ export class AdminPickupsComponent {
   getEndDate: Function;
 
   /*@ngInject*/
-  constructor(PickupOptionsService, OptionsService, PickupUtils, $stateParams, $state, $http, Season) {
+  constructor(PickupOptionsService, OptionsService, PickupUtils, $uibModal, $stateParams, $state, $http, Season) {
     this.$state = $state;
     this.$http = $http;
     this.PickupUtils = PickupUtils;
+    this.$uibModal = $uibModal;
 
     let scope = this;
     if ($stateParams.seasonId === '') {
@@ -59,7 +61,7 @@ export class AdminPickupsComponent {
           return pickupOption._id+'' === $stateParams.pickupOptionId;
         });
       } else if(scope.selectedSeason) {
-        scope.selectedPickupOption = _.first(scope.selectedSeason.availablePickupOptions);
+        scope.selectedPickupOption = _.first(scope.selectedSeason.activePickupOptions);
       } else {
         scope.selectedPickupOption = null;
       }
@@ -99,6 +101,34 @@ export class AdminPickupsComponent {
     let pickupOption = _.first(season.activePickupOptions);
     this.$state.go('adminPickups', {seasonId: season._id, pickupOptionId: pickupOption._id});
   }
+
+  modal(pickup, component, successCallback) {
+    let scope = this;
+    var modalInstance = this.$uibModal.open({
+        component: component,
+        resolve: {
+          season: function() {
+            return scope.selectedSeason;
+          }
+          pickup: function () {
+            return pickup;
+          }
+        }
+    } as ng.ui.bootstrap.IModalSettings);
+
+    let scope = this;
+    modalInstance.result.then((editedPickup) => {
+      successCallback(editedPickup);
+    });
+  }
+
+  edit(pickup) {
+    this.modal(pickup, 'adminPickupEdit', (editedPickup) => {
+      console.log(editedPickup);
+      _.assign(pickup, editedPickup);
+    });
+  }
+
 }
 
 export default angular.module('terrappApp.adminPickups', [uiRouter])
