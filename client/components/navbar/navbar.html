@@ -7,10 +7,11 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a href="/" class="navbar-brand">terrapp</a>
+      <a href="/" class="navbar-brand"><img src="/assets/images/logo_small.png"/>terrapp</a>
     </div>
     <div uib-collapse="$ctrl.isCollapsed" class="navbar-collapse collapse" id="navbar-main">
       <ul class="nav navbar-nav">
+
         <li ui-sref-active="active"><a ui-sref="main">Home</a></li>
       </ul>
       <ul class="nav navbar-nav"  ng-if="$ctrl.isMember()">
@@ -18,7 +19,7 @@
             <a ui-sref="{{item.state}}">{{item.title}}</a>
         </li>
       </ul>
-      
+
       <ul class="nav navbar-nav adminNavbar" ng-if="$ctrl.isAdmin()">
         <li ng-repeat="item in $ctrl.adminMenu" ui-sref-active="active">
             <a ui-sref="{{item.state}}">{{item.title}}</a>

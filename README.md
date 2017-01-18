@@ -38,3 +38,8 @@ Run `gulp build` for building and `gulp serve` for preview.
 ## Testing
 
 Running `npm test` will run the unit tests with karma.
+
+
+# Misc.
+
+The tomato logo is from the freebie set of isometric icons from https://roundicons.com/
