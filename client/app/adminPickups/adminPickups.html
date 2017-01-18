@@ -32,6 +32,7 @@
           <tr>
             <th>Event N°</th>
             <th>Date</th>
+            <th>Notes</th>
             <th>Options</th>
           </tr>
         </thead>
@@ -43,6 +44,10 @@
             <td>
               {{$ctrl.PickupUtils.getStartDateFor($ctrl.selectedSeason, $ctrl.selectedPickupOption, pickup) | date:'dd.MM.yyyy HH:mm' }} -
               {{$ctrl.PickupUtils.getEndDateFor($ctrl.selectedSeason, $ctrl.selectedPickupOption, pickup) | date:'dd.MM.yyyy HH:mm' }}
+            </td>
+            <td>
+              <span ng-if="pickup.startDateOverride" class="label label-primary">Deviating time</span>
+              <span ng-if="pickup.pickupOptionOverride" class="label label-primary">Deviant location: <pickup-option-map option="pickup.pickupOptionOverride" hoverable="true"></pickup-option-map></span>
             </td>
             <td>
               <button class="btn btn-primary" ng-click="$ctrl.edit(pickup)"><span class="glyphicon glyphicon-pencil"> </span> Edit</button>

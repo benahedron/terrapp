@@ -17,7 +17,7 @@ export class PickupUtilsService {
       let offsetInMinutes = (pickupOption.weekDay) * 24 * 60 + startMinute;
       return new Date(day.getTime() + offsetInMinutes * 60000);
     } else {
-      return pickupEvent.startDateOverride;
+      return new Date(pickupEvent.startDateOverride);
     }
   }
 

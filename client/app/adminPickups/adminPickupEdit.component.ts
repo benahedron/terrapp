@@ -25,6 +25,7 @@ export class AdminPickupEditComponent {
     let scope = this;
     PickupOptionsService.get().then((pickupOptions) => {
       scope.pickupOptions = pickupOptions;
+      this.update();
     });
   }
 
@@ -41,9 +42,10 @@ export class AdminPickupEditComponent {
       this.pickup = _.cloneDeep(resolve.pickup);
       this.season = resolve.season;
       this.pickupOptions = _.union(this.pickupOptions, this.season.activePickupOptions);
-      this.startDateOverride = this.PickupUtils.getStartDateFor(this.season, this.getPickupOption(this.pickup), this.pickup)
+      this.startDateOverride = this.PickupUtils.getStartDateFor(this.season, this.getPickupOption(this.pickup), this.pickup);
       this.dateOptions = {minDate: this.getMinDate(), maxDate: this.getMaxDate()};
       this.durrationOverride = this.pickup.durationMinutesOverride || this.getPickupOption(this.nonModifiedPickup).durationMinutes;
+
       this.update();
     } else {
       this.cancel();
@@ -59,14 +61,14 @@ export class AdminPickupEditComponent {
     }
 
     let defaultDate = this.PickupUtils.getStartDateFor(this.season, this.getPickupOption(this.nonModifiedPickup), this.nonModifiedPickup);
-    if (defaultDate !== this.pickupOptionOverride) {
+    if (this.startDateOverride && (defaultDate.getTime() !== this.startDateOverride.getTime())) {
       this.pickup.startDateOverride = this.startDateOverride;
     } else {
       this.pickup.startDateOverride = null;
     }
 
-    if (this.pickupOptionOverride) {
-      this.pickup.pickupOptionOverride = this.pickupOptionOverride._id;
+    if (this.pickup.pickupOptionOverride) {
+      this.pickupOptionOverride = this.getPickupOption(this.pickup);
     } else {
       this.pickupOptionOverride = null;
     }
@@ -74,13 +76,18 @@ export class AdminPickupEditComponent {
 
   selectPickupOption(pickupOption) {
     this.pickupOptionOverride = pickupOption;
+    if (pickupOption && (pickupOption._id !== this.pickup.pickupOption)) {
+      this.pickup.pickupOptionOverride = pickupOption._id;
+    } else {
+      this.pickup.pickupOptionOverride = null;
+    }
     this.update();
   }
 
   getPickupOption(pickup) {
     let actualOption = pickup.pickupOptionOverride || pickup.pickupOption;
     return _.find(this.pickupOptions, option => {
-      return option._id+'' === actualOption;
+      return option._id+'' === actualOption+'';
     });
   }
 
@@ -137,7 +144,7 @@ export class AdminPickupEditComponent {
   ok() {
     (this as any).resolve.pickupEvent = this.pickup;
     (this as any).close({$value: this.pickup});
-  };
+  }; .
 
   cancel() {
     (this as any).dismiss({$value: 'cancel'});

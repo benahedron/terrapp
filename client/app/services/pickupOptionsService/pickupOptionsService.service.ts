@@ -19,6 +19,7 @@ export class PickupOptionsService {
   public get() {
     return this.promise.$promise;
   }
+
 }
 function PickupOptionResource($resource) {
   'ngInject';

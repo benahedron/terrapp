@@ -124,7 +124,6 @@ export class AdminPickupsComponent {
 
   edit(pickup) {
     this.modal(pickup, 'adminPickupEdit', (editedPickup) => {
-      console.log(editedPickup);
       _.assign(pickup, editedPickup);
     });
   }

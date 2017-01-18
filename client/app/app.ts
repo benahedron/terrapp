@@ -39,6 +39,9 @@ import pickupOptionsService from './services/pickupOptionsService/pickupOptionsS
 import seasonUtilsService from './services/seasonUtils/seasonUtils.service';
 import pickupUtilsService from './services/pickupUtils/pickupUtils.service';
 
+import pickupOptionMapDirective from './directives/pickupOptionMap/pickupOptionMap.directive';
+
+
 
 import './app.less';
 
@@ -54,6 +57,8 @@ angular.module('terrappApp', [
   pickupOptionsService,
   pickupUtilsService,
   seasonUtilsService,
+
+  pickupOptionMapDirective,
 
   _Auth,
   account,
