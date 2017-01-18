@@ -9,7 +9,7 @@ Configure your details in the file "server/config/environement/production.js".
 
 Install the prerequisites as described below, run npm install and build a distribution version using `gulp serve:dist`. Don't forget to password protect your database.
 
-You can run the production version using simply `npm start`. The no users are present upon initialization, a user 'admin@admin.com' with the password 'admin' is created. Once running you should change this as soon as possible.
+You can run the production version using simply `npm start`. No users are present upon initialization, a user 'admin@admin.com' with the password 'admin' is created. Once running you should change this as soon as possible.
 
 ## Getting Started
 
