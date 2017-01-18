@@ -1,5 +1,5 @@
+![Terrap Tomato Logo](/client/assets/images/logo_small.png)
 # terrapp
-
 Terrapp is a tool for managing vegetable pickups, intended to be used by community supported agriculture organizations.
 
 Once you setup the server, you can configure your seasons, pickup options and memberships. Your members can use the website to tell you if they want to delegate a pickup to an other person, can't make pickup a basket or would prefer to get their vegetable basket at a different pickup location.
