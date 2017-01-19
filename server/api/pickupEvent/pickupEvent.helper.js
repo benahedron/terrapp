@@ -37,7 +37,7 @@ export function updateForSeason(season) {
         }
       }
     });
-    PickupEvent.remove(toRemove).then(() => {
+    PickupEvent.remove({ id: { $in:toRemove}}).then(() => {
       PickupEvent.create(toCreate);
     });
   });

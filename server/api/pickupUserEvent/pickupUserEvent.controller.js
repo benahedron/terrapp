@@ -70,6 +70,14 @@ export function index(req, res) {
     .catch(handleError(res));
 }
 
+// Gets a list of PickupUserEvents given an  PickupEvent
+export function indexByPickupEventId(req, res) {
+  return PickupUserEvent.find({pickupEvent: req.params.id}).exec()
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
+
 // Gets a single PickupUserEvent from the DB
 export function show(req, res) {
   return PickupUserEvent.findById(req.params.id).exec()

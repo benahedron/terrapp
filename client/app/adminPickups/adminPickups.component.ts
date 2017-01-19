@@ -123,9 +123,13 @@ export class AdminPickupsComponent {
   }
 
   edit(pickup) {
-    this.modal(pickup, 'adminPickupEdit', (editedPickup) => {
+    this.modal(pickup, 'adminPickupEdit', editedPickup => {
       _.assign(pickup, editedPickup);
     });
+  }
+
+  manage(pickup) {
+    this.modal(pickup, 'adminPickupManage', result => {});
   }
 
 }

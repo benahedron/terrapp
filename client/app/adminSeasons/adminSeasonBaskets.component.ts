@@ -17,13 +17,8 @@ export class AdminSeasonBasketsComponent{
   baskets: Object[];
 
   /*ngInjector*/
-  constructor($http, $scope, PickupOptionsService) {
-    let scope = this;
-    scope.$http = $http;
-    PickupOptionsService.get().then((pickupOptions) => {
-      scope.pickupOptions = pickupOptions;
-      scope.selectedPickupOption = _.first(scope.pickupOptions);_
-    });
+  constructor($http, $scope) {
+    this.$http = $http;
   }
 
   updateSearch() {
@@ -34,7 +29,7 @@ export class AdminSeasonBasketsComponent{
           scope.members = res.data;
         });
     } else {
-      scpoe.members = [];
+      scope.members = [];
     }
 
   }
@@ -57,12 +52,14 @@ export class AdminSeasonBasketsComponent{
   }
 
   $onInit() {
+    let scope = this;
     let resolve = (this as any).resolve;
     if (_.has(resolve, 'season') && resolve.season !== null) {
-      this.season = resolve.season;
-      this.$http.get("/api/baskets/bySeason/"+this.season._id)
+      scope.season = resolve.season;
+      scope.$http.get("/api/baskets/bySeason/"+this.season._id)
       .then(res => {
-        this.baskets = res.data;
+        scope.baskets = res.data;
+        scope.pickupOptions = scope.season.activePickupOptions;
       });
     } else {
       // Season is required!

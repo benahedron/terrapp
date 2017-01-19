@@ -110,17 +110,21 @@ function createBaskets() {
   _.each(seededMemberships, membership => {
     let seasons = _.random(1, 4);
     for(let i = 0; i < seasons; ++i) {
+      let season = _.sample(seededSeasons);
       newBaskets.push({
         membership: membership,
-        season: _.sample(seededSeasons),
-        defaultPickupOption: _.sample(seededPickupOptions)
+        season: season,
+        defaultPickupOption: _.sample(season.activePickupOptions)
       });
     }
   });
 
-  Basket.create(newBaskets)
-  .then(/*baskets*/() => {
-    //seededBaskets = baskets;
-    console.log('Data seeded.');
-  });
+  Basket.find({}).remove()
+    .then(() => {
+      Basket.create(newBaskets)
+      .then(/*baskets*/() => {
+        //seededBaskets = baskets;
+        console.log('Data seeded.');
+      });
+    });
 }
