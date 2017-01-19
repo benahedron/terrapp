@@ -11,13 +11,14 @@ export default angular.module('terrappApp.pickupOptionMap', [])
         hoverable: '@'
       }
       link: function(scope, element, attrs) {
+        scope.$watch('option', () => {
           PickupOptionsService.get()
             .then(options => {
               scope.pickupOption = _.find(options, option => {
                 return option._id + '' === scope.option;
               });
             });
-          
+        });
       }
     };
   })

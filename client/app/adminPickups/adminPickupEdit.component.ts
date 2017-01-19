@@ -21,12 +21,7 @@ export class AdminPickupEditComponent {
   constructor($http, PickupUtils, PickupOptionsService) {
     this.$http = $http;
     this.PickupUtils = PickupUtils;
-
-    let scope = this;
-    PickupOptionsService.get().then((pickupOptions) => {
-      scope.pickupOptions = pickupOptions;
-      this.update();
-    });
+    this.PickupOptionsService = PickupOptionsService;
   }
 
   $onInit() {
@@ -41,18 +36,30 @@ export class AdminPickupEditComponent {
 
       this.pickup = _.cloneDeep(resolve.pickup);
       this.season = resolve.season;
-      this.pickupOptions = _.union(this.pickupOptions, this.season.activePickupOptions);
-      this.startDateOverride = this.PickupUtils.getStartDateFor(this.season, this.getPickupOption(this.pickup), this.pickup);
-      this.dateOptions = {minDate: this.getMinDate(), maxDate: this.getMaxDate()};
-      this.durrationOverride = this.pickup.durationMinutesOverride || this.getPickupOption(this.nonModifiedPickup).durationMinutes;
-
-      this.update();
+      let scope = this;
+      this.PickupOptionsService.get().then((pickupOptions) => {
+        scope.pickupOptions = scope.season.activePickupOptions;
+        scope.reinit();
+      });
     } else {
       this.cancel();
     }
   }
 
+  private reinit() {
+    this.startDateOverride = this.PickupUtils.getStartDateFor(this.season, this.getPickupOption(this.nonModifiedPickup), this.pickup);
+    this.dateOptions = {minDate: this.getMinDate(), maxDate: this.getMaxDate()};
+    this.durrationOverride = this.pickup.durationMinutesOverride || this.getPickupOption(this.nonModifiedPickup).durationMinutes;
+    this.update();
+  }
+
+  reset () {
+    this.pickup = _.cloneDeep(this.nonModifiedPickup);
+    this.reinit();
+  }
+
   update() {
+
     let defaultDuration = this.getPickupOption(this.nonModifiedPickup).durationMinutes;
     if (this.durrationOverride && this.durrationOverride!=defaultDuration) {
       this.pickup.durationMinutesOverride = this.durrationOverride;
@@ -96,13 +103,22 @@ export class AdminPickupEditComponent {
           -parseInt(day1.getTime()/(24*60*60000));
   }
 
+  getCurrentPickupOptionId() {
+    let option = this.getPickupOption(this.pickup);
+    if (option) {
+      return option._id+'';
+    } else {
+      return '';
+    }
+  }
+
   getCurrentStartDate() {
-    let actualOption = this.getPickupOption(this.pickup);
+    let actualOption = this.getPickupOption(this.nonModifiedPickup);
     return this.PickupUtils.getStartDateFor(this.season, actualOption, this.pickup);
   }
 
   getCurrentEndDate() {
-    let actualOption = this.getPickupOption(this.pickup);
+    let actualOption = this.getPickupOption(this.nonModifiedPickup);
     return this.PickupUtils.getEndDateFor(this.season, actualOption, this.pickup);
   }
 

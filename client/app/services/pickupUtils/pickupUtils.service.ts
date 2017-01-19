@@ -27,7 +27,7 @@ export class PickupUtilsService {
     if (!pickupEvent.startDateOverride) {
       let day = this.SeasonUtils.getDateForInterval(season, pickupEvent.eventNumber);
       let startMinute = pickupOption.startMinute;
-      let offsetInMinutes = (pickupOption.weekDay) * 24 * 60 + durationMinutes;
+      let offsetInMinutes = (pickupOption.weekDay) * 24 * 60 + startMinute + durationMinutes;
       return new Date(day.getTime() + offsetInMinutes * 60000);
     } else {
       return new Date(new Date(pickupEvent.startDateOverride).getTime() + 60000 * durationMinutes);
