@@ -5,9 +5,12 @@ const angular = require('angular');
 /*@ngInject*/
 export class PickupUtilsService {
   SeasonUtils: Object;
+  getDateForInterval: Function;
+
   constructor(SeasonUtils)
   {
     this.SeasonUtils = SeasonUtils;
+    this.getDateForInterval = SeasonUtils.getDateForInterval;
   }
 
   public getStartDateFor(season: Object, pickupOption: Object, pickupEvent: Object) {

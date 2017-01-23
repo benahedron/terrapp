@@ -72,7 +72,15 @@ export function index(req, res) {
 
 /// Get a lost of PickupEvents for a given season and pickup option
 export function indexPrecise(req, res) {
-  return PickupEvent.find({season: req.params.seasonId, pickupOption: req.params.pickupOptionId}).exec()
+  let query = {season: req.params.seasonId};
+  if (req.params.pickupOptionId && req.params.pickupOptionId != null && req.params.pickupOptionId != 'null' && req.params.pickupOptionId != 0) {
+    query.pickupOption = req.params.pickupOptionId;
+  }
+  if (req.params.interval != 0 && parseInt(req.params.interval)>0) {
+    query.eventNumber = parseInt(req.params.interval)-1;
+  }
+  console.log(query);
+  return PickupEvent.find(query).exec()
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
