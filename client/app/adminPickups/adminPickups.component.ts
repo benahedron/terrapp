@@ -32,7 +32,7 @@ export class AdminPickupsComponent {
     if ($stateParams.seasonId === '') {
       OptionsService.getActiveSeason().
       then((activeSeasonId) => {
-        scope.$state.go('adminPickups', {seasonId: activeSeasonId,pickupOption:null, interval:0});
+        scope.$state.go('adminPickups', {seasonId: activeSeasonId, pickupOption:null, interval:0});
       });
     } else {
       scope.applySeason(Season, () =>{
@@ -50,7 +50,7 @@ export class AdminPickupsComponent {
     Season.query((seasons) => {
       scope.seasons = seasons;
       scope.selectedSeason = _.find(scope.seasons, (season) => {
-        return season._id+'' === scope.$stateParams.seasonId;
+        return season._id+'' === scope.$stateParams.seasonId+'';
       });
       callback();
     });
@@ -76,17 +76,25 @@ export class AdminPickupsComponent {
 
   private applyInterval(callback) {
     this.availableIntervals = [];
+    let now = new Date().getTime();
+    let bestCandidate = null;
     for (let i = 0;i < this.selectedSeason.numberOfEvents; ++i) {
-      this.availableIntervals.push({
+      let interval = {
         number: i+1,
         startDate: this.PickupUtils.getDateForInterval(this.selectedSeason, i)
-      });
-
-      if (this.$stateParams.interval && this.$stateParams.interval !== '' && this.$stateParams.interval>0 && this.$stateParams.interval <= this.availableIntervals.length) {
-        this.selectedInterval = this.availableIntervals[this.$stateParams.interval-1];
-      } else {
-        this.selectedInterval = null;
+      };
+      this.availableIntervals.push(interval);
+      if (interval.startDate.getTime()<=now) {
+        bestCandidate = interval;
       }
+    }
+
+    if (this.$stateParams.interval && this.$stateParams.interval !== '' && this.$stateParams.interval>0 && this.$stateParams.interval <= this.availableIntervals.length) {
+      this.selectedInterval = this.availableIntervals[this.$stateParams.interval-1];
+    } else if (bestCandidate) {
+      this.selectedInterval = this.availableIntervals[bestCandidate.number-1];
+    } else {
+      this.selectedInterval = null;
     }
 
     callback();
