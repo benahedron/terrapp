@@ -13,31 +13,49 @@ export function updateForSeason(season) {
       // Remove PickupEvent if:
       // - PickupOption is no longer active in the current season.
       // - Does no longer match the range of schedlued events
-      if ((!_.includes(season.activePickupOptions,  pickupEvent.pickupOption)) ||
-        (pickupEvent.eventNumber>=season.numberOfEvents)) {
+      let currentId = pickupEvent.pickupOption;
+      if (_.has(currentId,'_id'))
+        currentId = currentId._id;
 
-        toRemove.push(pickupEvent);
+      let candidate = _.find(season.activePickupOptions,  option => {
+        return currentId.equals(option);
+      });
+
+      if ((!candidate) ||
+        (pickupEvent.eventNumber>=season.numberOfEvents)) {
+        toRemove.push(pickupEvent._id);
       }
     });
 
     _.each(season.activePickupOptions, pickupOption => {
+      let n=0;
+      let pickupOptionId = pickupOption;
+      if (_.has(pickupOptionId, '_id')) {
+        pickupOptionId = pickupOptionId._id;
+      }
       for(let i = 0; i < season.numberOfEvents; ++i) {
         /// Check if event exsists
         let candidate = _.find(pickupEvents, pickupEvent => {
-          return (pickupEvent.pickupOption._id === pickupOption._id) &&
+          let currentId = pickupEvent.pickupOption;
+          if (_.has(currentId,'_id'))
+            currentId = currentId._id;
+          return (currentId.equals(pickupOptionId)) &&
                  (pickupEvent.eventNumber === i);
         });
+
         if (!candidate) {
           let newEvent = {
             season: season,
-            pickupOption: pickupOption,
+            pickupOption: pickupOptionId,
             eventNumber: i
           };
           toCreate.push(newEvent);
         }
       }
     });
-    PickupEvent.remove({ id: { $in:toRemove}}).then(() => {
+
+    let idsToRemove = toRemove;//_.map(toRemove, v => {return ObjectId(v)});
+    PickupEvent.remove({ '_id': { '$in':idsToRemove}}).then((res, err) => {
       PickupEvent.create(toCreate);
     });
   });

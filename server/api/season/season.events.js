@@ -35,12 +35,9 @@ function emitEvent(event) {
   };
 }
 
-
-function recreateAllPickupEvents(season) {
-}
-
 SeasonEvents.on('save', season => {
   PickupEventHelper.updateForSeason(season);
 });
+
 
 export default SeasonEvents;

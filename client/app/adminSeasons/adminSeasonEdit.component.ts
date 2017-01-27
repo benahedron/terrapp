@@ -45,7 +45,7 @@ export class AdminSeasonEditComponent{
   }
 
   addActivePickupOption(pickupOption) {
-    this.season.activePickupOptions.push(pickupOption);
+    this.season.activePickupOptions.push(pickupOption.toJSON());
   }
 
   getInactivePickupOptions() {
@@ -59,17 +59,17 @@ export class AdminSeasonEditComponent{
   save(form) {
     this.submitted = true;
     if(form.$valid) {
-      let method = this.$http.put;
+      let method = this.$http.patch;
       let path = '':
       if (this.isNew) {
         method = this.$http.post;
       } else {
         path += this.season._id;
       }
-
+      
       method('/api/seasons/'+path, this.season)
       .then((result) => {
-        this.ok(result);
+        this.ok(result.data);
       })
       .catch(err => {
         err = err.data;

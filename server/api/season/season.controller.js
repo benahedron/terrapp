@@ -10,8 +10,10 @@
 
 'use strict';
 
-import jsonpatch from 'fast-json-patch';
+
 import Season from './season.model';
+import PickupEventHelper from './../pickupEvent/pickupEvent.helper'
+import _ from 'lodash';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -26,7 +28,11 @@ function respondWithResult(res, statusCode) {
 function patchUpdates(patches) {
   return function(entity) {
     try {
-      jsonpatch.apply(entity, patches, /*validate*/ true);
+      let activePickupOptions = _.cloneDeep(patches.activePickupOptions);
+      delete entity.activePickupOptions;
+      entity = _.merge(entity, patches);
+      entity.markModified('activePickupOptions');
+      entity.activePickupOptions = activePickupOptions;
     } catch(err) {
       return Promise.reject(err);
     }
