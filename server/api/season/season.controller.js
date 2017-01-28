@@ -12,7 +12,6 @@
 
 
 import Season from './season.model';
-import PickupEventHelper from './../pickupEvent/pickupEvent.helper'
 import _ from 'lodash';
 
 function respondWithResult(res, statusCode) {

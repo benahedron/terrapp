@@ -16,20 +16,20 @@ through events.
 - **PickupEvent**
 
   *Required actions:*
-  - [ ]Delete all associated PickupEvents (this will implicitly delete the PickupUserEvents).
+  - [x]Delete all associated PickupEvents (and implicitly delete the PickupUserEvents).
 
 ## Basket
 ### Save
 - **PickupEvent**
 
   *Required actions:*  
-  - [ ]Make sure the associated PickupEvents related to the basket do exist.
+  - [x]Make sure the associated PickupEvents related to the basket do exist.
 
 ### Delete
 - **PickupEvent**
 
   *Required actions:*
-  - [ ]Delete all associated PickupEvents (this will implicitly delete the PickupUserEvents).
+  - [x]Delete all associated PickupEvents (this will implicitly delete the PickupUserEvents).
 
 ## PickupEvent
 ### Save
@@ -42,7 +42,7 @@ through events.
 - **PickupUserEvent**
 
   *Required actions:*
-  - [ ]Delete all associated pickup user events.
+  - [x]Delete all associated pickup user events.
   - [ ]What about associated pickup user events that have  override to "still existing event"?
 
 ## PickupOption
@@ -71,7 +71,7 @@ through events.
 - **PickupEvent**
 
   *Required actions:*
-  - [ ]Delete PickupEvents with this "PickupOption". A big warning is required for this (e.g. ).
+  - [x]Delete PickupEvents with this "PickupOption". A big warning is required for this (e.g. ).
 
 ## Membership
 ### Save

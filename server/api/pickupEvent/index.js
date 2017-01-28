@@ -4,6 +4,8 @@ var express = require('express');
 var controller = require('./pickupEvent.controller');
 import * as auth from '../../auth/auth.service';
 var router = express.Router();
+/// Load the pickupEvent events to register them properly
+import './pickupEvent.events';
 
 router.get('/', auth.hasRole('admin'), controller.index);
 router.get('/:seasonId/:pickupOptionId/:interval', auth.hasRole('admin'), controller.indexPrecise);

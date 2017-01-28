@@ -6,6 +6,7 @@
 
 import {EventEmitter} from 'events';
 import PickupEvent from './pickupEvent.model';
+import * as PickupEventLogic from '../../components/utils/pickupEvent.logic';
 var PickupEventEvents = new EventEmitter();
 
 // Set max event listeners (0 == unlimited)
@@ -29,5 +30,6 @@ function emitEvent(event) {
     PickupEventEvents.emit(event, doc);
   };
 }
+
 
 export default PickupEventEvents;

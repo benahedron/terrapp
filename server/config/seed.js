@@ -111,11 +111,13 @@ function createBaskets() {
     let seasons = _.random(1, 4);
     for(let i = 0; i < seasons; ++i) {
       let season = _.sample(seededSeasons);
-      newBaskets.push({
-        membership: membership,
-        season: season,
-        defaultPickupOption: _.sample(season.activePickupOptions)
-      });
+      if (season.activePickupOptions.length > 0) {
+        newBaskets.push({
+          membership: membership,
+          season: season,
+          defaultPickupOption: _.sample(season.activePickupOptions)
+        });
+      }
     }
   });
 

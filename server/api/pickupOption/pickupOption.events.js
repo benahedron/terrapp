@@ -6,8 +6,7 @@
 
 import {EventEmitter} from 'events';
 import PickupOption from './pickupOption.model';
-import PickupEvent from '../pickupEvent/pickupEvent.model';
-import Season from '../season/season.model';
+import * as PickupOptionLogic from '../../components/utils/pickupOption.logic';
 import _ from 'lodash';
 var PickupOptionEvents = new EventEmitter();
 
@@ -33,24 +32,12 @@ function emitEvent(event) {
   };
 }
 
-function assertPickupEvents(pickupOption) {
-  Season.find({activeOptions: pickupOption}).exec()
-    .then(seasons => {
-      _.each(seasons, season => {
-        PickupEvent.find({season: season}).remove()
-          .then(() => {
-              PickupEvent.createPickupEventsForOption(season, pickupOption);
-          });
-      });
-    });
-}
-
 PickupOptionEvents.on('remove', pickupOption => {
-
+  PickupOptionLogic.onRemovePickupOption(pickupOption);
 });
 
 PickupOptionEvents.on('save', pickupOption => {
-  assertPickupEvents(pickupOption);
+  PickupOptionLogic.onUpdatePickupOption(pickupOption);
 });
 
 export default PickupOptionEvents;

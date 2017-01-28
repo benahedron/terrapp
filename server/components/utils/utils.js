@@ -4,6 +4,17 @@
 
 'use strict';
 
+
+/**
+ * Check is a user event is already done
+ */
+export function isOldEvent(season, userEvent) {
+  var actualEvent = userEvent.pickupEventOverride || userEvent.pickupEvent;
+  let now = new Date().getTime();
+  let eventDate = getStartDateForPickupEvent(season, actualEvent.pickupOption, actualEvent);
+  return now >= eventDate.geTime();
+}
+
 /**
  * @return the start date for a given season interval
  */
