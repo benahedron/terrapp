@@ -123,7 +123,7 @@ export class AdminPickupsComponent {
     let scope = this;
     // Calculate date & sort
     scope.pickups = _.sortBy(scope.pickups, pickup => {
-      let actualOption = pickup.pickupOptionOverride || pickup.pickupOption;
+      let actualOption = pickup.pickupOption;
       actualOption = _.find(scope.availablePickupOptions, option => {
         return option._id+'' === actualOption+'';
       });
