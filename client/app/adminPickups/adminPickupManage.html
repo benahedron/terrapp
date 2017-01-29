@@ -49,6 +49,20 @@
                   <textarea class="form-control" rows="3" ng-model="$ctrl.editUserEvent.userNote"></textarea>
                 </div>
               </div>
+              <div class="form-group"  style="display:inline-block; min-height:50px;">
+                <label>Alternative event:</label>
+                <div class="btn-group"  uib-dropdown >
+                  <button type="button" class="btn btn-primary" uib-dropdown-toggle>Pickup event: {{$ctrl.editUserEvent.pickupOptionOverride.name || "No change"}}</button>
+                  <button type="button" class="btn btn-primary" uib-dropdown-toggle aria-haspopup="true" aria-expanded="false">
+                    <span class="caret"></span>
+                    <span class="sr-only">Toggle Dropdown</span>
+                  </button>
+                  <ul class="dropdown-menu">
+                    <li><a href="#" ng-click="$ctrl.editUserEvent.pickupOptionOverride = null)">No change</a></li>
+                    <li ng-repeat="pickupOption in $ctrl.getAlternatives()"><a href="#" ng-click="$ctrl.editUserEvent.pickupOptionOverride = pickupOption">{{pickupOption.name}}</a></li>
+                  </ul>
+                </div>
+              </div>
               <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                   <div class="checkbox">

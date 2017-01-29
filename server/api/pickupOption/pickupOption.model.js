@@ -8,7 +8,7 @@ var PickupOptionSchema = new mongoose.Schema({
   weekDay: Number,
   startMinute: Number,
   durationMinutes: Number,
-  hoursBeforeLocking: Number,
+  hoursBeforeLocking: {type: Number, default: 12},
   active: {type: Boolean, default: true}
 });
 

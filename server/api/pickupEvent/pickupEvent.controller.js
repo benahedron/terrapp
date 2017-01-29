@@ -12,6 +12,7 @@
 
 import jsonpatch from 'fast-json-patch';
 import PickupEvent from './pickupEvent.model';
+import * as PickupEventLogic from '../../components/utils/pickupEvent.logic'
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -70,7 +71,19 @@ export function index(req, res) {
     .catch(handleError(res));
 }
 
-/// Get a lost of PickupEvents for a given season and pickup option
+// Get list of alternative pickup events at this moment of time
+export function getAlternatives(req, res) {
+  return PickupEvent.findById(req.params.id).exec()
+    .then((pickupEvent, err) => {
+      return new Promise(function(fulfill, reject) {
+        return PickupEventLogic.getAlternativesFor(pickupEvent, fulfill);
+      });
+    })
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
+// Get a lost of PickupEvents for a given season and pickup option
 export function indexPrecise(req, res) {
   let query = {season: req.params.seasonId};
   if (req.params.pickupOptionId && req.params.pickupOptionId != null && req.params.pickupOptionId != 'null' && req.params.pickupOptionId != 0) {
@@ -79,7 +92,6 @@ export function indexPrecise(req, res) {
   if (req.params.interval != 0 && parseInt(req.params.interval)>0) {
     query.eventNumber = parseInt(req.params.interval)-1;
   }
-  console.log(query);
   return PickupEvent.find(query).exec()
     .then(respondWithResult(res))
     .catch(handleError(res));

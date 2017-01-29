@@ -8,6 +8,7 @@ var router = express.Router();
 import './pickupEvent.events';
 
 router.get('/', auth.hasRole('admin'), controller.index);
+router.get('/alternatives/:id', auth.isAuthenticated(), controller.getAlternatives);
 router.get('/:seasonId/:pickupOptionId/:interval', auth.hasRole('admin'), controller.indexPrecise);
 router.get('/:id', auth.hasRole('admin'), controller.show);
 router.post('/', auth.hasRole('admin'), controller.create);
