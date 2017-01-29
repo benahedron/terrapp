@@ -34,6 +34,15 @@ export class AdminPickupManageComponent {
     });
   }
 
+  setDoneState(userEvent, state) {
+    let scope = this;
+    let stateString = state ? 'true' : 'false':
+    this.$http.put('/api/pickupUserEvents/donestate/'+userEvent._id+'/'+stateString)
+    .then(result => {
+      userEvent.done = result.data.done;
+    });
+  }
+
   ok() {;
     (this as any).close({$value: 'ok'});
   }; .

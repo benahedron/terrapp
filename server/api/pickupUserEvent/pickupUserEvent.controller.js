@@ -72,7 +72,8 @@ export function index(req, res) {
 
 // Gets a list of PickupUserEvents given an  PickupEvent
 export function indexByPickupEventId(req, res) {
-  return PickupUserEvent.find({pickupEvent: req.params.id}).exec()
+  return PickupUserEvent.find({'$or': [{pickupEvent: req.params.id, pickupEventOverride: null},{pickupEventOverride: req.params.id}]})
+    .populate({path: 'basket', populate: { path: 'membership' }}).exec()
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
@@ -103,6 +104,21 @@ export function upsert(req, res) {
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
+
+// Update the check state of an event
+export function updateDoneState(req, res) {
+  if(req.body._id) {
+    delete req.body._id;
+  }
+  return PickupUserEvent.findById(req.params.id).exec()
+    .then((pickupUserEvent, err) => {
+      pickupUserEvent.done = req.params.value;
+      return pickupUserEvent.save();
+    })
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
 
 // Updates an existing PickupUserEvent in the DB
 export function patch(req, res) {

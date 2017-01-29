@@ -1,12 +1,35 @@
-<form class="form" name="form" ng-submit="$ctrl.ok()" novalidate>
+<form class="form" name="form"  novalidate>
   <div class="modal-header">
     <h3 class="modal-title" id="modal-title">
       Manage pickup event N°{{$ctrl.pickup.eventNumber + 1}}
     </h3>
   </div>
   <div class="modal-body" id="modal-body">
-    {{$ctrl.userEvents.length}}
-
+    <p>Baskets to prepare: <b>{{$ctrl.userEvents.length}}</b></p>
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Presence</th>
+          <th>Name</th>
+          <th>Options</th>
+        </tr>
+      </thead>
+      <tbody ng-repeat="userEvent in $ctrl.userEvents">
+        <tr>
+          <td>
+            <button type="button" class="btn btn-primary" ng-if="userEvent.done" ng-click="$ctrl.setDoneState(userEvent, false)"><span class="glyphicon glyphicon-check"> </span></button>
+            <button type="button" class="btn btn-primary" ng-if="!userEvent.done" ng-click="$ctrl.setDoneState(userEvent, true)"><span class="glyphicon glyphicon-unchecked"> </span></button>
+          </td>
+          <td>
+            {{userEvent.basket.membership.firstName}} {{userEvent.basket.membership.lastName}}
+            <pre ng-if="userEvent.userNote" class="alert alert-info"><b>User note:</b><p>{{userEvent.userNote}}</p></pre>
+            <pre ng-if="userEvent.delegate" class="alert alert-warning"><b>Delegated to:</b>{{userEvent.delegate}}</pre>
+          </td>
+          <td>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
   <div class="modal-footer">
     <button class="btn btn-primary" type="submit">Done</button>
