@@ -21,11 +21,46 @@
             <button type="button" class="btn btn-primary" ng-if="!userEvent.done" ng-click="$ctrl.setDoneState(userEvent, true)"><span class="glyphicon glyphicon-unchecked"> </span></button>
           </td>
           <td>
-            {{userEvent.basket.membership.firstName}} {{userEvent.basket.membership.lastName}}
-            <pre ng-if="userEvent.userNote" class="alert alert-info"><b>User note:</b><p>{{userEvent.userNote}}</p></pre>
-            <pre ng-if="userEvent.delegate" class="alert alert-warning"><b>Delegated to:</b>{{userEvent.delegate}}</pre>
+            <div>
+              <span ng-class="{'userAbsent': userEvent.absent}">
+                {{userEvent.basket.membership.firstName}} {{userEvent.basket.membership.lastName}}
+              </span>
+              <span ng-if="userEvent.absent" class="label label-danger">Absent</span>
+              <pre ng-if="userEvent.userNote" class="userNotePre"><b>User note:</b><p>{{userEvent.userNote}}</p></pre>
+              <span ng-if="userEvent.delegate" class="label label-warning"><b>Delegated to:</b> {{userEvent.delegate}}</span>
+            </div>
           </td>
           <td>
+            <button ng-click="$ctrl.setEditUserEvent(userEvent)" class="btn btn-primary"><span class="glyphicon glyphicon-pencil"> </span> Edit</button>
+          </td>
+        </tr>
+        <tr ng-if="$ctrl.editUserEvent._id === userEvent._id">
+          <td colspan="3" class="editUserEventCell">
+            <form class="form-horizontal">
+              <div class="form-group">
+                <label class="col-sm-2 control-label">Delegate</label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" placeholder="Name" ng-model="$ctrl.editUserEvent.delegate">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-2 control-label">User note</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" rows="3" ng-model="$ctrl.editUserEvent.userNote"></textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox" ng-model="$ctrl.editUserEvent.absent"> Will be absent
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <button ng-click="$ctrl.saveUserEvent($ctrl.editUserEvent, userEvent)" class="btn btn-primary"><span class="glyphicon glyphicon-save"> </span> Save</button>
+              <button ng-click="$ctrl.setEditUserEvent(null)" class="btn btn-default"><span class="glyphicon glyphicon-cancel"> </span> Cancel</button>
+            </form>
           </td>
         </tr>
       </tbody>

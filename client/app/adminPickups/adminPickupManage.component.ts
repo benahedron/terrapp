@@ -7,6 +7,7 @@ export class AdminPickupManageComponent {
   $http: ng.IHttpService;
   pickupOptions: Object[];
   userEvents: Object[];
+  editUserEvent: Object = null;
 
   /*ngInjector*/
   constructor($http, PickupUtils, PickupOptionsService) {
@@ -41,6 +42,24 @@ export class AdminPickupManageComponent {
     .then(result => {
       userEvent.done = result.data.done;
     });
+  }
+
+  saveUserEvent(userEvent, oldUserEvent) {
+    let scope = this;
+    this.$http.put('/api/pickupUserEvents/'+userEvent._id+'/', userEvent)
+    .then(result => {
+      this.setEditUserEvent(null);
+      _.assign(oldUserEvent, result.data);
+    });
+  }
+
+  setEditUserEvent(userEvent) {
+    if (!userEvent || (this.editUserEvent && this.editUserEvent._id === userEvent._id)) {
+      this.editUserEvent = null;
+    } else {
+      this.editUserEvent = _.cloneDeep(userEvent);
+    }
+
   }
 
   ok() {;
