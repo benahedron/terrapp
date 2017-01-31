@@ -5,7 +5,7 @@
     </h3>
   </div>
   <div class="modal-body" id="modal-body">
-    <p>Baskets to prepare: <b>{{$ctrl.userEvents.length}}</b></p>
+    <p>Baskets to prepare: <b>{{$ctrl.getRequiredBaskets()}}</b></p>
     <table class="table table-hover">
       <thead>
         <tr>
@@ -22,10 +22,26 @@
           </td>
           <td>
             <div>
-              <span ng-class="{'userAbsent': userEvent.absent}">
+              <span ng-class="{'userAbsent': userEvent.absent|| (userEvent.pickupEventOverride!=null && userEvent.pickupEventOverride._id!=$ctrl.pickup._id)}">
                 {{userEvent.basket.membership.firstName}} {{userEvent.basket.membership.lastName}}
               </span>
-              <span ng-if="userEvent.absent" class="label label-danger">Absent</span>
+              <div ng-if="userEvent.pickupEventOverride && userEvent.pickupEventOverride._id!=$ctrl.pickup._id">
+                <span class="label label-warning">
+                  Alternative:
+                  <b>{{userEvent.pickupEventOverride.pickupOption.name}}</b>
+                  {{userEvent.pickupEventOverride.startDate | date:'dd.MM.yyyy HH:mm'}}
+                </span>
+              </div>
+              <div ng-if="userEvent.pickupEventOverride && userEvent.pickupEventOverride._id==$ctrl.pickup._id">
+                <span class="label label-warning">
+                  Changed from:
+                  <b>{{userEvent.pickupEvent.pickupOption.name}}</b>
+                  {{userEvent.pickupEvent.startDate | date:'dd.MM.yyyy HH:mm'}}
+                </span>
+              </div>
+              <div ng-if="userEvent.absent">
+                <span class="label label-danger">Absent</span>
+              </div>
               <pre ng-if="userEvent.userNote" class="userNotePre"><b>User note:</b><p>{{userEvent.userNote}}</p></pre>
               <span ng-if="userEvent.delegate" class="label label-warning"><b>Delegated to:</b> {{userEvent.delegate}}</span>
             </div>
@@ -36,31 +52,37 @@
         </tr>
         <tr ng-if="$ctrl.editUserEvent._id === userEvent._id">
           <td colspan="3" class="editUserEventCell">
-            <form class="form-horizontal">
+            <form class="form">
               <div class="form-group">
-                <label class="col-sm-2 control-label">Delegate</label>
-                <div class="col-sm-10">
+                <label class="col-sm-3 control-label">Delegate:</label>
+                <div class="col-sm-9">
                   <input type="text" class="form-control" placeholder="Name" ng-model="$ctrl.editUserEvent.delegate">
                 </div>
               </div>
               <div class="form-group">
-                <label class="col-sm-2 control-label">User note</label>
-                <div class="col-sm-10">
+                <label class="col-sm-3 control-label">User note:</label>
+                <div class="col-sm-9">
                   <textarea class="form-control" rows="3" ng-model="$ctrl.editUserEvent.userNote"></textarea>
                 </div>
               </div>
-              <div class="form-group"  style="display:inline-block; min-height:50px;">
-                <label>Alternative event:</label>
-                <div class="btn-group"  uib-dropdown >
-                  <button type="button" class="btn btn-primary" uib-dropdown-toggle>Pickup event: {{$ctrl.editUserEvent.pickupOptionOverride.name || "No change"}}</button>
-                  <button type="button" class="btn btn-primary" uib-dropdown-toggle aria-haspopup="true" aria-expanded="false">
-                    <span class="caret"></span>
-                    <span class="sr-only">Toggle Dropdown</span>
-                  </button>
-                  <ul class="dropdown-menu">
-                    <li><a href="#" ng-click="$ctrl.editUserEvent.pickupOptionOverride = null">No change</a></li>
-                    <li ng-repeat="alternativeEvent in $ctrl.getAlternatives()"><a href="#" ng-click="$ctrl.editUserEvent.pickupEventOverride = alternativeEvent"><b>{{alternativeEvent.pickupOption.name}}</b> {{alternativeEvent.startDate | date:'dd.MM.yyyy HH:mm'}}</a></li>
-                  </ul>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Move to:</label>
+                <div class="col-sm-9">
+                  <div class="btn-group"  uib-dropdown >
+                    <button type="button" class="btn btn-primary" uib-dropdown-toggle>{{$ctrl.editUserEvent.pickupEventOverride.pickupOption.name||"Select alternative"}}</button>
+                    <button type="button" class="btn btn-primary" uib-dropdown-toggle aria-haspopup="true" aria-expanded="false">
+                      <span class="caret"></span>
+                      <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li ng-repeat="alternativeEvent in $ctrl.getAlternatives()">
+                        <a href="#" ng-click="$ctrl.setPickupOverride($ctrl.editUserEvent, $ctrl.editUserEvent.pickupEvent, alternativeEvent)">
+                          <b>{{alternativeEvent.pickupOption.name}}</b> {{alternativeEvent.startDate | date:'dd.MM.yyyy HH:mm'}}
+                          <span ng-if="$ctrl.editUserEvent.pickupEvent._id === alternativeEvent._id" class="label label-warning">default</span>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
               </div>
               <div class="form-group">
