@@ -8,7 +8,7 @@ export class AdminPickupManageComponent {
   pickupOptions: Object[];
   userEvents: Object[];
   editUserEvent: Object = null;
-  pickupOptionAlternatives:Object[];
+  pickupEventAlternatives:Object[];
 
   /*ngInjector*/
   constructor($http, PickupUtils, PickupOptionsService) {
@@ -35,7 +35,10 @@ export class AdminPickupManageComponent {
       scope.userEvents = result.data;
       this.$http.get('/api/pickupEvents/alternatives/'+this.pickup._id+'/')
       .then(result => {
-        scope.pickupOptionAlternatives = result.data;
+        scope.pickupEventAlternatives = result.data;
+        _.each(scope.pickupEventAlternatives, alternativePickup => {
+          alternativePickup.startDate = scope.PickupUtils.getStartDateFor(scope.season, alternativePickup.pickupOption, alternativePickup);
+        })
       });
     });
   }
@@ -50,7 +53,7 @@ export class AdminPickupManageComponent {
   }
 
   getAlternatives() {
-    return this.pickupOptionAlternatives;
+    return this.pickupEventAlternatives;
   }
 
   saveUserEvent(userEvent, oldUserEvent) {

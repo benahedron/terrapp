@@ -58,8 +58,8 @@
                     <span class="sr-only">Toggle Dropdown</span>
                   </button>
                   <ul class="dropdown-menu">
-                    <li><a href="#" ng-click="$ctrl.editUserEvent.pickupOptionOverride = null)">No change</a></li>
-                    <li ng-repeat="pickupOption in $ctrl.getAlternatives()"><a href="#" ng-click="$ctrl.editUserEvent.pickupOptionOverride = pickupOption">{{pickupOption.name}}</a></li>
+                    <li><a href="#" ng-click="$ctrl.editUserEvent.pickupOptionOverride = null">No change</a></li>
+                    <li ng-repeat="alternativeEvent in $ctrl.getAlternatives()"><a href="#" ng-click="$ctrl.editUserEvent.pickupEventOverride = alternativeEvent"><b>{{alternativeEvent.pickupOption.name}}</b> {{alternativeEvent.startDate | date:'dd.MM.yyyy HH:mm'}}</a></li>
                   </ul>
                 </div>
               </div>

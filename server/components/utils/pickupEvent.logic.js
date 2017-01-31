@@ -54,13 +54,19 @@ export function getAlternativesFor(pickupEvent, callback) {
         let now = new Date().getTime();
         let startDate = Utils.getStartDateForPickupEvent(season, pickupOption, pickupEvent).getTime();
         let hoursToMs = 60*60*1000;
+        let eventInterval = 24 * hoursToMs * (season.eventIntervalInDays-1);
+        let lowerBound = startDate - eventInterval;
+        let upperBound = startDate + eventInterval;
+
         // Can we still change the pickup event?
         if (now < (startDate-(pickupOption.hoursBeforeLocking*hoursToMs))) {
           let results = [];
           _.each(candidates, candidate => {
             let altStartDate = Utils.getStartDateForPickupEvent(season, candidate.pickupOption, candidate).getTime();
             // Can the alternative event still be used?
-            if (now < (altStartDate-(candidate.pickupOption.hoursBeforeLocking*hoursToMs))) {
+            if (altStartDate>=lowerBound &&
+                altStartDate<=upperBound &&
+                (now < (altStartDate-(candidate.pickupOption.hoursBeforeLocking*hoursToMs)))) {
               results.push(candidate);
             }
           });
