@@ -5,6 +5,7 @@ import Basket from '../../api/basket/basket.model';
 import * as BasketLogic from './basket.logic';
 import * as PickupEventLogic from './pickupEvent.logic';
 import _ from 'lodash';
+import mongoose from 'mongoose';
 
 export function onUpdateSeason(season) {
   let newEvents = [];
@@ -31,7 +32,10 @@ export function onUpdateSeason(season) {
     });
 
     // Remove all baskets relating to pickup options that are not longer active
-    let basketQuery = {'$and': [{ 'season': season}, {'pickupOption': { '$nin': season.activePickupOptions}}]};
+    let activeOptions = _.map(season.activePickupOptions, option => {
+      return mongoose.Types.ObjectId(option)
+    });
+    let basketQuery = {'$and': [{ 'season': season}, {'defaultPickupOption': { '$nin': activeOptions}}]};
     Basket.find(basketQuery).then((baskets, err) => {
       Basket.remove(basketQuery).then((res, err) => {
         _.each(baskets, basket => {

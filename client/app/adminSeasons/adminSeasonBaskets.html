@@ -1,4 +1,4 @@
-<form class="form" name="form" ng-submit="$ctrl.ok()" novalidate>
+<form class="form" name="form" novalidate>
   <div class="modal-header">
     <h3 class="modal-title" id="modal-title">
       Edit baskets for the season: {{$ctrl.season.name}}
@@ -26,7 +26,10 @@
           <input type="name" name="searchString" class="form-control" ng-model="$ctrl.searchString" ng-change="$ctrl.updateSearch()"/>
         </div>
         <ul ng-repeat="member in $ctrl.members">
-          <li>{{member.firstName}} {{member.lastName}} <button class="btn btn-xs btn-primary" type="button" ng-click="$ctrl.createBasket(member)" type="submit"><span class="glyphicon glyphicon-plus"> </span></button></li>
+          <li>
+            {{member.firstName}} {{member.lastName}}
+            <button class="btn btn-xs btn-primary" type="button" ng-disabled="!$ctrl.selectedPickupOption" ng-click="$ctrl.createBasket(member)" type="submit"><span class="glyphicon glyphicon-plus"> </span></button>
+          </li>
         </ul>
       </div>
     </div>
@@ -43,6 +46,6 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-primary" type="submit">Done</button>
+    <button class="btn btn-primary" ng-click="$ctrl.ok()">Done</button>
   </div>
 </form>
