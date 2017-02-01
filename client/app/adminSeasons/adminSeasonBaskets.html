@@ -32,7 +32,7 @@
     </div>
     <hr/>
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-12" id="basketList">
         <h4>Current baskets: ({{$ctrl.baskets.length}})</h4>
         <div ng-repeat="basket in $ctrl.baskets" class="basketDeclaration">
           <button class="btn btn-xs btn-primary" ng-click="$ctrl.deleteBasket(basket)" type="button"><span class="glyphicon glyphicon-remove"> </span></button>
@@ -43,6 +43,6 @@
     </div>
   </div>
   <div class="modal-footer">
-    <button class="btn btn-primary" type="submit">Ok</button>
+    <button class="btn btn-primary" type="submit">Done</button>
   </div>
 </form>
