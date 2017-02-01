@@ -11,6 +11,7 @@ import PickupEvent from '../api/pickupEvent/pickupEvent.model';
 import PickupUserEvent from '../api/pickupUserEvent/pickupUserEvent.model';
 import User from '../api/user/user.model';
 import Basket from '../api/basket/basket.model';
+import Options from '../api/options/options.model';
 import _ from 'lodash';
 
 var devSeasons = require('./dev.season.seed.json');
@@ -61,10 +62,14 @@ function createSeasons() {
       season.activePickupOptions = [];
       _.each(seededPickupOptions, pickupOption => {
         let active = _.random(0, 1, true);
-        if (active<0.1) {
+        if (active<0.05) {
           season.activePickupOptions.push(pickupOption);
         }
       });
+      // Assert at least one pickup option is active per season
+      if (season.activePickupOptions.length === 0) {
+        season.activePickupOptions.push(_.sample(seededPickupOptions));
+      }
     });
 
     Season.create(devSeasons)
@@ -121,12 +126,33 @@ function createBaskets() {
     }
   });
 
+  // Create a membership for the test@test.com account
+  let lastSeason = _.last(seededSeasons);
+  newBaskets.push({
+    membership: _.last(seededMemberships),
+    season: lastSeason,
+    defaultPickupOption: _.sample(lastSeason.activePickupOptions)
+  });
+
   Basket.find({}).remove()
     .then(() => {
       Basket.create(newBaskets)
       .then(/*baskets*/() => {
         //seededBaskets = baskets;
-        console.log('Data seeded.');
+        createOptions();
       });
     });
+}
+
+function createOptions() {
+  Options.find({}).remove()
+  .then(() => {
+    Options.create({
+      name: "activeSeason",
+      value: _.last(seededSeasons)
+    })
+    .then(() => {
+      console.log('Data seeded.');
+    });
+  });
 }

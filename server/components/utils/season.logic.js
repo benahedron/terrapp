@@ -32,10 +32,7 @@ export function onUpdateSeason(season) {
     });
 
     // Remove all baskets relating to pickup options that are not longer active
-    let activeOptions = _.map(season.activePickupOptions, option => {
-      return mongoose.Types.ObjectId(option)
-    });
-    let basketQuery = {'$and': [{ 'season': season}, {'defaultPickupOption': { '$nin': activeOptions}}]};
+    let basketQuery = {'$and': [{ 'season': season}, {'defaultPickupOption': { '$nin': season.activePickupOptions}}]};
     Basket.find(basketQuery).then((baskets, err) => {
       Basket.remove(basketQuery).then((res, err) => {
         _.each(baskets, basket => {

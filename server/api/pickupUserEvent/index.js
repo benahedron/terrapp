@@ -6,7 +6,7 @@ import * as auth from '../../auth/auth.service';
 var router = express.Router();
 
 router.get('/', auth.hasRole('admin'), controller.index);
-router.get('/:id', controller.show);
+router.get('/:id', auth.hasRole('admin'), controller.show);
 router.get('/byEvent/:id', auth.hasRole('admin'), controller.indexByPickupEventId);
 router.post('/', auth.hasRole('admin'), controller.create);
 router.put('/donestate/:id/:value', auth.hasRole('admin'), controller.updateDoneState);

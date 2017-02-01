@@ -7,12 +7,13 @@ import * as auth from '../../auth/auth.service';
 import './basket.events';
 var router = express.Router();
 
-router.get('/', controller.index);
-router.get('/bySeason/:seasonId', controller.indexBySeason);
-router.get('/:id', controller.show);
-router.post('/', controller.create);
-router.put('/:id', controller.upsert);
-router.patch('/:id', controller.patch);
-router.delete('/:id', controller.destroy);
+router.get('/user', auth.isAuthenticated(), controller.indexForUser);
+router.get('/', auth.hasRole('admin'), controller.index);
+router.get('/bySeason/:seasonId', auth.hasRole('admin'), controller.indexBySeason);
+router.get('/:id', auth.hasRole('admin'), controller.show);
+router.post('/', auth.hasRole('admin'), controller.create);
+router.put('/:id', auth.hasRole('admin'), controller.upsert);
+router.patch('/:id', auth.hasRole('admin'), controller.patch);
+router.delete('/:id', auth.hasRole('admin'), controller.destroy);
 
 module.exports = router;

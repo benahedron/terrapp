@@ -29,6 +29,7 @@ import adminSeasons from './adminSeasons/adminSeasons.component';
 import adminSeasonDelete from './adminSeasons/adminSeasonDelete.component';
 import adminSeasonEdit from './adminSeasons/adminSeasonEdit.component';
 import adminSeasonBaskets from './adminSeasons/adminSeasonBaskets.component';
+import schedule from './schedule/schedule.component';
 import navbar from '../components/navbar/navbar.component';
 import footer from '../components/footer/footer.component';
 import main from './main/main.component';
@@ -76,6 +77,7 @@ angular.module('terrappApp', [
   adminPickupManage,
   adminPickupOptions,
   adminPickupOptionDelete,
+  schedule,
   navbar,
   footer,
   main,
