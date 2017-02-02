@@ -89,8 +89,8 @@ export function indexForUser(req, res) {
     .then(baskets => {
       let basketIds = _.map(baskets, '_id');
       return PickupUserEvent.find({basket: {'$in': basketIds}})
-      .populate('pickupEvent')
-      .populate('pickupEventOverride')
+      .populate('pickupEvent','-mails')
+      .populate('pickupEventOverride','-mails')
       .then(pickupUserEvents => {
         res.status(200).send({baskets: baskets, pickupUserEvents: pickupUserEvents});
       });
