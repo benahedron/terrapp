@@ -109,6 +109,19 @@ export function upsert(req, res) {
     .catch(handleError(res));
 }
 
+
+// Patch as user, make sure only correct edits are possible.
+export function upsertAsUser(req, res) {
+  if(req.body._id) {
+    delete req.body._id;
+  }
+
+  return PickupUserEvent.findOneAndUpdate({_id: req.params.id}, req.body, {new: true, upsert: true, setDefaultsOnInsert: true, runValidators: true})
+    .exec()
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
+
 // Update the check state of an event
 export function updateDoneState(req, res) {
   if(req.body._id) {
@@ -135,6 +148,7 @@ export function patch(req, res) {
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
+
 
 // Deletes a PickupUserEvent from the DB
 export function destroy(req, res) {

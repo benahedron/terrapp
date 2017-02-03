@@ -13,5 +13,6 @@ router.put('/donestate/:id/:value', auth.hasRole('admin'), controller.updateDone
 router.put('/:id', auth.hasRole('admin'), controller.upsert);
 router.patch('/:id', auth.hasRole('admin'), controller.patch);
 router.delete('/:id', auth.hasRole('admin'), controller.destroy);
+router.put('/user/:id', auth.isAuthenticated(), controller.upsertAsUser);
 
 module.exports = router;

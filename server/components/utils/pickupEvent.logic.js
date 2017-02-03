@@ -50,6 +50,7 @@ export function getAlternativesFor(pickupEvent, callback) {
       };
       PickupEvent.find(candidateQuery)
       .populate('pickupOption')
+      .populate('pickupOptionOverride')
       .then((candidates, err) => {
         let now = new Date().getTime();
         let startDate = Utils.getStartDateForPickupEvent(season, pickupOption, pickupEvent).getTime();

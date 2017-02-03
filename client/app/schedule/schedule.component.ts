@@ -7,6 +7,7 @@ import routes from './schedule.routes';
 
 export class ScheduleComponent {
   $http: Object;
+  $uibModal: Object;
   PickupOptionsService: Object;
   pickupOptions: Object[];
   userEvents = [];
@@ -14,8 +15,9 @@ export class ScheduleComponent {
   PickupUtils: Object;
 
   /*@ngInject*/
-  constructor($http, PickupOptionsService, PickupUtils) {
+  constructor($http, $uibModal, PickupOptionsService, PickupUtils) {
     this.$http = $http;
+    this.$uibModal = $uibModal;
     this.PickupOptionsService = PickupOptionsService;
     this.PickupUtils = PickupUtils;
   }
@@ -61,6 +63,32 @@ export class ScheduleComponent {
         absent: userEvent.absent,
         pickupOption: actualPickupOption
       });
+    });
+  }
+
+  modal(userEvent, component, successCallback) {
+    let scope = this;
+    var modalInstance = this.$uibModal.open({
+        component: component,
+        resolve: {
+          season: function () {
+            return scope.season;
+          }
+          userEvent: function () {
+            return userEvent;
+          }
+        }
+    } as ng.ui.bootstrap.IModalSettings);
+
+    let scope = this;
+    modalInstance.result.then((editedEvent) => {
+      successCallback(editedEvent);
+    });
+  }
+
+  edit(userEvent) {
+    this.modal(userEvent, 'userPickupEdit', editedUserEvent => {
+      _.assign(userEvent, editedUserEvent);
     });
   }
 }

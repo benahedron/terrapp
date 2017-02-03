@@ -77,7 +77,7 @@
                     <ul class="dropdown-menu">
                       <li ng-repeat="alternativeEvent in $ctrl.getAlternatives()">
                         <a href="#" ng-click="$ctrl.setPickupOverride($ctrl.editUserEvent, $ctrl.editUserEvent.pickupEvent, alternativeEvent)">
-                          <b>{{alternativeEvent.pickupOption.name}}</b> {{alternativeEvent.startDate | date:'dd.MM.yyyy HH:mm'}}
+                          <b>{{alternativeEvent.pickupOptionOverride.name || alternativeEvent.pickupOption.name}}</b> {{alternativeEvent.startDate | date:'dd.MM.yyyy HH:mm'}}
                           <span ng-if="$ctrl.editUserEvent.pickupEvent._id === alternativeEvent._id" class="label label-warning">default</span>
                         </a>
                       </li>
