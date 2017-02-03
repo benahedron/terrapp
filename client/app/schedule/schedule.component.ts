@@ -35,7 +35,6 @@ export class ScheduleComponent {
 
   getPickupOption(pickupOptionId) {
     return _.find(this.pickupOptions, option => {
-      console.log(option._id, pickupOptionId);
       return option._id+'' === pickupOptionId+'';
     });
   }
@@ -49,7 +48,8 @@ export class ScheduleComponent {
     scope.userEvents = [];
     _.each(loadedUserEvents, userEvent => {
       let actualEvent = userEvent.pickupEventOverride || userEvent.pickupEvent;
-      let actualPickupOption = scope.getPickupOption(actualEvent.pickupOption);
+      let actualPickupOptionId = actualEvent.pickupOptionOverride || actualEvent.pickupOption;
+      let actualPickupOption = scope.getPickupOption(actualPickupOptionId);
       scope.userEvents.push({
         userEvent: userEvent,
         eventNumber: userEvent.pickupEvent.eventNumber,
@@ -59,6 +59,7 @@ export class ScheduleComponent {
         adminNote: actualEvent.adminNote,
         delegate: userEvent.delegate,
         absent: userEvent.absent,
+        pickupOption: actualPickupOption
       });
     });
   }

@@ -14,7 +14,8 @@ export class AdminPickupEditComponent {
 
   startDateOverride: Date = new Date();
   pickupOptionOverride:  Object;
-  durrationOverride: Number;
+  durationOverride: Number;
+  adminNote: String;
 
 
   /*ngInjector*/
@@ -49,7 +50,8 @@ export class AdminPickupEditComponent {
   private reinit() {
     this.startDateOverride = this.PickupUtils.getStartDateFor(this.season, this.getPickupOption(this.nonModifiedPickup), this.pickup);
     this.dateOptions = {minDate: this.getMinDate(), maxDate: this.getMaxDate()};
-    this.durrationOverride = this.pickup.durationMinutesOverride || this.getPickupOption(this.nonModifiedPickup).durationMinutes;
+    this.durationOverride = this.pickup.durationMinutesOverride || this.getPickupOption(this.nonModifiedPickup).durationMinutes;
+    this.adminNote = this.pickup.adminNote;
     this.update();
   }
 
@@ -61,8 +63,8 @@ export class AdminPickupEditComponent {
   update() {
 
     let defaultDuration = this.getPickupOption(this.nonModifiedPickup).durationMinutes;
-    if (this.durrationOverride && this.durrationOverride!=defaultDuration) {
-      this.pickup.durationMinutesOverride = this.durrationOverride;
+    if (this.durationOverride && this.durationOverride!=defaultDuration) {
+      this.pickup.durationMinutesOverride = this.durationOverride;
     } else {
       this.pickup.durationMinutesOverride = null;
     }
@@ -79,6 +81,8 @@ export class AdminPickupEditComponent {
     } else {
       this.pickupOptionOverride = null;
     }
+
+    this.pickup.adminNote = this.adminNote;
   }
 
   selectPickupOption(pickupOption) {

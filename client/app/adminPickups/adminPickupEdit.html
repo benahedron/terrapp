@@ -19,8 +19,8 @@
       </div>
     </div>
     <div class="form-group" ng-class="{ 'has-success': form.date.$valid && $ctrl.submitted, 'has-error': form.date.$invalid && $ctrl.submitted }">
-      <label>Durration</label>
-      <input type="number" class="form-control" ng-model="$ctrl.durrationOverride" ng-change="$ctrl.update()" />
+      <label>Duration</label>
+      <input type="number" class="form-control" ng-model="$ctrl.durationOverride" ng-change="$ctrl.update()" />
     </div>
     <div class="form-group" ng-class="{ 'has-success': form.location.$valid && $ctrl.submitted, 'has-error': form.location.$invalid && $ctrl.submitted }">
       <label>Location</label>
@@ -36,6 +36,11 @@
           </ul>
         </div>
       </div>
+    </div>
+    <div class="form-group" >
+      <label>Note</label>
+      <textarea class="form-control" ng-model="$ctrl.adminNote" ng-change="$ctrl.update()" rows="3">
+      </textarea>
     </div>
     <span class="label label-primary">
       With these setting, the pickup will take place at <pickup-option-map option="$ctrl.getCurrentPickupOptionId()" hoverable="true"> </pickup-option-map> from

@@ -1,11 +1,44 @@
 <div class="container">
   <h1>Schedule</h1>
-  <div ng-repeat="userEvent in $ctrl.userEvents">
-    {{"day_"+userEvent.startDate.getDay() | tr}}
-    {{userEvent.startDate.getDate()}}
-    {{"shortmonth_"+userEvent.startDate.getMonth() | tr}}
-    {{userEvent.startDate.getFullYear()}}
-    {{userEvent.startDate | date: 'HH:mm'}}
-    {{userEvent.endDate | date: 'HH:mm'}}
+  <div ng-repeat="userEvent in $ctrl.userEvents" class="eventRow">
+    <div class="col-md-2 col-xs-6 colCorrection">
+      <div class="dateBox">
+        <div class="dateBoxWeekday">
+          {{"day_"+userEvent.startDate.getDay() | tr}}
+        </div>
+        <div class="dateBoxMonth">
+          {{"shortmonth_"+userEvent.startDate.getMonth() | tr}}
+        </div>
+        <div class="dateBoxDate">
+          {{userEvent.startDate.getDate()}}
+        </div>
+        <div class="dateBoxYear">
+          {{userEvent.startDate.getFullYear()}}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2 col-xs-6 colCorrection">
+      <div class="timeBox">
+        <div class="timeBoxClock">
+          <span class="glyphicon glyphicon-time"></span>
+        </div>
+        <div class="timeBoxStartTime">
+          {{userEvent.startDate | date: 'HH:mm'}}
+        </div>
+        <div class="timeBoxEndTime">
+          {{userEvent.endDate | date: 'HH:mm'}}
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8 col-xs-12 colCorrection">
+      <div class="detailsBox">
+        <div class="detailsBoxInfo">Information & Options <button class="pull-right btn btn-primary">Edit</button></div>
+        <pre class="alert alert-info detailBoxLocation detailBoxGeneric"><b>Location:</b> <pickup-option-map option="userEvent.pickupOption._id" hoverable="true"> </pickup-option-map></pre>
+        <pre class="alert alert-danger detailBoxGeneric" ng-if="userEvent.adminNote"><b>Pickup note:</b><p>{{userEvent.adminNote}}</p></pre>
+        <pre class="alert alert-warning detailBoxGeneric" ng-if="userEvent.delegate" ><b>Will be picked up by:</b> {{userEvent.delegate}}</pre>
+        <pre class="alert alert-danger detailBoxGeneric" ng-if="userEvent.absent" ><b>You can't pickup</b></pre>
+        <pre class="alert alert-success detailBoxGeneric" ng-if="userEvent.userNote"><b>Your note:</b><p>{{userEvent.userNote}}</p></pre>
+      </div>
+    </div>
   </div>
 </div>
