@@ -49,21 +49,38 @@ export class ScheduleComponent {
     let scope = this;
     scope.userEvents = [];
     _.each(loadedUserEvents, userEvent => {
-      let actualEvent = userEvent.pickupEventOverride || userEvent.pickupEvent;
-      let actualPickupOptionId = actualEvent.pickupOptionOverride || actualEvent.pickupOption;
-      let actualPickupOption = scope.getPickupOption(actualPickupOptionId);
-      scope.userEvents.push({
-        userEvent: userEvent,
-        eventNumber: userEvent.pickupEvent.eventNumber,
-        startDate: scope.PickupUtils.getStartDateFor(this.season, actualPickupOption, actualEvent),
-        endDate: scope.PickupUtils.getEndDateFor(this.season, actualPickupOption, actualEvent),
-        userNote: userEvent.userNote,
-        adminNote: actualEvent.adminNote,
-        delegate: userEvent.delegate,
-        absent: userEvent.absent,
-        pickupOption: actualPickupOption
-      });
+      let processedEvent = scope.processUserEvent(userEvent);
+      scope.userEvents.push(processedEvent);
     });
+
+    this.sortUserEvents();
+  }
+
+  sortUserEvents() {
+    this.userEvents = _.sortBy(this.userEvents, candidate => {
+      return candidate.startDate.getTime();
+    });
+  }
+
+  processUserEvent(userEvent) {
+    let scope = this;
+    let actualEvent = userEvent.pickupEventOverride || userEvent.pickupEvent;
+    let actualPickupOptionId = actualEvent.pickupOptionOverride || actualEvent.pickupOption;
+    if (_.has(actualPickupOptionId, '_id')) {
+      actualPickupOptionId = actualPickupOptionId._id;
+    }
+    let actualPickupOption = scope.getPickupOption(actualPickupOptionId);
+    return {
+      userEvent: userEvent,
+      eventNumber: userEvent.pickupEvent.eventNumber,
+      startDate: scope.PickupUtils.getStartDateFor(this.season, actualPickupOption, actualEvent),
+      endDate: scope.PickupUtils.getEndDateFor(this.season, actualPickupOption, actualEvent),
+      userNote: userEvent.userNote,
+      adminNote: actualEvent.adminNote,
+      delegate: userEvent.delegate,
+      absent: userEvent.absent,
+      pickupOption: actualPickupOption
+    };
   }
 
   modal(userEvent, component, successCallback) {
@@ -87,8 +104,16 @@ export class ScheduleComponent {
   }
 
   edit(userEvent) {
+    let scope = this;
     this.modal(userEvent, 'userPickupEdit', editedUserEvent => {
-      _.assign(userEvent, editedUserEvent);
+      let newProcessedEvent = scope.processUserEvent(editedUserEvent);
+      let oldProcessedEvent = _.find(scope.userEvents, candidateEvent => {
+        return candidateEvent.userEvent._id === userEvent._id;
+      })
+      if (oldProcessedEvent && newProcessedEvent) {
+        _.assign(oldProcessedEvent, newProcessedEvent);
+        scope.sortUserEvents();
+      }
     });
   }
 }
