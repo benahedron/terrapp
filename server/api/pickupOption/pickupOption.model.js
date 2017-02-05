@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 
 var PickupOptionSchema = new mongoose.Schema({
   name: String,
-  locationUrl: String,
+  geoUri: String,
   weekDay: Number,
   startMinute: Number,
   durationMinutes: Number,

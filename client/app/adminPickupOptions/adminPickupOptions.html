@@ -11,14 +11,14 @@
         <thead>
           <tr>
             <th>Name</th>
-            <th>Location URL</th>
+            <th>Geo URI</th>
             <th>Options</th>
           </tr>
         </thead>
         <tbody ng-repeat="pickupOption in $ctrl.pickupOptions">
           <tr>
             <td>{{pickupOption.name}}</td>
-            <td>{{pickupOption.locationUrl}}</td>
+            <td>{{pickupOption.geoUri}}</td>
             <td>
               <button class="btn btn-primary" ng-click="$ctrl.edit(pickupOption)"><span class="glyphicon glyphicon-pencil"> </span></button>
               <button class="btn btn-primary" ng-click="$ctrl.delete(pickupOption)"><span class="glyphicon glyphicon-trash"> </span></button>

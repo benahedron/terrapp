@@ -2,7 +2,7 @@
 const angular = require('angular');
 
 export default angular.module('terrappApp.pickupOptionMap', [])
-  .directive('pickupOptionMap', function(PickupOptionsService) {
+  .directive('pickupOptionMap', function(PickupOptionsService, $uibModal) {
     return {
       template: require('./pickupOptionMap.html'),
       restrict: 'E',
@@ -11,6 +11,19 @@ export default angular.module('terrappApp.pickupOptionMap', [])
         hoverable: '@'
       }
       link: function(scope, element, attrs) {
+        scope.showMap = function() {
+          if (scope.pickupOption) {
+            $uibModal.open({
+                component: 'pickupOptionMapWindow',
+                resolve: {
+                  pickupOption: function () {
+                    return scope.pickupOption;
+                  }
+                }
+              } as ng.ui.bootstrap.IModalSettings
+            );
+            }
+        }
         scope.$watch('option', () => {
           PickupOptionsService.get()
             .then(options => {

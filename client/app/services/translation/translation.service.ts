@@ -20,9 +20,4 @@ export class TranslationService {
 
 export default angular.module('terrappApp.TranslationService', [])
   .service('TranslationService', TranslationService)
-  .filter('tr', ['TranslationService', TranslationService => {
-    return key => {
-      return TranslationService.translate(key);
-    };
-  }])
   .name;
