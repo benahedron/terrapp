@@ -169,9 +169,9 @@ export class AdminPickupsComponent {
     this.$state.go('adminPickups', {seasonId: this.selectedSeason._id, pickupOption: selectedPickupOption, interval: intervalNumber});
   }
 
-  modal(pickup, component, successCallback) {
+  modal(pickup, component, successCallback, options) {
     let scope = this;
-    var modalInstance = this.$uibModal.open({
+    var modalInstance = this.$uibModal.open(_.merge({
         component: component,
         resolve: {
           season: function() {
@@ -181,7 +181,7 @@ export class AdminPickupsComponent {
             return pickup;
           }
         }
-    } as ng.ui.bootstrap.IModalSettings);
+    }, options || {}) as ng.ui.bootstrap.IModalSettings);
 
     let scope = this;
     modalInstance.result.then((editedPickup) => {
@@ -198,6 +198,10 @@ export class AdminPickupsComponent {
 
   manage(pickup) {
     this.modal(pickup, 'adminPickupManage', result => {});
+  }
+
+  print(pickup) {
+    this.modal(pickup, 'adminPickupPrint', result => {}, {windowClass: 'widePrintableArea'});
   }
 
 }

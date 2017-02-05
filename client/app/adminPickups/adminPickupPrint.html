@@ -1,0 +1,60 @@
+<div class="modal-header">
+  <h3 class="modal-title" id="modal-title">
+    Print pickup event N°{{$ctrl.pickup.eventNumber + 1}}
+  </h3>
+  <button class="btn btn-primary" ng-click="$ctrl.print()"><span class="glyphicon glyphicon-print"> </span> Print</button>
+</div>
+<div class="modal-body printable" id="modal-body">
+
+  <table class="table table-hover">
+    <thead>
+      <tr>
+        <th colspan="3"><p>Baskets to prepare: <b>{{$ctrl.getRequiredBaskets()}}</b></p></th>
+      </tr>
+      <tr>
+        <th>Name</th>
+        <th>Note</th>
+        <th>Signature</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr ng-repeat="userEvent in $ctrl.userEvents">
+        <td>
+          <div>
+            <span ng-class="{'userAbsent': userEvent.absent|| (userEvent.pickupEventOverride!=null && userEvent.pickupEventOverride._id!=$ctrl.pickup._id)}">
+              {{userEvent.basket.membership.firstName}} {{userEvent.basket.membership.lastName}}
+            </span>
+          </div>
+        </td>
+        <td>
+          <div>
+            <div ng-if="userEvent.pickupEventOverride && userEvent.pickupEventOverride._id!=$ctrl.pickup._id">
+              <span class="label label-warning">
+                Alternative:
+                <b>{{userEvent.pickupEventOverride.pickupOption.name}}</b>
+                {{userEvent.pickupEventOverride.startDate | date:'dd.MM.yyyy HH:mm'}}
+              </span>
+            </div>
+            <div ng-if="userEvent.pickupEventOverride && userEvent.pickupEventOverride._id==$ctrl.pickup._id">
+              <span class="label label-warning">
+                Changed from:
+                <b>{{userEvent.pickupEvent.pickupOption.name}}</b>
+                {{userEvent.pickupEvent.startDate | date:'dd.MM.yyyy HH:mm'}}
+              </span>
+            </div>
+            <div ng-if="userEvent.absent">
+              <span class="label label-danger">Absent</span>
+            </div>
+            <pre ng-if="userEvent.userNote" class="userNotePre"><b>User note:</b><p>{{userEvent.userNote}}</p></pre>
+            <span ng-if="userEvent.delegate" class="label label-warning"><b>Delegated to:</b> {{userEvent.delegate}}</span>
+          </div>
+        </td>
+        <td class="signatureCell">
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">Done</button>
+</div>

@@ -11,3 +11,50 @@
   white-space: pre-wrap;
 
 }
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .printable, .printable * {
+    visibility: visible;
+    overflow: visible;
+  }
+  .printable {
+
+  }
+
+  .modal {
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    visibility: visible;
+    overflow: visible !important;
+  }
+  .modal-dialog {
+    width: 100%;
+    visibility: visible !important;
+    overflow: visible !important;
+  }
+
+  table {  width: 100%; page-break-after:auto }
+  tr    { page-break-inside:avoid; page-break-before: auto; }
+  thead { display:table-header-group }
+
+}
+.widePrintableArea .modal-dialog {
+  width: 100%;
+}
+
+.widePrintableArea tr{ height: 1.5cm; }
+.widePrintableArea td{ border: 2px solid #333;}
+.widePrintableArea table { border: 2px solid #333;}
+.widePrintableArea th{ border: 2px solid #333;}
+.widePrintableArea thead tr th{ border: 2px solid #333;}
+
+.signatureCell{
+  width: 10cm;
+}
