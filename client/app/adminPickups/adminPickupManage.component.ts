@@ -1,23 +1,23 @@
 'use strict';
 
 const angular = require('angular');
-let AdminPickupBase = require('./adminPickupBase').AdminPickupBase;
+import {AdminPickupBase} from './adminPickupBase'
 
-export class AdminPickupManageComponent  extends AdminPickupBase{
-  editUserEvent: Object = null;
-  pickupEventAlternatives:Object[];
+export class AdminPickupManageComponent extends AdminPickupBase{
+  editUserEvent: IPickupUserEvent = null;
+  pickupEventAlternatives:IPickupEvent[];
 
   /*ngInjector*/
   constructor($http, PickupUtils, PickupOptionsService) {
     super($http, PickupUtils, PickupOptionsService);
   }
 
-  setDoneState(userEvent, state) {
+  setDoneState(userEvent: IPickupUserEvent, state) {
     let scope = this;
-    let stateString = state ? 'true' : 'false':
-    this.$http.put('/api/pickupUserEvents/donestate/'+userEvent._id+'/'+stateString)
+    let stateString = state ? 'true' : 'false';
+    this.$http.put('/api/pickupUserEvents/donestate/'+userEvent._id+'/'+stateString, null)
     .then(result => {
-      userEvent.done = result.data.done;
+      userEvent.done = (result.data as IPickupUserEvent).done;
     });
   }
 
@@ -49,7 +49,7 @@ export class AdminPickupManageComponent  extends AdminPickupBase{
       userEvent.pickupEventOverride = null;
     } else {
       userEvent.pickupEventOverride = override;
-    })
+    }
   }
 }
 

@@ -3,17 +3,17 @@ const angular = require('angular');
 
 
 /*@ngInject*/
-export class PickupUtilsService {
-  SeasonUtils: Object;
+export class PickupUtilsService implements IPickupUtilsService{
+  SeasonUtils: ISeasonUtilsService;
   getDateForInterval: Function;
 
-  constructor(SeasonUtils)
+  constructor(SeasonUtils: ISeasonUtilsService)
   {
     this.SeasonUtils = SeasonUtils;
     this.getDateForInterval = SeasonUtils.getDateForInterval;
   }
 
-  public getStartDateFor(season: Object, pickupOption: Object, pickupEvent: Object) {
+  public getStartDateFor(season: ISeason, pickupOption: IPickupOption, pickupEvent: IPickupEvent) {
     if (!pickupEvent.startDateOverride) {
       let day = this.SeasonUtils.getDateForInterval(season, pickupEvent.eventNumber);
       let startMinute = pickupOption.startMinute;
@@ -24,7 +24,7 @@ export class PickupUtilsService {
     }
   }
 
-  public getEndDateFor(season: Object, pickupOption: Object, pickupEvent: Object) {
+  public getEndDateFor(season: ISeason, pickupOption: IPickupOption, pickupEvent: IPickupEvent) {
     let durationMinutes = pickupEvent.durationMinutesOverride || pickupOption.durationMinutes;
     let date = null;
     if (!pickupEvent.startDateOverride) {

@@ -9,7 +9,7 @@ export default angular.module('terrappApp.pickupOptionMap', [])
       scope: {
         option: '=',
         hoverable: '@'
-      }
+      },
       link: function(scope, element, attrs) {
         scope.showMap = function() {
           if (scope.pickupOption) {
@@ -28,7 +28,7 @@ export default angular.module('terrappApp.pickupOptionMap', [])
           PickupOptionsService.get()
             .then(options => {
               scope.pickupOption = _.find(options, option => {
-                return option._id + '' === scope.option;
+                return (option as IPickupOption)._id + '' === scope.option;
               });
             });
         });

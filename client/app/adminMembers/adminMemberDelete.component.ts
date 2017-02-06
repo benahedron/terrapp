@@ -3,7 +3,7 @@
 const angular = require('angular');
 
 export class AdminMemberDeleteComponent{
-  user: Object;
+  user: ng.resource.IResource<IUser>;
 
   /*ngInjector*/
   $onInit() {

@@ -10,9 +10,9 @@ export class AdminSeasonsComponent {
   $http: ng.IHttpService;
   getDateForInterval: Function;
   activeSeason: string;
-  OptionsService: Object;
+  OptionsService: IOptionsService;
   $uibModal: ng.ui.bootstrap.IModalService;
-  $state: ng.IStateService;
+  $state: ng.ui.IStateService;
 
   /*@ngInject*/
   constructor($http, SeasonUtils, OptionsService, $uibModal, $state) {
@@ -62,7 +62,7 @@ export class AdminSeasonsComponent {
     })
     this.$http.get("/api/seasons")
     .then((res) => {
-      this.seasons = res.data;
+      this.seasons = res.data as ISeason[];
     });
   }
 

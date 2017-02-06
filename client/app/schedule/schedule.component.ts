@@ -6,13 +6,13 @@ const uiRouter = require('angular-ui-router');
 import routes from './schedule.routes';
 
 export class ScheduleComponent {
-  $http: Object;
-  $uibModal: Object;
-  PickupOptionsService: Object;
-  pickupOptions: Object[];
+  $http: ng.IHttpService;
+  $uibModal: ng.ui.bootstrap.IModalService;
+  PickupOptionsService: IPickupOptionsService;
+  pickupOptions: IPickupOption[];
   userEvents = [];
-  season: Object;
-  PickupUtils: Object;
+  season: ISeason;
+  PickupUtils: IPickupUtilsService;
 
   /*@ngInject*/
   constructor($http, $uibModal, PickupOptionsService, PickupUtils) {
@@ -29,8 +29,8 @@ export class ScheduleComponent {
       this.pickupOptions = pickupOptions
       this.$http.get('/api/baskets/user')
       .then(res => {
-        scope.processBaskets(res.data.baskets);
-        scope.processUserEvents(res.data.pickupUserEvents);
+        scope.processBaskets((res.data as any).baskets as IBasket[]);
+        scope.processUserEvents((res.data as any).pickupUserEvents as IPickupUserEvent[]);
       });
     });
   }
@@ -41,7 +41,7 @@ export class ScheduleComponent {
     });
   }
 
-  processBaskets(baskets) {
+  processBaskets(baskets: IBasket[]) {
     this.season = _.first(baskets).season;
   }
 
@@ -90,14 +90,13 @@ export class ScheduleComponent {
         resolve: {
           season: function () {
             return scope.season;
-          }
+          },
           userEvent: function () {
             return userEvent;
           }
         }
     } as ng.ui.bootstrap.IModalSettings);
 
-    let scope = this;
     modalInstance.result.then((editedEvent) => {
       successCallback(editedEvent);
     });

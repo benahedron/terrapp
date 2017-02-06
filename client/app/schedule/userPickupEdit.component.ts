@@ -3,16 +3,17 @@
 const angular = require('angular');
 
 export class UserPickupEditComponent {
-  userEvent: Object;
-
+  userEvent: IPickupUserEvent;
+  PickupUtils: IPickupUtilsService;
+  PickupOptionsService: IPickupOptionsService;
   errors = {};
   submitted: Boolean = false;
   $http: ng.IHttpService;
-  pickupOptions: Object[];
-  pickupEventAlternatives: Object[];
+  pickupOptions: IPickupOption[];
+  pickupEventAlternatives: IPickupEvent[];
 
   /*ngInjector*/
-  constructor($http, PickupUtils, PickupOptionsService) {
+  constructor($http, PickupUtils: IPickupUtilsService, PickupOptionsService: IPickupOptionsService) {
     this.$http = $http;
     this.PickupUtils = PickupUtils;
     this.PickupOptionsService = PickupOptionsService;
@@ -23,10 +24,10 @@ export class UserPickupEditComponent {
     let resolve = (this as any).resolve;
     // Get the userEvent as an argument
     if (_.has(resolve, 'userEvent') && resolve.userEvent !== null) {
-      this.userEvent = _.cloneDeep(resolve.userEvent);
-      this.$http.get('/api/pickupEvents/alternatives/'+scope.userEvent.pickupEvent._id+'/')
+      this.userEvent = _.cloneDeep(resolve.userEvent as IPickupUserEvent);
+      this.$http.get('/api/pickupEvents/alternatives/'+this.userEvent.pickupEvent._id+'/')
       .then(result => {
-        scope.pickupEventAlternatives = result.data;
+        scope.pickupEventAlternatives = result.data as IPickupEvent[];
         _.each(scope.pickupEventAlternatives, alternativePickup => {
           alternativePickup.startDate = scope.PickupUtils.getStartDateFor(resolve.season, alternativePickup.pickupOption, alternativePickup);
         })
@@ -54,7 +55,7 @@ export class UserPickupEditComponent {
     if(form.$valid) {
       this.$http.put('/api/pickupUserEvents/user/'+this.userEvent._id,this.userEvent)
       .then((result) => {
-        this.ok(result.data);
+        this.ok();
       })
       .catch(err => {
         err = err.data;
@@ -74,13 +75,13 @@ export class UserPickupEditComponent {
       userEvent.pickupEventOverride = null;
     } else {
       userEvent.pickupEventOverride = override;
-    })
+    }
   }
 
   ok() {
     (this as any).resolve.userEvent = this.userEvent;
     (this as any).close({$value: this.userEvent});
-  }; .
+  };
 
   cancel() {
     (this as any).dismiss({$value: 'cancel'});

@@ -3,11 +3,11 @@
 const angular = require('angular');
 
 export class AdminMemberPasswordComponent{
-  user: Object;
+  user: IUser;
   password: string = '';
   confirmPassword: string = '';
   errors = {};
-  submitted: Boolean = false;
+  submitted: boolean = false;
   $http: ng.IHttpService;
 
   /*ngInjector*/
@@ -25,7 +25,7 @@ export class AdminMemberPasswordComponent{
     if(form.$valid) {
       return this.$http.put('/api/users/admin/changePassword/'+this.user._id, {password: this.password})
       .then((result) => {
-        this.ok(result);
+        this.ok();
       })
       .catch(err => {
         err = err.data;

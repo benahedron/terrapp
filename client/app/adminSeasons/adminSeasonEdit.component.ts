@@ -2,25 +2,18 @@
 
 const angular = require('angular');
 
-interface Season {
-  name: string;
-  firstEventDate: Date;
-  eventIntervalInDays: Number;
-  numberOfEvents: Number;
-}
 
 export class AdminSeasonEditComponent{
-  season: Season;
+  season: ISeason;
   errors = {};
   isNew: Boolean = false;
   submitted: Boolean = false;
   $http: ng.IHttpService;
   getDateForInterval: Function;
-
-  pickupOptions: Object[];
+  pickupOptions: IPickupOption[];
 
   /*ngInjector*/
-  constructor($http, SeasonUtils, PickupOptionsService) {
+  constructor($http, SeasonUtils: ISeasonUtilsService, PickupOptionsService: IPickupOptionsService) {
     this.$http = $http;
     this.getDateForInterval = SeasonUtils.getDateForInterval;
 
@@ -38,8 +31,8 @@ export class AdminSeasonEditComponent{
     } else {
       this.season = {
         eventIntervalInDays: 7,
-        numberOfEvents: 52;
-      };
+        numberOfEvents: 52
+      } as ISeason;
       this.isNew = true;
     }
   }
@@ -60,16 +53,17 @@ export class AdminSeasonEditComponent{
     this.submitted = true;
     if(form.$valid) {
       let method = this.$http.patch;
-      let path = '':
+      let path = '';
       if (this.isNew) {
         method = this.$http.post;
       } else {
         path += this.season._id;
       }
-      
+
       method('/api/seasons/'+path, this.season)
       .then((result) => {
-        this.ok(result.data);
+        this.season = result.data as ISeason;
+        this.ok();
       })
       .catch(err => {
         err = err.data;

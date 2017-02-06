@@ -3,7 +3,7 @@
 const angular = require('angular');
 
 export class PickupOptionMapWindowComponent{
-  pickupOption: Object;
+  pickupOption: IPickupOption;
   bbox: string[];
   mapUrl: string = "http://google.com";
   // Map the zoom levels used in the geoUri to angles.

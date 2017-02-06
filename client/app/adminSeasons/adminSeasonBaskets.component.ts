@@ -4,17 +4,17 @@ const angular = require('angular');
 
 
 export class AdminSeasonBasketsComponent{
-  season: Season;
+  season: ISeason;
   $http: ng.IHttpService;
 
-  pickupOptions: Object[];
-  selectedPickupOption: Object = null;
+  pickupOptions: IPickupOption[];
+  selectedPickupOption: IPickupOption = null;
 
   searchString: string;
   searchCandidates: Object[];
 
-  members: Object[];
-  baskets: Object[];
+  members: IMembership[];
+  baskets: IBasket[];
 
   /*ngInjector*/
   constructor($http, $scope) {
@@ -26,7 +26,7 @@ export class AdminSeasonBasketsComponent{
     if (this.searchString.length>2) {
       this.$http.post("/api/memberships/find", {query: this.searchString})
         .then(res => {
-          scope.members = res.data;
+          scope.members = res.data as IMembership[];
         });
     } else {
       scope.members = [];
@@ -39,7 +39,13 @@ export class AdminSeasonBasketsComponent{
     let scope = this;
     this.$http.post("/api/baskets", {membership: membership._id, season: scope.season._id, defaultPickupOption: scope.selectedPickupOption._id})
       .then(res => {
-        scope.baskets.push({_id: res.data._id, membership: membership, season: scope.season._id, defaultPickupOption: scope.selectedPickupOption});
+        scope.baskets.push(
+          {
+            _id: (res.data as IBasket)._id,
+            membership: membership,
+            season: scope.season._id as any,
+            defaultPickupOption: scope.selectedPickupOption
+          });
       });
   }
 
@@ -58,7 +64,7 @@ export class AdminSeasonBasketsComponent{
       scope.season = resolve.season;
       scope.$http.get("/api/baskets/bySeason/"+this.season._id)
       .then(res => {
-        scope.baskets = res.data;
+        scope.baskets = res.data as IBasket[];
         scope.pickupOptions = scope.season.activePickupOptions;
       });
     } else {

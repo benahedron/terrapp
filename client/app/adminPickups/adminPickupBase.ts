@@ -1,16 +1,17 @@
 'use strict';
 
 export class AdminPickupBase {
-  $http: ng.IHttpService;
-  PickupUtils: Object;
-  PickupOptionsService: Object;
+  protected $http: ng.IHttpService;
+  PickupUtils: IPickupUtilsService;
+  PickupOptionsService: IPickupOptionsService;
 
-  season: Season;
-  pickup: Pickup;
-  pickupOptions: Object[];
-  userEvents: Object[];
+  season: ISeason;
+  pickup: IPickupEvent;
+  pickupOptions: IPickupOption[];
+  userEvents: IPickupUserEvent[];
+  pickupEventAlternatives: IPickupEvent[];
 
-  protected constructor($http, PickupUtils, PickupOptionsService) {
+  constructor($http, PickupUtils, PickupOptionsService) {
     this.$http = $http;
     this.PickupUtils = PickupUtils;
     this.PickupOptionsService = PickupOptionsService;
@@ -31,13 +32,13 @@ export class AdminPickupBase {
     let scope = this;
     this.$http.get('/api/pickupUserEvents/byEvent/'+this.pickup._id)
     .then(result => {
-      scope.userEvents = result.data;
+      scope.userEvents = result.data as IPickupUserEvent[];
       _.each(scope.userEvents, userEvent => {
         scope.calculateStartTime(userEvent);
       });
       this.$http.get('/api/pickupEvents/alternatives/'+this.pickup._id+'/')
       .then(result => {
-        scope.pickupEventAlternatives = result.data;
+        scope.pickupEventAlternatives = result.data as IPickupEvent[];
         _.each(scope.pickupEventAlternatives, alternativePickup => {
           alternativePickup.startDate = scope.PickupUtils.getStartDateFor(scope.season, alternativePickup.pickupOption, alternativePickup);
         })
@@ -69,7 +70,7 @@ export class AdminPickupBase {
 
   public ok() {;
     (this as any).close({$value: 'ok'});
-  }; .
+  };
 
   public cancel() {
     (this as any).dismiss({$value: 'cancel'});

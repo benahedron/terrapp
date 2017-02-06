@@ -7,22 +7,23 @@ import routes from './adminPickups.routes';
 
 
 export class AdminPickupsComponent {
-  $state: ng.IStateService;
+  $state: ng.ui.IStateService;
   $http: ng.IHttpService;
-  $uibModal: Object;
-  seasons: Object[];
-  availablePickupOptions: Object[];
-  availableIntervals: Obejct[];
-  selectedSeason: Object = null;
-  selectedPickupOption: Object = null;
-  selectedInterval: Object = null;
-  pickups: Object[];
+  $uibModal: ng.ui.bootstrap.IModalService;
+  seasons: ISeason[];
+  availablePickupOptions: IPickupOption[];
+  availableIntervals: any[];
+  selectedSeason: ISeason = null;
+  selectedPickupOption: IPickupOption = null;
+  selectedInterval: any = null;
+  pickups: IPickupEvent[];
   getStartDate: Function;
   getEndDate: Function;
-  $stateParams: Object = null;
+  $stateParams: any;
+  PickupUtils: IPickupUtilsService;
 
   /*@ngInject*/
-  constructor(PickupOptionsService, OptionsService, PickupUtils, $uibModal, $stateParams, $state, $http, Season) {
+  constructor(PickupOptionsService: IPickupOptionsService, OptionsService, PickupUtils, $uibModal, $stateParams, $state, $http, Season) {
     this.$state = $state;
     this.$http = $http;
     this.PickupUtils = PickupUtils;
@@ -56,7 +57,7 @@ export class AdminPickupsComponent {
     });
   }
 
-  private applyPickupOption(PickupOptionsService, callback) {
+  private applyPickupOption(PickupOptionsService: IPickupOptionsService, callback) {
     let scope = this;
     if (!scope.selectedSeason) {
       return;
@@ -109,11 +110,11 @@ export class AdminPickupsComponent {
         option  =this.selectedPickupOption._id;
       }
       if (this.selectedInterval) {
-        interval  =this.selectedInterval.number;
+        interval = this.selectedInterval.number;
       }
       this.$http.get('/api/pickupEvents/' + this.selectedSeason._id + '/' + option + '/' + interval )
       .then(res => {
-        scope.pickups = res.data;
+        scope.pickups = res.data as IPickupEvent[];
         scope.evaluatePickups();
       });
     }
@@ -127,9 +128,9 @@ export class AdminPickupsComponent {
       actualOption = _.find(scope.availablePickupOptions, option => {
         return option._id+'' === actualOption+'';
       });
-      pickup.effectiveStart = scope.PickupUtils.getStartDateFor(scope.selectedSeason, actualOption, pickup);
-      pickup.effectiveEnd = scope.PickupUtils.getEndDateFor(scope.selectedSeason, actualOption, pickup);
-      return pickup.effectiveStart.getTime();
+      (pickup as any).effectiveStart = scope.PickupUtils.getStartDateFor(scope.selectedSeason, actualOption, pickup);
+      (pickup as any).effectiveEnd = scope.PickupUtils.getEndDateFor(scope.selectedSeason, actualOption, pickup);
+      return (pickup as any).effectiveStart.getTime();
     });
   }
 
@@ -169,21 +170,20 @@ export class AdminPickupsComponent {
     this.$state.go('adminPickups', {seasonId: this.selectedSeason._id, pickupOption: selectedPickupOption, interval: intervalNumber});
   }
 
-  modal(pickup, component, successCallback, options) {
+  modal(pickup, component, successCallback, options?) {
     let scope = this;
     var modalInstance = this.$uibModal.open(_.merge({
         component: component,
         resolve: {
           season: function() {
             return scope.selectedSeason;
-          }
+          },
           pickup: function () {
             return pickup;
           }
         }
     }, options || {}) as ng.ui.bootstrap.IModalSettings);
 
-    let scope = this;
     modalInstance.result.then((editedPickup) => {
       successCallback(editedPickup);
     });

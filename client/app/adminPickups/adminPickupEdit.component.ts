@@ -3,20 +3,23 @@
 const angular = require('angular');
 
 export class AdminPickupEditComponent {
-  nonModifiedPickup: Pickup;
-  pickup: Pickup;
+  nonModifiedPickup: IPickupEvent;
+  pickup: IPickupEvent;
 
   errors = {};
-  submitted: Boolean = false;
+  submitted: boolean = false;
   $http: ng.IHttpService;
-  pickupOptions: Object[];
+  pickupOptions: IPickupOption[];
   dateOptions: Object;
 
   startDateOverride: Date = new Date();
-  pickupOptionOverride:  Object;
-  durationOverride: Number;
-  adminNote: String;
+  pickupOptionOverride:  IPickupOption;
+  durationOverride: number;
+  adminNote: string;
 
+  PickupUtils: IPickupUtilsService;
+  PickupOptionsService: IPickupOptionsService;
+  season: ISeason;
 
   /*ngInjector*/
   constructor($http, PickupUtils, PickupOptionsService) {
@@ -36,7 +39,7 @@ export class AdminPickupEditComponent {
       this.nonModifiedPickup.durationMinutesOverride = null;
 
       this.pickup = _.cloneDeep(resolve.pickup);
-      this.season = resolve.season;
+      this.season = resolve.season as ISeason;
       let scope = this;
       this.PickupOptionsService.get().then((pickupOptions) => {
         scope.pickupOptions = scope.season.activePickupOptions;
@@ -71,7 +74,7 @@ export class AdminPickupEditComponent {
 
     let defaultDate = this.PickupUtils.getStartDateFor(this.season, this.getPickupOption(this.nonModifiedPickup), this.nonModifiedPickup);
     if (this.startDateOverride && (defaultDate.getTime() !== this.startDateOverride.getTime())) {
-      this.pickup.startDateOverride = this.startDateOverride;
+      this.pickup.startDateOverride = this.startDateOverride+'';
     } else {
       this.pickup.startDateOverride = null;
     }
@@ -103,8 +106,8 @@ export class AdminPickupEditComponent {
   }
 
   getDaysDifference(day1, day2) {
-    return parseInt(day2.getTime()/(24*60*60000))
-          -parseInt(day1.getTime()/(24*60*60000));
+    return Math.floor(day2.getTime()/(24*60*60000))
+          -Math.floor(day1.getTime()/(24*60*60000));
   }
 
   getCurrentPickupOptionId() {
@@ -146,7 +149,8 @@ export class AdminPickupEditComponent {
     if(form.$valid) {
       this.$http.put('/api/pickupEvents/'+this.pickup._id,this.pickup)
       .then((result) => {
-        this.ok(result.data);
+        this.pickup = result.data as IPickupEvent;
+        this.ok();
       })
       .catch(err => {
         err = err.data;
@@ -164,7 +168,7 @@ export class AdminPickupEditComponent {
   ok() {
     (this as any).resolve.pickupEvent = this.pickup;
     (this as any).close({$value: this.pickup});
-  }; .
+  };
 
   cancel() {
     (this as any).dismiss({$value: 'cancel'});

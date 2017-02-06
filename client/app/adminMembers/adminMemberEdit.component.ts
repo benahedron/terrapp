@@ -2,26 +2,11 @@
 
 const angular = require('angular');
 
-interface User {
-  email: string;
-  role: string;
-  password: string;
-  membership: {
-    firstName: string;
-    lastName: string;
-    address1: string;
-    address2: string;
-    city: string;
-    zip: string;
-    country: string;
-  }
-}
-
 export class AdminMemberEditComponent{
-  user: User;
+  user: IUser;
   errors = {};
-  isNew: Boolean = false;
-  submitted: Boolean = false;
+  isNew: boolean = false;
+  submitted: boolean = false;
   $http: ng.IHttpService;
 
   /*ngInjector*/
@@ -35,7 +20,7 @@ export class AdminMemberEditComponent{
       this.user = _.cloneDeep(resolve.user);
       this.isNew = false;
     } else {
-      this.user = {};
+      this.user = {} as IUser;
       this.isNew = true;
     }
   }
@@ -46,7 +31,7 @@ export class AdminMemberEditComponent{
       let action = this.isNew ? 'create' : 'upsert';
       return this.$http.put('/api/users/admin/'+action, this.user)
       .then((result) => {
-        this.ok(result);
+        this.ok();
       })
       .catch(err => {
         err = err.data;

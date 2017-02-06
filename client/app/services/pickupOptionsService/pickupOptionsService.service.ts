@@ -2,9 +2,9 @@
 const angular = require('angular');
 
 
-export class PickupOptionsService {
+export class PickupOptionsService implements IPickupOptionsService{
   promise: Object;
-  PickupOption: Object;
+  PickupOption: ng.resource.IResourceClass<IPickupOption>;
 
   /*@ngInject*/
   constructor(PickupOption) {
@@ -17,7 +17,7 @@ export class PickupOptionsService {
   }
 
   public get() {
-    return this.promise.$promise;
+    return (this.promise as any).$promise;
   }
 
 }

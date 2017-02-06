@@ -1,4 +1,5 @@
 'use strict';
+
 const angular = require('angular');
 // import ngAnimate from 'angular-animate';
 const ngCookies = require('angular-cookies');
@@ -11,6 +12,8 @@ const uiBootstrap = require('angular-ui-bootstrap');
 // const ngMessages = require('angular-messages');
 // import ngValidationMatch from 'angular-validation-match';
 
+
+require('./interfaces');
 
 import {routeConfig} from './app.config';
 

@@ -3,7 +3,7 @@
 const angular = require('angular');
 
 export class AdminSeasonDeleteComponent{
-  season: Object;
+  season: ISeason;
   $http: ng.IHttpService;
 
   /*ngInjector*/
@@ -19,7 +19,7 @@ export class AdminSeasonDeleteComponent{
   ok() {
     this.$http.delete('/api/seasons/'+this.season._id)
     .then(() => {
-      (this as any).close({$value: this.season});      
+      (this as any).close({$value: this.season});
     })
 
   };

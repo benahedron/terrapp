@@ -3,7 +3,7 @@ const angular = require('angular');
 
 let ACTIVE_SEASON_FIELD = 'activeSeason';
 
-export class OptionsService {
+export class OptionsService implements IOptionsService{
   $http: ng.IHttpService;
   activeDeferred: ng.IDeferred<any>;
   $q: ng.IQService;
@@ -29,7 +29,7 @@ export class OptionsService {
     return this.activeDeferred.promise;
   }
 
-  public setActiveSeason(season) {
+  public setActiveSeason(season: ISeason) {
     let activeSeasonId = '';
     if (season) {
       activeSeasonId = season._id;

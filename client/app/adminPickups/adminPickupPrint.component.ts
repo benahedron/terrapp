@@ -1,7 +1,7 @@
 'use strict';
 
 const angular = require('angular');
-let AdminPickupBase = require('./adminPickupBase').AdminPickupBase;
+import {AdminPickupBase} from './adminPickupBase'
 
 export class AdminPickupPrintComponent extends AdminPickupBase{
 
