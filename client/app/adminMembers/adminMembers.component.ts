@@ -4,59 +4,51 @@ const angular = require('angular');
 const uiRouter = require('angular-ui-router');
 
 import routes from './adminMembers.routes';
+import {ModalBase} from '../shared/modal.base';
 
-export class AdminMembersComponent {
+export class AdminMembersComponent extends ModalBase{
   getCurrentUser: Function;
   users: Object[];
-  $uibModal: ng.ui.bootstrap.IModalService;
   $scope: Object;
 
   /*@ngInject*/
   constructor(User, $uibModal, Auth, $scope) {
+    super($uibModal);
     this.$scope = $scope;
     this.users = User.query();
-    this.$uibModal = $uibModal;
     this.getCurrentUser = Auth.getCurrentUserSync;
   }
 
-  modal(user, component, successCallback) {
-    var modalInstance = this.$uibModal.open({
-        component: component,
-        resolve: {
-          user: function () {
-            return user;
-          }
-        }
-      } as ng.ui.bootstrap.IModalSettings);
-
-    let scope = this;
-    modalInstance.result.then((editedUser) => {
-      successCallback(editedUser);
-    });
+  getResolve(user) {
+    return {
+      user: function () {
+        return user;
+      }
+    }
   }
 
   delete(user) {
     let scope = this;
-    this.modal(user, 'adminMemberDelete', (user) => {
+    this.modal('adminMemberDelete', this.getResolve(user), (user) => {
       scope.users.splice(scope.users.indexOf(user), 1);
     });
   }
 
   edit(user) {
-    this.modal(user, 'adminMemberEdit', (editedUser) => {
+    this.modal('adminMemberEdit', this.getResolve(user), (editedUser) => {
       _.assign(user, editedUser);
     });
   }
 
   create() {
     let scope = this;
-    this.modal(null, 'adminMemberEdit', (user) => {
+    this.modal('adminMemberEdit', this.getResolve(null), (user) => {
       scope.users.push(user);
     });
   }
 
   changePassword(user) {
-    this.modal(user, 'adminMemberPassword', (user) => {});
+    this.modal('adminMemberPassword', this.getResolve(user), (user) => {});
   }
 }
 

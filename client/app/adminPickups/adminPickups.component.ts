@@ -4,12 +4,11 @@ const angular = require('angular');
 const uiRouter = require('angular-ui-router');
 
 import routes from './adminPickups.routes';
+import {ModalBase} from '../shared/modal.base';
 
-
-export class AdminPickupsComponent {
+export class AdminPickupsComponent extends ModalBase{
   $state: ng.ui.IStateService;
   $http: ng.IHttpService;
-  $uibModal: ng.ui.bootstrap.IModalService;
   seasons: ISeason[];
   availablePickupOptions: IPickupOption[];
   availableIntervals: any[];
@@ -24,10 +23,10 @@ export class AdminPickupsComponent {
 
   /*@ngInject*/
   constructor(PickupOptionsService: IPickupOptionsService, OptionsService, PickupUtils, $uibModal, $stateParams, $state, $http, Season) {
+    super($uibModal);
     this.$state = $state;
     this.$http = $http;
     this.PickupUtils = PickupUtils;
-    this.$uibModal = $uibModal;
     this.$stateParams = $stateParams;
     let scope = this;
     if ($stateParams.seasonId === '') {
@@ -170,38 +169,31 @@ export class AdminPickupsComponent {
     this.$state.go('adminPickups', {seasonId: this.selectedSeason._id, pickupOption: selectedPickupOption, interval: intervalNumber});
   }
 
-  modal(pickup, component, successCallback, options?) {
+  getResolve(pickup): Object{
     let scope = this;
-    var modalInstance = this.$uibModal.open(_.merge({
-        component: component,
-        resolve: {
-          season: function() {
-            return scope.selectedSeason;
-          },
-          pickup: function () {
-            return pickup;
-          }
-        }
-    }, options || {}) as ng.ui.bootstrap.IModalSettings);
-
-    modalInstance.result.then((editedPickup) => {
-      successCallback(editedPickup);
-    });
+    return {
+      season: function() {
+        return scope.selectedSeason;
+      },
+      pickup: function () {
+        return pickup;
+      }
+    }
   }
 
   edit(pickup) {
-    this.modal(pickup, 'adminPickupEdit', editedPickup => {
+    this.modal('adminPickupEdit', this.getResolve(pickup), editedPickup => {
       _.assign(pickup, editedPickup);
       this.evaluatePickups();
     });
   }
 
   manage(pickup) {
-    this.modal(pickup, 'adminPickupManage', result => {});
+    this.modal('adminPickupManage', this.getResolve(pickup), () => {});
   }
 
   print(pickup) {
-    this.modal(pickup, 'adminPickupPrint', result => {}, {windowClass: 'widePrintableArea'});
+    this.modal('adminPickupPrint', this.getResolve(pickup), () => {}, {windowClass: 'widePrintableArea'});
   }
 
 }

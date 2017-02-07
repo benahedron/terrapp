@@ -4,10 +4,10 @@ const angular = require('angular');
 const uiRouter = require('angular-ui-router');
 
 import routes from './schedule.routes';
+import {ModalBase} from '../shared/modal.base';
 
-export class ScheduleComponent {
+export class ScheduleComponent extends ModalBase{
   $http: ng.IHttpService;
-  $uibModal: ng.ui.bootstrap.IModalService;
   PickupOptionsService: IPickupOptionsService;
   pickupOptions: IPickupOption[];
   userEvents = [];
@@ -16,6 +16,7 @@ export class ScheduleComponent {
 
   /*@ngInject*/
   constructor($http, $uibModal, PickupOptionsService, PickupUtils) {
+    super($uibModal);
     this.$http = $http;
     this.$uibModal = $uibModal;
     this.PickupOptionsService = PickupOptionsService;
@@ -83,28 +84,21 @@ export class ScheduleComponent {
     };
   }
 
-  modal(userEvent, component, successCallback) {
+  getResolve(userEvent) {
     let scope = this;
-    var modalInstance = this.$uibModal.open({
-        component: component,
-        resolve: {
-          season: function () {
-            return scope.season;
-          },
-          userEvent: function () {
-            return userEvent;
-          }
-        }
-    } as ng.ui.bootstrap.IModalSettings);
-
-    modalInstance.result.then((editedEvent) => {
-      successCallback(editedEvent);
-    });
+    return {
+      season: function () {
+        return scope.season;
+      },
+      userEvent: function () {
+        return userEvent;
+      }
+    };
   }
 
   edit(userEvent) {
     let scope = this;
-    this.modal(userEvent, 'userPickupEdit', editedUserEvent => {
+    this.modal('userPickupEdit', this.getResolve(userEvent), editedUserEvent => {
       let newProcessedEvent = scope.processUserEvent(editedUserEvent);
       let oldProcessedEvent = _.find(scope.userEvents, candidateEvent => {
         return candidateEvent.userEvent._id === userEvent._id;

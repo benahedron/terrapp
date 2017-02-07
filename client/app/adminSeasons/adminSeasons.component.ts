@@ -4,40 +4,32 @@ const angular = require('angular');
 const uiRouter = require('angular-ui-router');
 
 import routes from './adminSeasons.routes';
+import {ModalBase} from '../shared/modal.base';
 
-export class AdminSeasonsComponent {
+export class AdminSeasonsComponent extends ModalBase{
   seasons: Object[];
   $http: ng.IHttpService;
   getDateForInterval: Function;
   activeSeason: string;
   OptionsService: IOptionsService;
-  $uibModal: ng.ui.bootstrap.IModalService;
   $state: ng.ui.IStateService;
 
   /*@ngInject*/
   constructor($http, SeasonUtils, OptionsService, $uibModal, $state) {
+    super($uibModal);
     this.$state = $state;
-    this.$uibModal = $uibModal;
     this.$http = $http;
     this.getDateForInterval = SeasonUtils.getDateForInterval;
     this.OptionsService = OptionsService;
     this.reload();
   }
 
-  modal(season, component, successCallback) {
-    var modalInstance = this.$uibModal.open({
-        component: component,
-        resolve: {
-          season: function () {
-            return season;
-          }
-        }
-    } as ng.ui.bootstrap.IModalSettings);
-
-    let scope = this;
-    modalInstance.result.then((editedSeason) => {
-      successCallback(editedSeason);
-    });
+  getResolve(season) {
+    return {
+      season: function () {
+        return season;
+      }
+    }
   }
 
   private isActive(season) {
@@ -68,20 +60,20 @@ export class AdminSeasonsComponent {
 
   delete(season) {
     let scope = this;
-    this.modal(season, 'adminSeasonDelete', (season) => {
+    this.modal('adminSeasonDelete', this.getResolve(season), (season) => {
       scope.seasons.splice(scope.seasons.indexOf(season), 1);
     });
   }
 
   edit(season) {
-    this.modal(season, 'adminSeasonEdit', (editedSeason) => {
+    this.modal('adminSeasonEdit', this.getResolve(season), (editedSeason) => {
       _.assign(season, editedSeason);
     });
   }
 
   create() {
     let scope = this;
-    this.modal(null, 'adminSeasonEdit', (season) => {
+    this.modal('adminSeasonEdit', this.getResolve(null), (season) => {
       scope.seasons.push(season);
     });
   }
@@ -92,7 +84,7 @@ export class AdminSeasonsComponent {
 
   manageBaskets(season) {
     let scope = this;
-    this.modal(season, 'adminSeasonBaskets', (season) => {
+    this.modal('adminSeasonBaskets', this.getResolve(season), (season) => {
     });
   }
 }
