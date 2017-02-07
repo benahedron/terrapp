@@ -10,7 +10,7 @@
 
 'use strict';
 
-import jsonpatch from 'fast-json-patch';
+import _ from 'lodash';
 import PickupOption from './pickupOption.model';
 
 function respondWithResult(res, statusCode) {
@@ -26,7 +26,7 @@ function respondWithResult(res, statusCode) {
 function patchUpdates(patches) {
   return function(entity) {
     try {
-      jsonpatch.apply(entity, patches, /*validate*/ true);
+      entity = _.merge(entity, patches);
     } catch(err) {
       return Promise.reject(err);
     }

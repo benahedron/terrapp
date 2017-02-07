@@ -1,0 +1,66 @@
+<form class="form" name="form" ng-submit="$ctrl.save(form)" novalidate>
+  <div class="modal-header">
+    <h3 class="modal-title" id="modal-title">
+      <span ng-if="!$ctrl.isNew">Edit</span>
+      <span ng-if="$ctrl.isNew">Create</span>
+      season
+    </h3>
+  </div>
+  <div class="modal-body" id="modal-body">
+    <div class="form-group" ng-class="{ 'has-success': form.name.$valid && $ctrl.submitted, 'has-error': form.name.$invalid && $ctrl.submitted }">
+      <label>Name</label>
+      <input type="name" name="name" class="form-control" ng-model="$ctrl.pickupOption.name" required mongoose-error/>
+      <p class="help-block" ng-show="form.name.$error.required && $ctrl.submitted">
+        Name this pickup option
+      </p>
+      <p class="help-block" ng-show="form.name.$error.mongoose">
+        {{ $ctrl.errors.name }}
+      </p>
+    </div>
+    <div class="form-group" ng-class="{ 'has-success': form.geoUri.$valid && $ctrl.submitted, 'has-error': form.geoUri.$invalid && $ctrl.submitted }">
+      <label>GeoURI</label>
+      <input type="text" name="geoUri" class="form-control" ng-model="$ctrl.pickupOption.geoUri" required mongoose-error/>
+      <p class="help-block" ng-show="form.name.$error.required && $ctrl.submitted">
+        Enter e GeoURI.
+      </p>
+    </div>
+    <div class="form-group" ng-class="{ 'has-success': form.weekDay.$valid && $ctrl.submitted, 'has-error': form.weekDay.$invalid && $ctrl.submitted }">
+      <label>Offset days</label>
+      <input type="number" name="weekDay" class="form-control" ng-model="$ctrl.pickupOption.weekDay" min="0" max="365" required/> in days.
+      <p class="help-block" ng-show="form.weekDay.$error.required && $ctrl.submitted">
+        Set the offert days of this event with respect to the interval start.
+      </p>
+    </div>
+    <div class="form-group" ng-class="{ 'has-success': form.startMinute.$valid && $ctrl.submitted, 'has-error': form.startMinute.$invalid && $ctrl.submitted }">
+      <label>Start Minute</label>
+      <input type="number" name="startMinute" class="form-control" ng-model="$ctrl.pickupOption.startMinute" min="0" max="1440" required/>
+      <p class="help-block" ng-show="form.startMinute.$error.required && $ctrl.submitted">
+        Set a start minute for the pickup option.
+      </p>
+    </div>
+    <div class="form-group" ng-class="{ 'has-success': form.durationMinutes.$valid && $ctrl.submitted, 'has-error': form.durationMinutes.$invalid && $ctrl.submitted }">
+      <label>Duration in Minutes</label>
+      <input type="number" name="durationMinutes" class="form-control" ng-model="$ctrl.pickupOption.durationMinutes" min="0" max="1440" required/>
+      <p class="help-block" ng-show="form.durationMinutes.$error.required && $ctrl.submitted">
+        Provide the pickup option with a duration in minutes.
+      </p>
+    </div>
+    <div class="form-group" ng-class="{ 'has-success': form.hoursBeforeLocking.$valid && $ctrl.submitted, 'has-error': form.hoursBeforeLocking.$invalid && $ctrl.submitted }">
+      <label>Hours before locking</label>
+      <input type="number" name="hoursBeforeLocking" class="form-control" ng-model="$ctrl.pickupOption.hoursBeforeLocking" min="0" max="1440" required/>
+      <p class="help-block" ng-show="form.hoursBeforeLocking.$error.required && $ctrl.submitted">
+        Provide the pickup option with a time that indicates when the last modification to an event is possible.
+      </p>
+    </div>
+
+    <div class="form-group">
+      <label></label>
+      <input type="checkbox" ng-model="$ctrl.pickupOption.active" /> active.
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="submit">Save</button>
+    <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+  </div>
+</form>

@@ -4,9 +4,10 @@ const angular = require('angular');
 const uiRouter = require('angular-ui-router');
 
 import routes from './adminPickupOptions.routes';
+import {ModalBase} from '../shared/modal.base';
 
 
-export class AdminPickupOptionsComponent {
+export class AdminPickupOptionsComponent extends ModalBase{
   $http: ng.IHttpService;
   $uibModal: ng.ui.bootstrap.IModalService;
   pickupOptions: Object[] = [];
@@ -14,32 +15,44 @@ export class AdminPickupOptionsComponent {
 
   /*@ngInject*/
   constructor($http, $uibModal, PickupOptionsService) {
+    super($uibModal);
     this.$http = $http;
-    this.$uibModal = $uibModal;
     this.PickupOptionsService = PickupOptionsService;
     this.reload();
   }
 
-  delete(pickupOption) {
-    var modalInstance = this.$uibModal.open({
-        component: 'adminPickupOptionDelete',
-        resolve: {
-          pickupOption: function () {
-            return pickupOption;
-          }
-        }
-      } as ng.ui.bootstrap.IModalSettings
-    );
+  getResolve(pickupOption) {
+    return {
+      pickupOption: function () {
+        return pickupOption;
+      }
+    };
+  }
 
+  delete(pickupOption) {
     let scope = this;
-    modalInstance.result.then((pickupOption) => {
+    this.modal('adminPickupOptionDelete', this.getResolve(pickupOption), (pickupOption) => {
       scope.$http.delete("/api/pickupOptions/"+pickupOption._id)
       .then(() => {
         (scope.PickupOptionsService as any).reload();
         scope.reload();
       });
-    }, function () {
+    });
+  }
 
+  edit(pickupOption) {
+    let scope = this;
+    this.modal('adminPickupOptionEdit', this.getResolve(pickupOption), (pickupOption) => {
+      (scope.PickupOptionsService as any).reload();
+      scope.reload();
+    });
+  }
+
+  create() {
+    let scope = this;
+    this.modal('adminPickupOptionEdit', this.getResolve(null), (pickupOption) => {
+      (scope.PickupOptionsService as any).reload();
+      scope.reload();
     });
   }
 
