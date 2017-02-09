@@ -48,7 +48,8 @@ import seasonUtilsService from './services/seasonUtils/seasonUtils.service';
 import pickupUtilsService from './services/pickupUtils/pickupUtils.service';
 import translationService from './services/translation/translation.service';
 import translationFilter from './filters/translation/translation.filter';
-import trustedFilter from './filters/trustedFilter/trusted.filter';
+import trustedFilter from './filters/trusted/trusted.filter';
+import geouriFilter from './filters/geouri/geouri.filter';
 
 import pickupOptionMapDirective from './directives/pickupOptionMap/pickupOptionMap.directive';
 import pickupOptionMapWindowComponent from './directives/pickupOptionMap/pickupOptionMapWindow.component';
@@ -71,6 +72,7 @@ angular.module('terrappApp', [
 
   translationFilter,
   trustedFilter,
+  geouriFilter,
 
   pickupOptionMapDirective,
   pickupOptionMapWindowComponent,

@@ -3,7 +3,7 @@
     <div class="col-md-12">
       <h1>Pickup Options</h1>
       <p>Modify the available pickup options.</p>
-      <button class="btn btn-primary" ng-click="$ctrl.create()"><span class="glyphicon glyphicon-plus"> </span></button>
+      <button class="btn btn-primary" ng-click="$ctrl.create()"><span class="glyphicon glyphicon-plus"> </span> Create</button>
     </div>
   </div>
   <div class="row">
@@ -21,8 +21,8 @@
             <td>{{pickupOption.name}}</td>
             <td>{{pickupOption.geoUri}}</td>
             <td>
-              <button class="btn btn-primary" ng-click="$ctrl.edit(pickupOption)"><span class="glyphicon glyphicon-pencil"> </span></button>
-              <button class="btn btn-primary" ng-click="$ctrl.delete(pickupOption)"><span class="glyphicon glyphicon-trash"> </span></button>
+              <button class="btn btn-primary" ng-click="$ctrl.edit(pickupOption)"><span class="glyphicon glyphicon-pencil"> </span> Edit</button>
+              <button class="btn btn-primary" ng-click="$ctrl.delete(pickupOption)"><span class="glyphicon glyphicon-trash"> </span> Delete</button>
             </td>
           </tr>
         </tbody>

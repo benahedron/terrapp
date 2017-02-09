@@ -1,9 +1,9 @@
-<form class="form" name="form" ng-submit="$ctrl.save(form)" novalidate>
+<form class="form pickupOptionEdit" name="form" ng-submit="$ctrl.save(form)" novalidate>
   <div class="modal-header">
     <h3 class="modal-title" id="modal-title">
       <span ng-if="!$ctrl.isNew">Edit</span>
       <span ng-if="$ctrl.isNew">Create</span>
-      season
+      pickup option
     </h3>
   </div>
   <div class="modal-body" id="modal-body">
@@ -18,11 +18,25 @@
       </p>
     </div>
     <div class="form-group" ng-class="{ 'has-success': form.geoUri.$valid && $ctrl.submitted, 'has-error': form.geoUri.$invalid && $ctrl.submitted }">
-      <label>GeoURI</label>
-      <input type="text" name="geoUri" class="form-control" ng-model="$ctrl.pickupOption.geoUri" required mongoose-error/>
+      <label>Geo URI</label>
+
+      <div class="input-group">
+        <input type="text" name="geoUri" class="form-control" ng-model="$ctrl.pickupOption.geoUri" required mongoose-error/>
+        <span class="input-group-addon" data-toggle="popover" data-trigger="focus" title="Dismissible popover" data-content="And here's some amazing content. It's very engaging. Right?">
+          <a target="_blank" href="http://openstreetmap.com"><span class="glyphicon glyphicon-map-marker"> </span></a>
+        </span>
+        <span class="input-group-addon" uib-popover="Go to http://openstreetmap.com (click the map pin), find your location & click the share button. Copy the Geo URI in this field." popover-trigger="'mouseenter'" >
+          <span class="glyphicon glyphicon-question-sign"> </span>
+        </span>
+      </div>
+
+
       <p class="help-block" ng-show="form.name.$error.required && $ctrl.submitted">
-        Enter e GeoURI.
+        Enter e Geo URI.
       </p>
+    </div>
+    <div class="form-group">
+      <iframe id="mapPreview" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="{{$ctrl.pickupOption.geoUri|geouri|trusted}}" style="border: 1px solid black"></iframe></small>
     </div>
     <div class="form-group" ng-class="{ 'has-success': form.weekDay.$valid && $ctrl.submitted, 'has-error': form.weekDay.$invalid && $ctrl.submitted }">
       <label>Offset days</label>
