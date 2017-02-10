@@ -196,6 +196,12 @@ export class AdminPickupsComponent extends ModalBase{
     this.modal('adminPickupPrint', this.getResolve(pickup), () => {}, {windowClass: 'widePrintableArea'});
   }
 
+  mail(pickup) {
+    this.modal('adminPickupMail', this.getResolve(pickup), editedPickup => {
+      _.assign(pickup, editedPickup);
+    });
+  }
+
 }
 
 export default angular.module('terrappApp.adminPickups', [uiRouter])

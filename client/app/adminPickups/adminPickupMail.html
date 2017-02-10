@@ -1,0 +1,50 @@
+<form class="form" name="form"  novalidate>
+  <div class="modal-header">
+    <h3 class="modal-title" id="modal-title">
+      Manage e-mails for pickup event N°{{$ctrl.pickup.eventNumber + 1}}
+    </h3>
+  </div>
+  <div class="modal-body" id="modal-body">
+    <div class="modalContainer">
+      <button class="btn btn-primary" ng-click="$ctrl.newMail()"><span class="glyphicon glyphicon-plus"> </span> New</button>
+      <div class="row mailRow" ng-repeat="mail in $ctrl.pickup.mails">
+        <div class="col-md-12"  ng-if="mail._id !== $ctrl.editMail._id">
+          <hr/>
+          <div class="pull-right">
+            <button class="btn btn-primary" ng-disabled="mail.sent" ng-click="$ctrl.edit(mail)"><span class="glyphicon glyphicon-edit"> </span> Edit</button>
+            <button class="btn btn-primary" ng-disabled="mail.sent" ng-click="$ctrl.send(mail)"><span class="glyphicon glyphicon-send"> </span> Send</button>
+            <button class="btn btn-warning" ng-click="$ctrl.delete(mail)"><span class="glyphicon glyphicon-remove"> </span> Delete</button>
+          </div>
+          <p class="mailHeading" ng-click="$ctrl.edit(mail)" >
+            <b ng-class="{mailSent: mail.sent}">{{mail.subject}}</b>
+            <span ng-if="mail.sent"><i>(sent on: {{mail.date||"dd.MM.yyyy HH:mm"}})</i></span>
+          </p>
+          <pre>{{mail.message}}</pre>
+        </div>
+        <div class="col-md-12" ng-if="$ctrl.editMail && $ctrl.editMail._id+'' == mail._id+''" >
+          <hr/>
+          <form class="form">
+            <div class="form-group">
+              <label>Subject</label>
+              <input type="text" name="subject" class="form-control" ng-model="$ctrl.editMail.subject" required>
+            </div>
+            <div class="form-group">
+              <label>Message</label>
+              <textarea class="form-control" rows="3" ng-model="$ctrl.editMail.message"></textarea>
+            </div>
+            <div class="form-group">
+              <label></label>
+              <div>
+                <button class="btn btn-primary" type="submit" ng-click="$ctrl.update($ctrl.editMail, mail)">Save</button>
+                <button class="btn btn-primary" type="submit" ng-click="$ctrl.cancel()">Cancel</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="$ctrl.ok()">Done</button>
+  </div>
+</form>

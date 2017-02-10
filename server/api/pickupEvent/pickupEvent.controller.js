@@ -13,6 +13,7 @@
 import jsonpatch from 'fast-json-patch';
 import PickupEvent from './pickupEvent.model';
 import * as PickupEventLogic from '../../components/utils/pickupEvent.logic'
+import _ from 'lodash'
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -27,11 +28,10 @@ function respondWithResult(res, statusCode) {
 function patchUpdates(patches) {
   return function(entity) {
     try {
-      jsonpatch.apply(entity, patches, /*validate*/ true);
+      _.assign(entity, patches);
     } catch(err) {
       return Promise.reject(err);
     }
-
     return entity.save();
   };
 }
@@ -128,11 +128,12 @@ export function patch(req, res) {
   if(req.body._id) {
     delete req.body._id;
   }
+
   return PickupEvent.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(patchUpdates(req.body))
     .then(respondWithResult(res))
-    .catch(handleError(res));
+    //.catch(handleError(res));
 }
 
 // Deletes a PickupEvent from the DB
@@ -141,4 +142,30 @@ export function destroy(req, res) {
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));
+}
+
+// Send an e-mail to the customers of an event
+export function sendMail(req, res) {
+  return PickupEvent.findById(req.params.pickupId).exec()
+    .then(pickupEvent => {
+      let mail = _.find(pickupEvent.mails, mail => {
+        return mail._id+'' === req.params.mailId;
+      });
+      if (mail && !mail.date) {
+        // Send
+        PickupEventLogic.sendMail(pickupEvent, mail, (sent) => {
+          if (sent) {
+            mail.date = new Date();
+            mail.sent = true;
+            return pickupEvent.save();
+          } else {
+            return handleError(res);
+          }
+        });
+      } else {
+        return handleError(res);
+      }
+    })
+    .then(respondWithResult(res))
+    //.catch(handleError(res));
 }

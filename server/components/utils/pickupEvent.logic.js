@@ -4,9 +4,12 @@ import PickupUserEvent from '../../api/pickupUserEvent/pickupUserEvent.model';
 import Season from '../../api/season/season.model';
 import PickupOption from '../../api/pickupOption/pickupOption.model';
 import Basket from '../../api/basket/basket.model';
+import User from '../../api/user/user.model';
 import PickupEvent from '../../api/pickupEvent/pickupEvent.model';
 import * as Utils from './utils';
 import _ from 'lodash';
+import email from 'emailjs';
+import config from '../../config/environment';
 
 /**
  * When a pickup event is updated or saved, assert that the correct user events
@@ -78,4 +81,65 @@ export function getAlternativesFor(pickupEvent, callback) {
       });
     });
   });
+}
+
+/**
+ * Send an e-mail message to the attendants of a certain event.
+ */
+export function sendMail(pickupEvent, mail, callback) {
+  console.log({'$or': [
+    {pickupEvent: pickupEvent._id, pickupEventOverride: null},
+    {pickupEventOverride: pickupEvent._id}
+  ]});
+  return PickupUserEvent.find(
+    {'$or': [
+      {pickupEvent: pickupEvent._id, pickupEventOverride: null},
+      {pickupEventOverride: pickupEvent._id}
+    ]})
+    .populate({path: 'basket', populate: { path: 'membership' }})
+    .exec()
+    .then(userEvents => {
+      if (!userEvents) {
+        return callback(false);
+      }
+      let userIds = _.map(userEvents, 'basket.membership._id');
+      User.find({'membership': {'$in': userIds}})
+      .then(users => {
+        if (!users) {
+          return callback(false);
+        }
+        let emails = _.map(users, 'email');
+        return sendMailTo(email, mail.subject, mail.message, callback);
+      });
+    });
+}
+
+
+
+function sendMailTo(emails, subject, message, callback) {
+  if (config.email) {
+    var server  = email.server.connect({
+      user:    config.email.username,
+      password:config.email.password,
+      host:    config.email.smtp,
+      ssl:     true
+    });
+
+    let receiver = config.source;
+    let cc = '';
+    _.each(emails, email => {
+      cc += ','+email;
+    })
+
+    server.send({
+     text:    message,
+     from:    config.email.sourceMail,
+     to:      config.email.sourceMail,
+     cc:      cc,
+     subject: subject
+    }, function(err, message) {
+      console.log(err || message);
+      callback(err ? false : true);
+    });
+  }
 }

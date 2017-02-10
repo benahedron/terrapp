@@ -20,6 +20,14 @@ interface ISeason {
   activePickupOptions: IPickupOption[];
 }
 
+interface IMail {
+  _id: string;
+  date: string;
+  sent: boolean;
+  subject: string;
+  message: string;
+}
+
 interface IPickupEvent {
   _id: string;
   season: ISeason;
@@ -30,12 +38,7 @@ interface IPickupEvent {
   startDateOverride: string;
   durationMinutesOverride: number;
   canceled: boolean;
-  mails: [
-    {
-      date: string;
-      message: string;
-    }
-  ];
+  mails: IMail[];
   // TODO: Only used for overriging now. Should be handled differently
   startDate: Date;
 }

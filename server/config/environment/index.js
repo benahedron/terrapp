@@ -43,6 +43,14 @@ var all = {
         safe: true
       }
     }
+  },
+
+  // Email sending options
+  email: {
+    username: 'username',
+    password: 'password',
+    smtp: 'smtp.mymailserver.com',
+    sourceMail: 'Your Company <your-company-address@email.com>'
   }
 };
 

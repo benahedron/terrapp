@@ -29,6 +29,7 @@ import adminPickupOptionEdit from './adminPickupOptions/adminPickupOptionEdit.co
 import adminPickups from './adminPickups/adminPickups.component';
 import adminPickupEdit from './adminPickups/adminPickupEdit.component';
 import adminPickupManage from './adminPickups/adminPickupManage.component';
+import adminPickupMail from './adminPickups/adminPickupMail.component';
 import adminPickupPrint from './adminPickups/adminPickupPrint.component';
 import adminSeasons from './adminSeasons/adminSeasons.component';
 import adminSeasonDelete from './adminSeasons/adminSeasonDelete.component';
@@ -90,6 +91,7 @@ angular.module('terrappApp', [
   adminPickups,
   adminPickupEdit,
   adminPickupManage,
+  adminPickupMail,
   adminPickupPrint,
   adminPickupOptions,
   adminPickupOptionDelete,

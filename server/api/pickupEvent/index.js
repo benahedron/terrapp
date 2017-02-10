@@ -15,5 +15,6 @@ router.post('/', auth.hasRole('admin'), controller.create);
 router.put('/:id', auth.hasRole('admin'), controller.upsert);
 router.patch('/:id', auth.hasRole('admin'), controller.patch);
 router.delete('/:id', auth.hasRole('admin'), controller.destroy);
+router.post('/send/:pickupId/:mailId', auth.hasRole('admin'), controller.sendMail);
 
 module.exports = router;

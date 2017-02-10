@@ -22,7 +22,7 @@ export class AdminPickupBase {
     if (_.has(resolve, 'pickup') && resolve.pickup !== null) {
       this.pickup = resolve.pickup;
       this.season = resolve.season;
-      this.load()
+      this.load();
     } else {
       this.cancel();
     }
