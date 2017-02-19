@@ -6,16 +6,6 @@
 
 
 /**
- * Check is a user event is already done
- */
-export function isOldEvent(season, userEvent) {
-  var actualEvent = userEvent.pickupEventOverride || userEvent.pickupEvent;
-  let now = new Date().getTime();
-  let eventDate = getStartDateForPickupEvent(season, actualEvent.pickupOption, actualEvent);
-  return now >= eventDate.geTime();
-}
-
-/**
  * @return the start date for a given season interval
  */
 export function getDateForSeasonInterval(season, number) {
@@ -51,4 +41,16 @@ export function getEndDateFor(season, pickupOption, pickupEvent) {
   } else {
     return new Date(new Date(pickupEvent.startDateOverride).getTime() + 60000 * durationMinutes);
   }
+}
+
+
+/**
+ * Check is a user event is already done
+ */
+export function isOldEvent(season, userEvent) {
+  var actualEvent = userEvent.pickupEventOverride || userEvent.pickupEvent;
+  let now = new Date().getTime();
+  let eventDate = getStartDateForPickupEvent(season, actualEvent.pickupOption, actualEvent);
+
+  return now >= eventDate.getTime();
 }

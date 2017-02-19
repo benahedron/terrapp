@@ -8,6 +8,7 @@ import './basket.events';
 var router = express.Router();
 
 router.get('/user', auth.isAuthenticated(), controller.indexForUser);
+router.put('/user', auth.isAuthenticated(), controller.updateBasket);
 router.get('/', auth.hasRole('admin'), controller.index);
 router.get('/bySeason/:seasonId', auth.hasRole('admin'), controller.indexBySeason);
 router.get('/:id', auth.hasRole('admin'), controller.show);

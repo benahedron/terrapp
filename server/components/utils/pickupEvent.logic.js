@@ -87,10 +87,7 @@ export function getAlternativesFor(pickupEvent, callback) {
  * Send an e-mail message to the attendants of a certain event.
  */
 export function sendMail(pickupEvent, mail, callback) {
-  console.log({'$or': [
-    {pickupEvent: pickupEvent._id, pickupEventOverride: null},
-    {pickupEventOverride: pickupEvent._id}
-  ]});
+
   return PickupUserEvent.find(
     {'$or': [
       {pickupEvent: pickupEvent._id, pickupEventOverride: null},

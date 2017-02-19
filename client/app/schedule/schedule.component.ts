@@ -28,11 +28,16 @@ export class ScheduleComponent extends ModalBase{
     this.PickupOptionsService.get()
     .then(pickupOptions => {
       this.pickupOptions = pickupOptions
-      this.$http.get('/api/baskets/user')
-      .then(res => {
-        scope.processBaskets((res.data as any).baskets as IBasket[]);
-        scope.processUserEvents((res.data as any).pickupUserEvents as IPickupUserEvent[]);
-      });
+      this.reload();
+    });
+  }
+
+  reload() {
+    let scope = this;
+    this.$http.get('/api/baskets/user')
+    .then(res => {
+      scope.processBaskets((res.data as any).baskets as IBasket[]);
+      scope.processUserEvents((res.data as any).pickupUserEvents as IPickupUserEvent[]);
     });
   }
 
@@ -44,6 +49,7 @@ export class ScheduleComponent extends ModalBase{
 
   processBaskets(baskets: IBasket[]) {
     this.season = _.first(baskets).season;
+    this.baskets = baskets;
   }
 
   processUserEvents(loadedUserEvents) {
@@ -84,6 +90,18 @@ export class ScheduleComponent extends ModalBase{
     };
   }
 
+  getOptionResolve(userEvent) {
+    let scope = this;
+    return {
+      season: function () {
+        return scope.season;
+      },
+      baskets: function () {
+        return scope.baskets;
+      },
+    };
+  }
+
   getResolve(userEvent) {
     let scope = this;
     return {
@@ -95,6 +113,13 @@ export class ScheduleComponent extends ModalBase{
       }
     };
   }
+
+  changePickupOption() {
+    let scope = this;
+    this.modal('changePickupOption', this.getOptionResolve(), () => {
+      scope.reload();
+    });
+  });
 
   edit(userEvent) {
     let scope = this;

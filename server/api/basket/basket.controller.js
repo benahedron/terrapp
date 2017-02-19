@@ -14,7 +14,9 @@ import jsonpatch from 'fast-json-patch';
 import Basket from './basket.model';
 import Options from '../options/options.model';
 import PickupUserEvent from '../pickupUserEvent/pickupUserEvent.model';
+import * as BasketLogic from '../../components/utils/basket.logic';
 import _ from 'lodash';
+import async from 'async';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -143,4 +145,26 @@ export function destroy(req, res) {
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));
+}
+
+// Update a users 'defaultPickupOption' for the given baskets
+export function updateBasket(req, res) {
+  Basket.find({membership: req.user.membership})
+  .then(baskets => {
+    let changes = [];
+    _.each(baskets, basket => {
+      let newBasket = _.find(req.body, candidate => {
+        return candidate._id+'' === basket._id+'';
+      });
+      if (newBasket) {
+        if (newBasket.defaultPickupOption+'' !== basket.defaultPickupOption+'') {
+           changes.push({basket: basket, newDefaultPickupOption: newBasket.defaultPickupOption});
+        }
+      }
+      async.eachSeries(changes, (change, callback) => {
+        BasketLogic.onUpdateDefaultPickupOption(change.basket, change.newDefaultPickupOption, callback);
+      });
+    });
+  });
+  res.sendStatus(200);
 }

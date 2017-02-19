@@ -37,6 +37,7 @@ import adminSeasonEdit from './adminSeasons/adminSeasonEdit.component';
 import adminSeasonBaskets from './adminSeasons/adminSeasonBaskets.component';
 import schedule from './schedule/schedule.component';
 import userPickupEdit from './schedule/userPickupEdit.component';
+import changePickupOption from './schedule/changePickupOption.component';
 import navbar from '../components/navbar/navbar.component';
 import footer from '../components/footer/footer.component';
 import main from './main/main.component';
@@ -98,6 +99,7 @@ angular.module('terrappApp', [
   adminPickupOptionEdit,
   schedule,
   userPickupEdit,
+  changePickupOption,
   navbar,
   footer,
   main,
