@@ -36,6 +36,9 @@ export class AdminPickupBase {
       _.each(scope.userEvents, userEvent => {
         scope.calculateStartTime(userEvent);
       });
+      scope.userEvents = _.sortBy(scope.userEvents, userEvent => {
+        return userEvent.basket.membership.lastName + userEvent.basket.membership.firstName;
+      });
       this.$http.get('/api/pickupEvents/alternatives/'+this.pickup._id+'/')
       .then(result => {
         scope.pickupEventAlternatives = result.data as IPickupEvent[];

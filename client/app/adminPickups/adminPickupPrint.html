@@ -9,9 +9,10 @@
   <table class="table table-hover">
     <thead>
       <tr>
-        <th colspan="3"><p>Baskets to prepare: <b>{{$ctrl.getRequiredBaskets()}}</b></p></th>
+        <th colspan="4"><p>Baskets to prepare: <b>{{$ctrl.getRequiredBaskets()}}</b></p></th>
       </tr>
       <tr>
+        <th>#</th>
         <th>Name</th>
         <th>Note</th>
         <th>Signature</th>
@@ -19,6 +20,9 @@
     </thead>
     <tbody>
       <tr ng-repeat="userEvent in $ctrl.userEvents">
+        <td>
+          {{$index+1}}
+        </td>
         <td>
           <div>
             <span ng-class="{'userAbsent': userEvent.absent|| (userEvent.pickupEventOverride!=null && userEvent.pickupEventOverride._id!=$ctrl.pickup._id)}">

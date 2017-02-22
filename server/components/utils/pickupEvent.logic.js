@@ -56,7 +56,7 @@ export function getAlternativesFor(pickupEvent, callback) {
       .populate('pickupOptionOverride')
       .then((candidates, err) => {
         let now = new Date().getTime();
-        let startDate = Utils.getStartDateForPickupEvent(season, pickupOption, pickupEvent).getTime();
+        let startDate = Utils.getStartDateFor(season, pickupOption, pickupEvent).getTime();
         let hoursToMs = 60*60*1000;
         let eventInterval = 24 * hoursToMs * (season.eventIntervalInDays-1);
         let lowerBound = startDate - eventInterval;
@@ -66,7 +66,7 @@ export function getAlternativesFor(pickupEvent, callback) {
         if (now < (startDate-(pickupOption.hoursBeforeLocking*hoursToMs))) {
           let results = [];
           _.each(candidates, candidate => {
-            let altStartDate = Utils.getStartDateForPickupEvent(season, candidate.pickupOption, candidate).getTime();
+            let altStartDate = Utils.getStartDateFor(season, candidate.pickupOption, candidate).getTime();
             // Can the alternative event still be used?
             if (altStartDate>=lowerBound &&
                 altStartDate<=upperBound &&
