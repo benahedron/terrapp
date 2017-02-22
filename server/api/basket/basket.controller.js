@@ -161,9 +161,9 @@ export function updateBasket(req, res) {
            changes.push({basket: basket, newDefaultPickupOption: newBasket.defaultPickupOption});
         }
       }
-      async.eachSeries(changes, (change, callback) => {
-        BasketLogic.onUpdateDefaultPickupOption(change.basket, change.newDefaultPickupOption, callback);
-      });
+    });
+    async.eachSeries(changes, (change, callback) => {
+      BasketLogic.onUpdateDefaultPickupOption(change.basket, change.newDefaultPickupOption, callback);
     });
   });
   res.sendStatus(200);
