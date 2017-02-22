@@ -51,6 +51,23 @@ export function isOldEvent(season, userEvent) {
   var actualEvent = userEvent.pickupEventOverride || userEvent.pickupEvent;
   let now = new Date().getTime();
   let eventDate = getStartDateForPickupEvent(season, actualEvent.pickupOption, actualEvent);
-
+  console.log(userEvent.pickupEventOverride !== null, userEvent.pickupEvent !== null);
+  console.log(new Date(eventDate));
   return now >= eventDate.getTime();
+}
+
+
+/**
+ * @return true if the event is still editable
+ */
+export function isEditable(season, pickupOption, pickupEvent) {
+  let now = new Date().getTime();
+  let hoursToMs = 60*60*1000;
+  let startDate = getStartDateForPickupEvent(season, pickupOption, pickupEvent).getTime();
+  // Can we still change the pickup event?
+  if (now < (startDate-(pickupOption.hoursBeforeLocking*hoursToMs))) {
+    return true;
+  } else {
+    return false;
+  }
 }

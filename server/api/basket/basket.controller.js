@@ -15,6 +15,7 @@ import Basket from './basket.model';
 import Options from '../options/options.model';
 import PickupUserEvent from '../pickupUserEvent/pickupUserEvent.model';
 import * as BasketLogic from '../../components/utils/basket.logic';
+import * as Utils from '../../components/utils/utils';
 import _ from 'lodash';
 import async from 'async';
 
@@ -91,13 +92,28 @@ export function indexForUser(req, res) {
     .then(baskets => {
       let basketIds = _.map(baskets, '_id');
       return PickupUserEvent.find({basket: {'$in': basketIds}})
-      .populate('pickupEvent','-mails')
-      .populate('pickupEventOverride','-mails')
+      .populate({path: 'pickupEvent', select: '-mails', populate: { path: 'pickupOption' }})
+      .populate({path: 'pickupEventOverride', select: '-mails', populate: { path: 'pickupOption' }})
       .then(pickupUserEvents => {
-        res.status(200).send({baskets: baskets, pickupUserEvents: pickupUserEvents});
+        let result = [];
+        _.each(pickupUserEvents, pickupUserEvent => {
+          let userEvent = pickupUserEvent.toObject();
+          let actualBasket = _.find(baskets, basket => {
+            return basket._id.equals(pickupUserEvent.basket);
+          });
+          let actualSeason = actualBasket.season;
+          let actualPickupEvent = pickupUserEvent.pickupEventOverride || pickupUserEvent.pickupEvent;
+          let actualPickupOption = actualPickupEvent.pickupOption;
+          let old = Utils.isOldEvent(actualSeason, pickupUserEvent);
+          let editable = Utils.isEditable(actualSeason, actualPickupOption, actualPickupEvent);
+          userEvent.old = old;
+          userEvent.editable = editable;
+          result.push(userEvent);
+        });
+        res.status(200).send({baskets: baskets, pickupUserEvents: result});
       });
     })
-    .catch(handleError(res));
+    //.catch(handleError(res));
   })
 }
 

@@ -98,6 +98,9 @@ export class ScheduleComponent extends ModalBase{
       adminNote: actualEvent.adminNote,
       delegate: userEvent.delegate,
       absent: userEvent.absent,
+      editable: userEvent.editable,
+      old: userEvent.old,
+      done: userEvent.done,
       pickupOption: actualPickupOption
     };
   }
@@ -136,12 +139,11 @@ export class ScheduleComponent extends ModalBase{
   edit(userEvent) {
     let scope = this;
     this.modal('userPickupEdit', this.getResolve(userEvent), editedUserEvent => {
-      let newProcessedEvent = scope.processUserEvent(editedUserEvent);
+      let newProcessedEvent = scope.processUserEvent(editedUserEvent, false);
       let oldProcessedEvent = _.find(scope.userEvents, candidateEvent => {
         return candidateEvent.userEvent._id+'' === userEvent._id+'';
       })
       if (oldProcessedEvent && newProcessedEvent) {
-        console.log("UPDTA")
         _.assign(oldProcessedEvent, newProcessedEvent);
         scope.sortUserEvents();
       }

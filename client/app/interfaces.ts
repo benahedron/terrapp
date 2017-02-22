@@ -52,6 +52,7 @@ interface IPickupUserEvent{
   done: boolean;
   delegate: string;
   userNote: string;
+  editable: boolean;
 }
 
 interface IUser {

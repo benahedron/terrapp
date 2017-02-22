@@ -2,7 +2,7 @@
   <div class="row">
     <h1>Schedule <button class="btn btn-primary pull-right" ng-click="$ctrl.changePickupOption()">Change Default</button></h1>
   </div>
-  <div ng-repeat="userEvent in $ctrl.userEvents" class="eventRow">
+  <div ng-repeat="userEvent in $ctrl.userEvents" class="eventRow" ng-class="{'eventRowOld': userEvent.old}">
     <div class="col-md-2 col-xs-6 colCorrection">
       <div class="dateBox">
         <div class="dateBoxWeekday">
@@ -36,7 +36,10 @@
       <div class="detailsBox">
         <div class="detailsBoxInfo">
           Information & Options
-          <button class="pull-right btn btn-primary" ng-click="$ctrl.edit(userEvent.userEvent)">Edit</button>
+          <button class="pull-right leftMargin btn btn-primary" ng-if="userEvent.old && userEvent.userEvent.done"><span class="glyphicon glyphicon-ok"> </span> Picked up</button>
+          <button class="pull-right leftMargin btn btn-primary" ng-if="userEvent.old && !userEvent.userEvent.done"><span class="glyphicon glyphicon-remove"> </span> Not picked up</button>
+          <button class="pull-right leftMargin btn btn-primary" ng-if="!userEvent.userEvent.editable"><span class="glyphicon glyphicon-lock"> </span></button>
+          <button class="pull-right leftMargin btn btn-primary" ng-if="userEvent.userEvent.editable" ng-click="$ctrl.edit(userEvent.userEvent)">Edit</button>
         </div>
         <pre class="alert alert-info detailBoxLocation detailBoxGeneric"><b>Location:</b> <pickup-option-map option="userEvent.pickupOption._id" hoverable="true"> </pickup-option-map><span ng-if="userEvent.actualEvent.pickupOptionOverride" class="label label-warning">This pickup is not at its default location.</span></pre>
         <pre class="alert alert-danger detailBoxGeneric" ng-if="userEvent.adminNote"><b>Pickup note:</b><p>{{userEvent.adminNote}}</p></pre>
