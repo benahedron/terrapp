@@ -6,6 +6,19 @@
         <span class="glyphicon glyphicon-plus"> </span> Create
       </button>
       <p>Create & change extra event within a season.</p>
+      <div class="seasonSelection">
+        <span>Select a season:</span>
+        <div class="btn-group"  uib-dropdown >
+          <button type="button" class="btn btn-primary" uib-dropdown-toggle>{{$ctrl.selectedSeason.name || "Select season"}}</button>
+          <button type="button" class="btn btn-primary" uib-dropdown-toggle aria-haspopup="true" aria-expanded="false">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+          <ul class="dropdown-menu">
+            <li ng-repeat="season in $ctrl.seasons"><a href="#" ng-click="$ctrl.selectSeason(season)">{{season.name}}</a></li>
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
   <div class="row">

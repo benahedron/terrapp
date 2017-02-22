@@ -11,13 +11,41 @@ export class AdminExtraEventsComponent extends ModalBase{
   $http: ng.IHttpService;
   OptionsService: IOptionsService;
   $state: ng.ui.IStateService;
+  $stateParams: any;
+  seasons: ISeason[];
+  selectedSeason: ISeason;
 
   /*@ngInject*/
-  constructor($http, OptionsService, $uibModal) {
+  constructor($http, $state, $stateParams, Season, OptionsService, $uibModal) {
     super($uibModal);
     this.$http = $http;
+    this.$state = $state;
+    this.$stateParams = $stateParams;
     this.OptionsService = OptionsService;
-    this.reload();
+
+    this.applySeason(Season, () => {
+      this.reload();
+    });
+  }
+
+  private applySeason(Season, callback) {
+    let scope = this;
+    Season.query((seasons) => {
+      scope.seasons = seasons;
+      if (_.has(scope.$stateParams, 'seasonId')) {
+        scope.selectedSeason = _.find(scope.seasons, (season) => {
+          return season._id+'' === scope.$stateParams.seasonId+'';
+        });
+        if (scope.selectedSeason) {
+          return callback();
+        }
+      }
+
+      scope.OptionsService.getActiveSeason()
+      .then((activeSeason) => {
+        scope.$state.go('adminExtraEvents', {seasonId: activeSeason});
+      });
+    });
   }
 
   getResolve(extraEvent) {
@@ -27,20 +55,20 @@ export class AdminExtraEventsComponent extends ModalBase{
         return extraEvent;
       },
       season: function() {
-        return scope.activeSeason;
+        return scope.selectedSeason;
       }
     }
   }
 
   private reload() {
-    this.OptionsService.getActiveSeason()
-    .then((activeSeason) => {
-      this.activeSeason = activeSeason;
-      this.$http.get("/api/extraEvents/"+activeSeason)
-      .then((res) => {
-        this.extraEvents = res.data as IExtraEvent[];
-      });
-    })
+    this.$http.get("/api/extraEvents/"+this.selectedSeason._id)
+    .then((res) => {
+      this.extraEvents = res.data as IExtraEvent[];
+    });
+  }
+
+  public selectSeason(season) {
+    this.$state.go('adminExtraEvents', {seasonId: season._id});
   }
 
   delete(extraEvent) {
