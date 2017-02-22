@@ -101,3 +101,11 @@ interface IOptionsService{
   getActiveSeason();
   setActiveSeason(season: ISeason);
 }
+
+interface IExtraEvent{
+  title: string,
+  date: Date,
+  location: IPickupOption,
+  description: string,
+  durationMinutes: number
+}

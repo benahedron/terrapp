@@ -1,0 +1,64 @@
+<form class="form" name="form" ng-submit="$ctrl.save(form)" novalidate>
+  <div class="modal-header">
+    <h3 class="modal-title" id="modal-title">
+      <span ng-if="!$ctrl.isNew">Edit</span>
+      <span ng-if="$ctrl.isNew">Create</span>
+      extra event
+    </h3>
+  </div>
+  <div class="modal-body" id="modal-body">
+    <div class="form-group" ng-class="{ 'has-success': form.name.$valid && $ctrl.submitted, 'has-error': form.title.$invalid && $ctrl.submitted }">
+      <label>Title</label>
+      <input type="title" name="title" class="form-control" ng-model="$ctrl.extraEvent.title" required mongoose-error/>
+      <p class="help-block" ng-show="form.name.$error.required && $ctrl.submitted">
+        Give your extra event a title
+      </p>
+      <p class="help-block" ng-show="form.name.$error.mongoose">
+        {{ $ctrl.errors.title }}
+      </p>
+    </div>
+    <div class="form-group">
+      <label>Description</label>
+      <textarea class="form-control" rows="3" ng-model="$ctrl.extraEvent.description"></textarea>
+    </div>
+    <div class="form-group" ng-class="{ 'has-success': form.date.$valid && $ctrl.submitted, 'has-error': form.date.$invalid && $ctrl.submitted }">
+      <label>Set Date</label>
+      <div class="form-control" style="display:inline-block; min-height:290px;" >
+        <div uib-datepicker name="date" ng-model="$ctrl.extraEvent.date" ng-change="$ctrl.update()" class="well well-sm" datepicker-options="options"></div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{ 'has-success': form.date.$valid && $ctrl.submitted, 'has-error': form.date.$invalid && $ctrl.submitted }">
+      <label>Set Time</label>
+      <div class="form-control" style="display:inline-block; min-height:130px;">
+        <div uib-timepicker ng-model="$ctrl.extraEvent.date" ng-change="$ctrl.update()" show-meridian="false"></div>
+      </div>
+    </div>
+    <div class="form-group" ng-class="{ 'has-success': form.duration.$valid && $ctrl.submitted, 'has-error': form.duration.$invalid && $ctrl.submitted }">
+      <label>Duration</label>
+      <input type="number" name="duration" class="form-control" ng-model="$ctrl.extraEvent.durationMinutes" ng-change="$ctrl.update()" />
+    </div>
+
+    <div class="form-group">
+      <label>Location:</label>
+      <div class="container">
+        <p>
+          <span class="label label-default"><pickup-option-map option="$ctrl.extraEvent.location" hoverable="true"></pickup-option-map></span>
+        <p>
+        <div class="btn-group"  uib-dropdown >
+          <button type="button" class="btn btn-primary" uib-dropdown-toggle>{{"Change location"}}</button>
+          <button type="button" class="btn btn-primary" uib-dropdown-toggle aria-haspopup="true" aria-expanded="false">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+          </button>
+          <ul class="dropdown-menu">
+            <li ng-repeat="pickupOption in $ctrl.pickupOptions"><a href="#" ng-click="$ctrl.extraEvent.location = pickupOption._id">{{pickupOption.name}}</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-primary" type="submit">Save</button>
+    <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+  </div>
+</form>

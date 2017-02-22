@@ -1,0 +1,40 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Extra Events</h1>
+      <button class="btn btn-primary pull-right" ng-click="$ctrl.create()">
+        <span class="glyphicon glyphicon-plus"> </span> Create
+      </button>
+      <p>Create & change extra event within a season.</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Date</th>
+            <th>Location</th>
+            <th>Options</th>
+          </tr>
+        </thead>
+        <tbody ng-repeat="extraEvent in $ctrl.extraEvents">
+          <tr>
+            <td>
+              <b>{{extraEvent.title}}</b>
+            </td>
+            <td>{{extraEvent.date | date:'yyyy.MM.dd HH:mm'}} ({{extraEvent.durationMinutes}} minutes)</td>
+            <td>
+              <span class="label label-default"><pickup-option-map option="extraEvent.location" hoverable="true"></pickup-option-map></span>
+            </td>
+            <td>
+              <button class="btn btn-primary" ng-click="$ctrl.edit(extraEvent)"><span class="glyphicon glyphicon-pencil"> </span> Edit</button>
+              <button ng-if="!$ctrl.isActive(season)" class="btn btn-primary" ng-click="$ctrl.delete(extraEvent)"><span class="glyphicon glyphicon-trash"> </span> Delete</button>
+            </td>
+          </tr>
+        </tbody
+      </table>
+    </div>
+  </div>
+</div>
