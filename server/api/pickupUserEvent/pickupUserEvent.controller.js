@@ -117,6 +117,8 @@ export function upsertAsUser(req, res) {
   }
 
   return PickupUserEvent.findOneAndUpdate({_id: req.params.id}, req.body, {new: true, upsert: true, setDefaultsOnInsert: true, runValidators: true})
+    .populate('pickupEvent','-mails')
+    .populate('pickupEventOverride','-mails')
     .exec()
     .then(respondWithResult(res))
     .catch(handleError(res));

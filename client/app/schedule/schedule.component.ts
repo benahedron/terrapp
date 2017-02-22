@@ -83,7 +83,11 @@ export class ScheduleComponent extends ModalBase{
       actualPickupOptionId = actualPickupOptionId._id;
     }
     let actualPickupOption = scope.getPickupOption(actualPickupOptionId);
-    let actualPickupOptionForDate = scope.getPickupOption(actualEvent.pickupOption);
+    let actualPickupOptionForDateId = actualEvent.pickupOption;
+    if (_.has(actualPickupOptionForDateId, '_id')) {
+      actualPickupOptionForDateId = actualPickupOptionForDateId._id;
+    }
+    let actualPickupOptionForDate = scope.getPickupOption(actualPickupOptionForDateId);
     return {
       userEvent: userEvent,
       actualEvent: actualEvent,
@@ -137,6 +141,7 @@ export class ScheduleComponent extends ModalBase{
         return candidateEvent.userEvent._id+'' === userEvent._id+'';
       })
       if (oldProcessedEvent && newProcessedEvent) {
+        console.log("UPDTA")
         _.assign(oldProcessedEvent, newProcessedEvent);
         scope.sortUserEvents();
       }
