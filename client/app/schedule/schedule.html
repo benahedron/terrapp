@@ -38,7 +38,16 @@
         </div>
       </div>
     </div>
-    <div class="col-md-8 col-xs-12 colCorrection">
+    <div class="col-md-8 col-xs-12 colCorrection" ng-if="userEvent.userEvent===null">
+      <div class="extraEventBox">
+        <div class="detailsBoxInfo">
+          {{userEvent.title}}
+        </div>
+        <pre class="alert alert-info detailBoxLocation detailBoxGeneric"><b>Location:</b> <pickup-option-map option="userEvent.location._id" hoverable="true"> </pickup-option-map></pre>
+        <pre class="alert alert-danger detailBoxGeneric" ng-if="userEvent.description"><b>Note:</b><p>{{userEvent.description}}</p></pre>
+      </div>
+    </div>
+    <div class="col-md-8 col-xs-12 colCorrection" ng-if="userEvent.userEvent!=null">
       <div class="detailsBox">
         <div class="detailsBoxInfo">
           Information & Options

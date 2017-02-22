@@ -41,13 +41,15 @@ export class ScheduleComponent extends ModalBase{
       let data = (res.data as any);
       scope.processBaskets(data.baskets as IBasket[]);
       if (scope.baskets.length>0) {
-        console.log(data.pickupUserEvents);
         scope.processUserEvents(data.pickupUserEvents as IPickupUserEvent[]);
+        scope.processExtraEvents(data.extraEvents as IExtraEvent[]);
         scope.noBaskets = false;
       }
       else {
         scope.noBaskets = true;
       }
+
+      this.sortUserEvents();
       scope.loading = false;
     });
   }
@@ -75,8 +77,21 @@ export class ScheduleComponent extends ModalBase{
       let processedEvent = scope.processUserEvent(userEvent);
       scope.userEvents.push(processedEvent);
     });
+  }
 
-    this.sortUserEvents();
+  processExtraEvents(extraEvents) {
+    _.each(extraEvents, extraEvent => {
+      let startDate = new Date(extraEvent.date);
+      let endDate = new Date(startDate.getTime()+extraEvent.durationMinutes*60*1000);
+      this.userEvents.push({
+        userEvent: null,
+        title: extraEvent.title,
+        description: extraEvent.description,
+        location: extraEvent.location,
+        startDate: startDate,
+        endDate: endDate
+      });
+    })
   }
 
   sortUserEvents() {

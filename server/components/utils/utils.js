@@ -88,7 +88,6 @@ export function isEditableUserEvent(userEvent) {
   let now = new Date().getTime();
   let hoursToMs = 60*60*1000;
   let startDate = getUserEventStartDate(userEvent);
-  console.log(startDate);
   // Can we still change the pickup event?
   let actualPickupEvent = userEvent.pickupEventOverride || userEvent.pickupEvent;
   let actualPickupOption = actualPickupEvent.pickupOption;
