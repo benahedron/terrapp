@@ -92,20 +92,16 @@ export function indexForUser(req, res) {
     .then(baskets => {
       let basketIds = _.map(baskets, '_id');
       return PickupUserEvent.find({basket: {'$in': basketIds}})
+      .populate({path: 'basket', populate: { path: 'season' }})
       .populate({path: 'pickupEvent', select: '-mails', populate: { path: 'pickupOption' }})
       .populate({path: 'pickupEventOverride', select: '-mails', populate: { path: 'pickupOption' }})
       .then(pickupUserEvents => {
         let result = [];
         _.each(pickupUserEvents, pickupUserEvent => {
           let userEvent = pickupUserEvent.toObject();
-          let actualBasket = _.find(baskets, basket => {
-            return basket._id.equals(pickupUserEvent.basket);
-          });
-          let actualSeason = actualBasket.season;
-          let actualPickupEvent = pickupUserEvent.pickupEventOverride || pickupUserEvent.pickupEvent;
-          let actualPickupOption = actualPickupEvent.pickupOption;
-          let old = Utils.isOldEvent(actualSeason, pickupUserEvent);
-          let editable = Utils.isEditable(actualSeason, actualPickupOption, actualPickupEvent);
+          let old = Utils.isOldUserEvent(pickupUserEvent);
+          let editable = Utils.isEditableUserEvent(pickupUserEvent);
+          delete userEvent.basket.season;
           userEvent.old = old;
           userEvent.editable = editable;
           result.push(userEvent);

@@ -12,6 +12,7 @@
 
 import jsonpatch from 'fast-json-patch';
 import PickupUserEvent from './pickupUserEvent.model';
+import * as Utils from '../../components/utils/utils';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -115,13 +116,24 @@ export function upsertAsUser(req, res) {
   if(req.body._id) {
     delete req.body._id;
   }
-
-  return PickupUserEvent.findOneAndUpdate({_id: req.params.id}, req.body, {new: true, upsert: true, setDefaultsOnInsert: true, runValidators: true})
-    .populate('pickupEvent','-mails')
-    .populate('pickupEventOverride','-mails')
-    .exec()
-    .then(respondWithResult(res))
-    .catch(handleError(res));
+  return PickupUserEvent.findOne({_id: req.params.id})
+  .populate({path: 'basket', populate: { path: 'season' }})
+  .populate({path: 'pickupEvent', populate: { path: 'pickupOption' }})
+  .populate({path: 'pickupEventOverride', populate: { path: 'pickupOption' }})
+  .exec()
+  .then((existingUserEvents) => {
+    if (Utils.isEditableUserEvent(existingUserEvents)) {
+      return PickupUserEvent.findOneAndUpdate({_id: req.params.id}, req.body, {new: true, upsert: true, setDefaultsOnInsert: true, runValidators: true})
+        .populate('pickupEvent','-mails')
+        .populate('pickupEventOverride','-mails')
+        .exec()
+        .then(respondWithResult(res))
+        .catch(handleError(res));
+    } else {
+      /// Somebody tries to update old / uneditable basket.
+      res.sendStatus(304);
+    }
+  });
 }
 
 // Update the check state of an event
