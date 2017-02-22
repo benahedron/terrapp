@@ -4,7 +4,7 @@ export default {
   'day_1': 'Monday',
   'day_2': 'Tuesday',
   'day_3': 'Wednesday',
-  'day_4': 'Thurseday',
+  'day_4': 'Thursday',
   'day_5': 'Firday',
   'day_6': 'Saturday',
   'shortmonth_0': 'Jan',
