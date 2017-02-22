@@ -133,7 +133,7 @@ export function patch(req, res) {
     .then(handleEntityNotFound(res))
     .then(patchUpdates(req.body))
     .then(respondWithResult(res))
-    //.catch(handleError(res));
+    .catch(handleError(res));
 }
 
 // Deletes a PickupEvent from the DB
@@ -167,5 +167,5 @@ export function sendMail(req, res) {
       }
     })
     .then(respondWithResult(res))
-    //.catch(handleError(res));
+    .catch(handleError(res));
 }

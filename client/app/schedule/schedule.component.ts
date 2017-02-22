@@ -13,6 +13,8 @@ export class ScheduleComponent extends ModalBase{
   userEvents = [];
   season: ISeason;
   PickupUtils: IPickupUtilsService;
+  noBaskets: Boolean = false;
+  loading: Boolean = true;
 
   /*@ngInject*/
   constructor($http, $uibModal, PickupOptionsService, PickupUtils) {
@@ -34,10 +36,19 @@ export class ScheduleComponent extends ModalBase{
 
   reload() {
     let scope = this;
-    this.$http.get('/api/baskets/user')
+    this.$http.get('/api/memberships/member')
     .then(res => {
-      scope.processBaskets((res.data as any).baskets as IBasket[]);
-      scope.processUserEvents((res.data as any).pickupUserEvents as IPickupUserEvent[]);
+      let data = (res.data as any);
+      scope.processBaskets(data.baskets as IBasket[]);
+      if (scope.baskets.length>0) {
+        console.log(data.pickupUserEvents);
+        scope.processUserEvents(data.pickupUserEvents as IPickupUserEvent[]);
+        scope.noBaskets = false;
+      }
+      else {
+        scope.noBaskets = true;
+      }
+      scope.loading = false;
     });
   }
 
@@ -48,8 +59,13 @@ export class ScheduleComponent extends ModalBase{
   }
 
   processBaskets(baskets: IBasket[]) {
-    this.season = _.first(baskets).season;
-    this.baskets = baskets;
+    if (baskets.length>0) {
+      this.season = _.first(baskets).season;
+      this.baskets = baskets;
+    } else {
+      this.season = null;
+      this.baskets = [];
+    }
   }
 
   processUserEvents(loadedUserEvents) {

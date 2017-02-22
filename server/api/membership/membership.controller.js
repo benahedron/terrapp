@@ -12,6 +12,11 @@
 
 import jsonpatch from 'fast-json-patch';
 import Membership from './membership.model';
+import Basket from '../basket/basket.model';
+import Options from '../options/options.model';
+import PickupUserEvent from '../pickupUserEvent/pickupUserEvent.model';
+import ExtraEvent from '../extraEvent/extraEvent.model';
+import * as Utils from '../../components/utils/utils';
 import _ from 'lodash';
 
 function respondWithResult(res, statusCode) {
@@ -140,4 +145,46 @@ export function destroy(req, res) {
     .then(handleEntityNotFound(res))
     .then(removeEntity(res))
     .catch(handleError(res));
+}
+
+
+// Index the complete data relevant for a user
+export function indexForMember(req, res) {
+  console.log('sss');
+  return Options.findOne({name: 'activeSeason'})
+  .then(seasonId => {
+    if ((!seasonId.value) || seasonId.value === '') {
+      return res.status(200).send({baskets: [], pickupUserEvents: [], extraEvents: []});
+    }
+    else {
+      return ExtraEvent.find({season: seasonId.value})
+      .populate('location')
+      .then(extraEvents => {
+        return Basket.find({season: seasonId.value, membership: req.user.membership})
+        .populate('season')
+        .then(baskets => {
+          let basketIds = _.map(baskets, '_id');
+          return PickupUserEvent.find({basket: {'$in': basketIds}})
+          .populate({path: 'basket', populate: { path: 'season' }})
+          .populate({path: 'pickupEvent', select: '-mails', populate: { path: 'pickupOption' }})
+          .populate({path: 'pickupEventOverride', select: '-mails', populate: { path: 'pickupOption' }})
+          .then(pickupUserEvents => {
+            let result = [];
+            _.each(pickupUserEvents, pickupUserEvent => {
+              let userEvent = pickupUserEvent.toObject();
+              let old = Utils.isOldUserEvent(pickupUserEvent);
+              let editable = Utils.isEditableUserEvent(pickupUserEvent);
+              delete userEvent.basket.season;
+              userEvent.old = old;
+              userEvent.editable = editable;
+              result.push(userEvent);
+            });
+            res.status(200).send({baskets: baskets, pickupUserEvents: result, extraEvents: extraEvents});
+          });
+        })
+        .catch(handleError(res));
+      })
+      .catch(handleError(res));
+    }
+  })
 }

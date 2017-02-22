@@ -14,6 +14,7 @@ export default function(app) {
   app.use('/api/pickupEvents', require('./api/pickupEvent'));
   app.use('/api/baskets', require('./api/basket'));
   app.use('/api/pickupOptions', require('./api/pickupOption'));
+  app.use('/api/extraEvents', require('./api/extraEvent'));
   app.use('/api/seasons', require('./api/season'));
   app.use('/api/memberships', require('./api/membership'));
   app.use('/api/users', require('./api/user'));

@@ -6,6 +6,7 @@ var controller = require('./membership.controller');
 import * as auth from '../../auth/auth.service';
 var router = express.Router();
 
+router.get('/member', auth.isAuthenticated(), controller.indexForMember);
 router.get('/', auth.hasRole('admin'), controller.index);
 router.get('/:id', auth.hasRole('admin'), controller.show);
 router.post('/find', auth.hasRole('admin'), controller.find);
