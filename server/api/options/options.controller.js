@@ -11,6 +11,12 @@
 'use strict';
 
 import Options from './options.model';
+import fs from 'fs';
+import _ from 'lodash';
+import path from 'path';
+import config from '../../config/environment';
+import multiparty from 'multiparty';
+let exec = require('child_process').exec;
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -71,4 +77,44 @@ export function upsert(req, res) {
 
     .then(respondWithResult(res))
     .catch(handleError(res));
+}
+
+
+export function backup(req, res) {
+  var parts = config.mongo.uri.split('/');
+  var db = _.last(parts);
+
+  var fileName = 'backup-terrap'+new Date()+'.zip';
+  var relFilePath = '"'+__dirname + '/' + fileName + '"';
+  var filePath = path.join(__dirname,  '/' + fileName);
+  exec('mongodump -d ' + db + ' -o ' + __dirname + '/backup && cd ' + __dirname + '/ &&  zip -e -P "'+config.backup.password+'" -r ' + relFilePath + ' backup && rm -rf ' + __dirname + '/backup', (err, stdout, stderr) => {
+    if (err) {
+      res.status(500).send(stderr);
+    } else {
+      res.sendFile(filePath, function() {
+        fs.unlinkSync(filePath);
+      });
+    }
+  });
+}
+
+export function restore(req, res) {
+  var form = new multiparty.Form();
+  form.parse(req, function(err, fields, files) {
+    let file = files.file[0];
+    var destination = ( __dirname  + '/backup.zip').replace('\.\.');
+    var result = fs.createReadStream(file.path+'').pipe(fs.createWriteStream(destination));
+    result.on('finish', function(a, b){
+      var parts = config.mongo.uri.split('/');
+      var db = _.last(parts);
+      exec('cd '+ __dirname  + '/' +
+        '&& unzip -P "'+config.backup.password+'" backup.zip' +
+        '&& mongorestore -drop backup/' + db +
+        '&& rm backup.zip ' +
+        '&& rm -rf ' + __dirname + '/backup/' ,
+        (err, stdout, stderr) => {
+          res.sendStatus(204);
+      });
+    });
+  });
 }

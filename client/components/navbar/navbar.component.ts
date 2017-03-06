@@ -22,6 +22,9 @@ export class NavbarComponent {
   }, {
     'title': 'Pickup Options',
     'state': 'adminPickupOptions'
+  }, {
+    'title': 'Backup',
+    'state': 'adminBackup'
   }];
 
   isLoggedIn: Function;

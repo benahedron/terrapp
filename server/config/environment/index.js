@@ -45,6 +45,10 @@ var all = {
     }
   },
 
+  backup: {
+    password: 'fkjb-gsdf+uzb!gvonudfipoibspaifdn*#§3'
+  },
+
   // Email sending options
   email: {
     username: 'username',

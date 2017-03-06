@@ -5,6 +5,7 @@ const angular = require('angular');
 const ngCookies = require('angular-cookies');
 const ngResource = require('angular-resource');
 const ngSanitize = require('angular-sanitize');
+const fileUpload = require('ng-file-upload');
 
 
 const uiRouter = require('angular-ui-router');
@@ -38,6 +39,8 @@ import adminSeasonBaskets from './adminSeasons/adminSeasonBaskets.component';
 import adminExtraEvent from './adminExtraEvents/adminExtraEvents.component';
 import adminExtraEventDelete from './adminExtraEvents/adminExtraEventDelete.component';
 import adminExtraEventEdit from './adminExtraEvents/adminExtraEventEdit.component';
+import adminBackup from './adminBackup/adminBackup.component';
+import adminBackupRestore from './adminBackup/adminBackupRestore.component';
 import schedule from './schedule/schedule.component';
 import userPickupEdit from './schedule/userPickupEdit.component';
 import changePickupOption from './schedule/changePickupOption.component';
@@ -65,6 +68,7 @@ angular.module('terrappApp', [
   ngCookies,
   ngResource,
   ngSanitize,
+  fileUpload,
 
   uiRouter,
   uiBootstrap,
@@ -103,6 +107,8 @@ angular.module('terrappApp', [
   adminExtraEvent,
   adminExtraEventDelete,
   adminExtraEventEdit,
+  adminBackup,
+  adminBackupRestore,
   schedule,
   userPickupEdit,
   changePickupOption,

@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>Backup</h1>
+      <p>Create &amp; restore backups.</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <p>
+        <button ng-click="$ctrl.create()" class="btn btn-primary">Create</button>
+        You will download a current snapshot of the database. It is recomanded to do this on a regular basis.
+      </p>
+      <p>
+        <button ng-click="$ctrl.restore()" class="btn btn-danger">Restore</button>
+        This will replace the current database with the contents of the file. You will automatically be logged out.
+      </p>
+    </div>
+  </div>
+</div>
