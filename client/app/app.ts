@@ -120,13 +120,17 @@ angular.module('terrappApp', [
   util
 ])
   .config(routeConfig)
-  .run(function($rootScope, $location, Auth) {
+  .run(function($rootScope, $location, Auth, $stateParams, $state) {
     'ngInject';
+
+    $rootScope.$state = $state;
+    $rootScope.$stateParams = $stateParams;
+
     // Redirect to login if route requires auth and you're not logged in
     $rootScope.$on('$stateChangeStart', function(event, next) {
       Auth.isLoggedIn(function(loggedIn) {
         if(next.authenticate && !loggedIn) {
-          $location.path('/login');
+          $location.path('/'+next.params.lang+'/login');
         }
       });
     });

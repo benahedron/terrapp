@@ -4,13 +4,13 @@ export default function routes($stateProvider) {
     'ngInject';
     $stateProvider
       .state('login', {
-        url: '/login',
+        url: '/:lang/login',
         template: require('./login/login.html'),
         controller: 'LoginController',
         controllerAs: 'vm'
       })
       .state('logout', {
-        url: '/logout?referrer',
+        url: '/:lang/logout?referrer',
         referrer: 'main',
         template: '',
         controller: function($state, Auth) {
@@ -23,17 +23,16 @@ export default function routes($stateProvider) {
         }
       })
       .state('signup', {
-        url: '/signup',
+        url: '/:lang/signup',
         template: require('./signup/signup.html'),
         controller: 'SignupController',
         controllerAs: 'vm'
       })
       .state('settings', {
-        url: '/settings',
+        url: '/:lang/settings',
         template: require('./settings/settings.html'),
         controller: 'SettingsController',
         controllerAs: 'vm',
         authenticate: true
       });
 }
-

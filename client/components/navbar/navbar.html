@@ -12,26 +12,38 @@
     <div uib-collapse="$ctrl.isCollapsed" class="navbar-collapse collapse" id="navbar-main">
       <ul class="nav navbar-nav">
 
-        <li ui-sref-active="active"><a ui-sref="main">{{'home'|tr}}</a></li>
+        <li ui-sref-active="active"><a ui-sref="main({lang: $ctrl.TranslationService.getCurrentLanguage()})">{{'home'|tr}}</a></li>
       </ul>
       <ul class="nav navbar-nav"  ng-if="$ctrl.isMember()">
         <li ng-repeat="item in $ctrl.memberMenu" ui-sref-active="active">
-            <a ui-sref="{{item.state}}">{{item.title|tr}}</a>
+            <a ui-sref="{{item.state}}({lang: $ctrl.TranslationService.getCurrentLanguage()})">{{item.title|tr}}</a>
         </li>
       </ul>
 
       <ul class="nav navbar-nav adminNavbar" ng-if="$ctrl.isAdmin()">
         <li ng-repeat="item in $ctrl.adminMenu" ui-sref-active="active">
-            <a ui-sref="{{item.state}}">{{item.title}}</a>
+            <a ui-sref="{{item.state}}({lang: $ctrl.TranslationService.getCurrentLanguage()})">{{item.title}}</a>
         </li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
-        <li ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active"><a ui-sref="signup">Sign up</a></li>
-        <li ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active"><a ui-sref="login">Login</a></li>
+        <li ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active"><a ui-sref="signup({lang: $ctrl.TranslationService.getCurrentLanguage()})">Sign up</a></li>
+        <li ng-hide="$ctrl.isLoggedIn()" ui-sref-active="active"><a ui-sref="login({lang: $ctrl.TranslationService.getCurrentLanguage()})">Login</a></li>
         <li ng-show="$ctrl.isLoggedIn()"><p class="navbar-text">You are <b>{{ $ctrl.getCurrentUser().email }}</b></p> </li>
-        <li ng-show="$ctrl.isLoggedIn()" ui-sref-active="active"><a ui-sref="settings"><span class="glyphicon glyphicon-cog"></span></a></li>
+        <li ng-show="$ctrl.isLoggedIn()" ui-sref-active="active"><a ui-sref="settings({lang: $ctrl.TranslationService.getCurrentLanguage()})"><span class="glyphicon glyphicon-cog"></span></a></li>
         <li ng-show="$ctrl.isLoggedIn()"><a ui-sref="logout">Logout</a></li>
+        <li>
+          <div class="btn-group"  uib-dropdown >
+            <button type="button" class="btn btn-default" uib-dropdown-toggle>{{$ctrl.TranslationService.getCurrentLanguage()}}</button>
+            <button type="button" class="btn btn-default" uib-dropdown-toggle aria-haspopup="true" aria-expanded="false">
+              <span class="caret"></span>
+              <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu">
+              <li ng-repeat="language in $ctrl.TranslationService.getLanguages()"><a href="#" ng-click="$ctrl.TranslationService.setLanguage(language)">{{language}}</a></li>
+            </ul>
+          </div>
+        </li>
       </ul>
     </div>
   </div>

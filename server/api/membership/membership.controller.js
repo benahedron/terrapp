@@ -150,7 +150,6 @@ export function destroy(req, res) {
 
 // Index the complete data relevant for a user
 export function indexForMember(req, res) {
-  console.log('sss');
   return Options.findOne({name: 'activeSeason'})
   .then(seasonId => {
     if ((!seasonId.value) || seasonId.value === '') {

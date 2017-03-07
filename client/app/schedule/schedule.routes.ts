@@ -4,7 +4,7 @@ export default function($stateProvider) {
   'ngInject';
   $stateProvider
     .state('schedule', {
-      url: '/schedule',
+      url: '/:lang/schedule',
       template: '<schedule></schedule>',
       authenticate: 'user'
     });

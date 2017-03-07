@@ -4,7 +4,7 @@ export default function($stateProvider) {
   'ngInject';
   $stateProvider
     .state('adminBackup', {
-      url: '/adminBackup/',
+      url: '/:lang/adminBackup/',
       template: '<admin-backup></admin-backup>',
       authenticate: 'admin'
     });
