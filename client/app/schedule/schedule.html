@@ -1,12 +1,12 @@
 <div class="container">
   <div class="row">
-    <h1>Schedule <button class="btn btn-primary pull-right" ng-click="$ctrl.changePickupOption()">Change Default</button></h1>
+    <h1>{{'schedule' | tr}} <button class="btn btn-primary pull-right" ng-click="$ctrl.changePickupOption()">{{'schedule_change_default' | tr}}</button></h1>
   </div>
   <div ng-if="$ctrl.loading">
-    <h2>Loading...</h2>
+    <h2>{{'schedule_loading' | tr}}</h2>
   </div>
   <div ng-if="$ctrl.noBaskets">
-    <h2>Either you did not yet officially sign up for a basket or the season has not been activated. Hence no pickup data is available.</h2>
+    <h2>{{'schedule_no_baskets' | tr}}</h2>
   </div>
   <div ng-repeat="userEvent in $ctrl.userEvents" class="eventRow" ng-class="{'eventRowOld': userEvent.old}">
     <div class="col-md-2 col-xs-6 colCorrection">
@@ -43,24 +43,24 @@
         <div class="detailsBoxInfo">
           {{userEvent.title}}
         </div>
-        <pre class="alert alert-info detailBoxLocation detailBoxGeneric"><b>Location:</b> <pickup-option-map option="userEvent.location._id" hoverable="true"> </pickup-option-map></pre>
-        <pre class="alert alert-danger detailBoxGeneric" ng-if="userEvent.description"><b>Note:</b><p>{{userEvent.description}}</p></pre>
+        <pre class="alert alert-info detailBoxLocation detailBoxGeneric"><b>{{'schedule_location'|tr}</b> <pickup-option-map option="userEvent.location._id" hoverable="true"> </pickup-option-map></pre>
+        <pre class="alert alert-danger detailBoxGeneric" ng-if="userEvent.description"><b>{{'schedule_note'|tr}</b><p>{{userEvent.description}}</p></pre>
       </div>
     </div>
     <div class="col-md-8 col-xs-12 colCorrection" ng-if="userEvent.userEvent!=null">
       <div class="detailsBox">
         <div class="detailsBoxInfo">
-          Information & Options
-          <button class="pull-right leftMargin btn btn-primary" ng-if="userEvent.old && userEvent.userEvent.done"><span class="glyphicon glyphicon-ok"> </span> Picked up</button>
-          <button class="pull-right leftMargin btn btn-primary" ng-if="userEvent.old && !userEvent.userEvent.done"><span class="glyphicon glyphicon-remove"> </span> Not picked up</button>
+          {{'schedule_info_and_options' | tr}}
+          <button class="pull-right leftMargin btn btn-primary" ng-if="userEvent.old && userEvent.userEvent.done"><span class="glyphicon glyphicon-ok"> </span> {{'picked_up'|tr}}</button>
+          <button class="pull-right leftMargin btn btn-primary" ng-if="userEvent.old && !userEvent.userEvent.done"><span class="glyphicon glyphicon-remove"> </span> {{'note_picked_up'|tr}}</button>
           <button class="pull-right leftMargin btn btn-primary" ng-if="!userEvent.userEvent.editable"><span class="glyphicon glyphicon-lock"> </span></button>
-          <button class="pull-right leftMargin btn btn-primary" ng-if="userEvent.userEvent.editable" ng-click="$ctrl.edit(userEvent.userEvent)">Edit</button>
+          <button class="pull-right leftMargin btn btn-primary" ng-if="userEvent.userEvent.editable" ng-click="$ctrl.edit(userEvent.userEvent)">{{'edit'|tr}}</button>
         </div>
-        <pre class="alert alert-info detailBoxLocation detailBoxGeneric"><b>Location:</b> <pickup-option-map option="userEvent.pickupOption._id" hoverable="true"> </pickup-option-map><span ng-if="userEvent.actualEvent.pickupOptionOverride" class="label label-warning">This pickup is not at its default location.</span></pre>
-        <pre class="alert alert-danger detailBoxGeneric" ng-if="userEvent.adminNote"><b>Pickup note:</b><p>{{userEvent.adminNote}}</p></pre>
-        <pre class="alert alert-warning detailBoxGeneric" ng-if="userEvent.delegate" ><b>Will be picked up by:</b> {{userEvent.delegate}}</pre>
-        <pre class="alert alert-danger detailBoxGeneric" ng-if="userEvent.absent" ><b>You can't pickup</b></pre>
-        <pre class="alert alert-success detailBoxGeneric" ng-if="userEvent.userNote"><b>Your note:</b><p>{{userEvent.userNote}}</p></pre>
+        <pre class="alert alert-info detailBoxLocation detailBoxGeneric"><b>{{'schedule_location'|tr}}</b> <pickup-option-map option="userEvent.pickupOption._id" hoverable="true"> </pickup-option-map><span ng-if="userEvent.actualEvent.pickupOptionOverride" class="label label-warning">{{'schedule_not_default_location'|tr}}</span></pre>
+        <pre class="alert alert-danger detailBoxGeneric" ng-if="userEvent.adminNote"><b>{{'schedule_pickup_note'|tr}</b><p>{{userEvent.adminNote}}</p></pre>
+        <pre class="alert alert-warning detailBoxGeneric" ng-if="userEvent.delegate" ><b>{{'schedule_will_be_pickedup_by'|tr}</b> {{userEvent.delegate}}</pre>
+        <pre class="alert alert-danger detailBoxGeneric" ng-if="userEvent.absent" ><b>{{'schedule_cannot_pickup'|tr}</b></pre>
+        <pre class="alert alert-success detailBoxGeneric" ng-if="userEvent.userNote"><b>{{'schedule_user_note'|tr}</b><p>{{userEvent.userNote}}</p></pre>
       </div>
     </div>
   </div>

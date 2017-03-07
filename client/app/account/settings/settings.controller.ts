@@ -26,15 +26,20 @@ export default class SettingsController {
     this.submitted = true;
 
     if(form.$valid) {
-      this.Auth.changePassword(this.user.oldPassword, this.user.newPassword)
-        .then(() => {
-          this.message = 'Password successfully changed.';
-        })
-        .catch(() => {
-          form.password.$setValidity('mongoose', false);
-          this.errors.other = 'Incorrect password';
-          this.message = '';
-        });
+      form.confirmPassword.$error.match = false;
+      if (this.user.newPassword === this.user.confirmPassword) {
+        this.Auth.changePassword(this.user.oldPassword, this.user.newPassword)
+          .then(() => {
+            this.message = 'Password successfully changed.';
+          })
+          .catch(() => {
+            form.password.$setValidity('mongoose', false);
+            this.errors.other = 'Incorrect password';
+            this.message = '';
+          });
+      } else {
+        form.confirmPassword.$error.match = true;
+      }
     }
   }
 }

@@ -12,11 +12,11 @@
     <div uib-collapse="$ctrl.isCollapsed" class="navbar-collapse collapse" id="navbar-main">
       <ul class="nav navbar-nav">
 
-        <li ui-sref-active="active"><a ui-sref="main">Home</a></li>
+        <li ui-sref-active="active"><a ui-sref="main">{{'home'|tr}}</a></li>
       </ul>
       <ul class="nav navbar-nav"  ng-if="$ctrl.isMember()">
         <li ng-repeat="item in $ctrl.memberMenu" ui-sref-active="active">
-            <a ui-sref="{{item.state}}">{{item.title}}</a>
+            <a ui-sref="{{item.state}}">{{item.title|tr}}</a>
         </li>
       </ul>
 

@@ -4,7 +4,7 @@ const angular = require('angular');
 
 export class NavbarComponent {
   memberMenu = [{
-    'title': 'Schedule',
+    'title': 'schedule',
     'state': 'schedule'
   }];
   adminMenu = [{

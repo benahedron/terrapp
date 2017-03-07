@@ -1,27 +1,27 @@
 <form class="form" name="form" ng-submit="$ctrl.save(form)" novalidate>
   <div class="modal-header">
     <h3 class="modal-title" id="modal-title">
-      Change your pickup properties
+      {{'schedule_properties'|tr}}
     </h3>
   </div>
   <div class="modal-body" id="modal-body">
     <div class="form-group">
-      <label class="col-sm-3 control-label">Delegate:</label>
+      <label class="col-sm-3 control-label">{{'schedule_delegate'|tr}}</label>
       <div class="col-sm-9">
-        <input type="text" class="form-control" placeholder="Name" ng-model="$ctrl.userEvent.delegate">
+        <input type="text" class="form-control" placeholder="{{'delegate_name'|tr}}" ng-model="$ctrl.userEvent.delegate">
       </div>
     </div>
     <div class="form-group">
-      <label class="col-sm-3 control-label">Note:</label>
+      <label class="col-sm-3 control-label">{{'schedule_user_note'|tr}}</label>
       <div class="col-sm-9">
         <textarea class="form-control" rows="3" ng-model="$ctrl.userEvent.userNote"></textarea>
       </div>
     </div>
     <div class="form-group">
-      <label class="col-sm-3 control-label">Move to:</label>
+      <label class="col-sm-3 control-label">{{'schedule_move_to'|tr}}</label>
       <div class="col-sm-9">
         <div class="btn-group"  uib-dropdown >
-          <button type="button" class="btn btn-primary" uib-dropdown-toggle>{{$ctrl.userEvent.pickupEventOverride.pickupOption.name||"Select alternative"}}</button>
+          <button type="button" class="btn btn-primary" uib-dropdown-toggle>{{$ctrl.userEvent.pickupEventOverride.pickupOption.name|| ('select_alternative'|tr)}}</button>
           <button type="button" class="btn btn-primary" uib-dropdown-toggle aria-haspopup="true" aria-expanded="false">
             <span class="caret"></span>
             <span class="sr-only">Toggle Dropdown</span>
@@ -30,7 +30,7 @@
             <li ng-repeat="alternativeEvent in $ctrl.getAlternatives()">
               <a href="#" ng-click="$ctrl.setPickupOverride($ctrl.userEvent, $ctrl.userEvent.pickupEvent, alternativeEvent)">
                 <b>{{alternativeEvent.pickupOptionOverride.name || alternativeEvent.pickupOption.name}}</b> {{alternativeEvent.startDate | date:'dd.MM.yyyy HH:mm'}}
-                <span ng-if="$ctrl.userEvent.pickupEvent._id === alternativeEvent._id" class="label label-warning">default</span>
+                <span ng-if="$ctrl.userEvent.pickupEvent._id === alternativeEvent._id" class="label label-warning">{{'default'|tr}}</span>
               </a>
             </li>
           </ul>
@@ -41,7 +41,7 @@
       <div class="col-sm-offset-2 col-sm-10">
         <div class="checkbox">
           <label>
-            <input type="checkbox" ng-model="$ctrl.userEvent.absent"> I won't come.
+            <input type="checkbox" ng-model="$ctrl.userEvent.absent"> {{'schedule_wont_come'|tr}}
           </label>
         </div>
       </div>
@@ -49,7 +49,7 @@
 
   </div>
   <div class="modal-footer">
-    <button class="btn btn-primary" type="submit">Save</button>
-    <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">Cancel</button>
+    <button class="btn btn-primary" type="submit">{{'save'|tr}}</button>
+    <button class="btn btn-warning" type="button" ng-click="$ctrl.cancel()">{{'cancel'|tr}}</button>
   </div>
 </form>

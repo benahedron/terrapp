@@ -1,22 +1,22 @@
 <div class="container">
   <div class="row">
     <div class="col-sm-12">
-      <h1>Sign up</h1>
+      <h1>{{'sign_up' | tr}}</h1>
     </div>
     <div class="col-sm-12">
       <form class="form" name="form" ng-submit="vm.register(form)" novalidate>
         <div class="form-group" ng-class="{ 'has-success': form.email.$valid && vm.submitted,
                                             'has-error': form.email.$invalid && vm.submitted }">
-          <label>Email</label>
+          <label>{{'email' | tr}}</label>
 
           <input type="email" name="email" class="form-control" ng-model="vm.user.email"
                  required
                  mongoose-error/>
           <p class="help-block" ng-show="form.email.$error.email && vm.submitted">
-            Doesn't look like a valid email.
+            {{'email_valid' | tr}}
           </p>
           <p class="help-block" ng-show="form.email.$error.required && vm.submitted">
-            What's your email address?
+            {{'email_required' | tr}}
           </p>
           <p class="help-block" ng-show="form.email.$error.mongoose">
             {{ vm.errors.email }}
@@ -25,7 +25,7 @@
 
         <div class="form-group" ng-class="{ 'has-success': form.password.$valid && vm.submitted,
                                             'has-error': form.password.$invalid && vm.submitted }">
-          <label>Password</label>
+          <label>{{'password' | tr}}</label>
 
           <input type="password" name="password" class="form-control" ng-model="vm.user.password"
                  ng-minlength="3"
@@ -33,7 +33,7 @@
                  mongoose-error/>
           <p class="help-block"
              ng-show="(form.password.$error.minlength || form.password.$error.required) && vm.submitted">
-            Password must be at least 3 characters.
+            {{'pw_min_3_char' | tr}}
           </p>
           <p class="help-block" ng-show="form.password.$error.mongoose">
             {{ vm.errors.password }}
@@ -42,13 +42,13 @@
 
         <div class="form-group" ng-class="{ 'has-success': form.confirmPassword.$valid && vm.submitted,
                                             'has-error': form.confirmPassword.$invalid && vm.submitted }">
-          <label>Confirm Password</label>
+          <label>{{'sign_up_confirm_pw' | tr}}</label>
           <input type="password" name="confirmPassword" class="form-control" ng-model="vm.user.confirmPassword"
                  match="vm.user.password"
                  ng-minlength="3" required/>
           <p class="help-block"
              ng-show="form.confirmPassword.$error.match && vm.submitted">
-            Passwords must match.
+            {{'pw_must_match' | tr}}
           </p>
         </div>
         <div>
@@ -56,80 +56,79 @@
         </div>
         <div class="form-group" ng-class="{ 'has-success': form.firstName.$valid && vm.submitted,
                                             'has-error': form.firstName.$invalid && vm.submitted }">
-          <label>First Name</label>
+          <label>{{'first_name' | tr}}</label>
 
           <input type="text" name="firstName" class="form-control" ng-model="vm.user.membership.firstName"
                  required/>
           <p class="help-block" ng-show="form.firstName.$error.required && vm.submitted">
-            A first name is required
+            {{'first_name_required' | tr}}
           </p>
         </div>
         <div class="form-group" ng-class="{ 'has-success': form.lastName.$valid && vm.submitted,
                                             'has-error': form.lastName.$invalid && vm.submitted }">
-          <label>Last Name</label>
+          <label>{{'last_name' | tr}}</label>
 
           <input type="text" name="lastName" class="form-control" ng-model="vm.user.membership.lastName"
                  required/>
           <p class="help-block" ng-show="form.lastName.$error.required && vm.submitted">
-            A last name is required
+            {{'last_name_required' | tr}}
           </p>
         </div>
         <div class="form-group" ng-class="{ 'has-success': form.address1.$valid && vm.submitted,
                                             'has-error': form.address1.$invalid && vm.submitted }">
-          <label>Address 1</label>
+          <label>{{'address1' | tr}}</label>
 
           <input type="text" name="address1" class="form-control" ng-model="vm.user.membership.address1"
                  required/>
           <p class="help-block" ng-show="form.address1.$error.required && vm.submitted">
-            An address is required
+            {{'address1_required' | tr}}
           </p>
         </div>
         <div class="form-group" ng-class="{ 'has-success': form.address2.$valid && vm.submitted,
                                             'has-error': form.address2.$invalid && vm.submitted }">
-          <label>Address 2</label>
+          <label>{{'address2' | tr}}</label>
 
           <input type="text" name="address2" class="form-control" ng-model="vm.user.membership.address2"
                  />
         </div>
         <div class="form-group" ng-class="{ 'has-success': form.zip.$valid && vm.submitted,
                                             'has-error': form.zip.$invalid && vm.submitted }">
-          <label>ZIP</label>
+          <label>{{'zip' | tr}}</label>
 
           <input type="text" name="zip" class="form-control" ng-model="vm.user.membership.zip"
                  required/>
           <p class="help-block" ng-show="form.zip.$error.required && vm.submitted">
-            A ZIP code is required
+            {{'zip_required' | tr}}
           </p>
         </div>
         <div class="form-group" ng-class="{ 'has-success': form.city.$valid && vm.submitted,
                                             'has-error': form.city.$invalid && vm.submitted }">
-          <label>City</label>
+          <label>{{'city' | tr}}</label>
 
           <input type="text" name="city" class="form-control" ng-model="vm.user.membership.city"
                  required/>
           <p class="help-block" ng-show="form.city.$error.required && vm.submitted">
-            An city is required
+            {{'city_required' | tr}}
           </p>
         </div>
         <div class="form-group" ng-class="{ 'has-success': form.country.$valid && vm.submitted,
                                             'has-error': form.country.$invalid && vm.submitted }">
-          <label>Country</label>
+          <label>{{'country' | tr}}</label>
 
           <input type="text" name="country" class="form-control" ng-model="vm.user.membership.country"
                  required/>
           <p class="help-block" ng-show="form.country.$error.required && vm.submitted">
-            An country is required
+            {{'country_required' | tr}}
           </p>
         </div>
         <div>
           <button class="btn btn-inverse btn-lg btn-register" type="submit">
-            Sign up
+            {{'sign_up' | tr}}
           </button>
           <a class="btn btn-default btn-lg btn-login" ui-sref="login">
-            Login
+            {{'login' | tr}}
           </a>
         </div>
-
       </form>
     </div>
   </div>
