@@ -23,11 +23,11 @@ export class AdminBackupComponent extends ModalBase{
       // TODO: Figure out a proper way to do this.
       var anchor = document.createElement("a");
       document.body.appendChild(anchor);
-      anchor.style = "display: none";
+      anchor.style = 'display: none' as any;
       var blob = new Blob([res.data], {type: "application/zip" });
       var objectUrl = URL.createObjectURL(blob);
       anchor.href = objectUrl;
-      anchor.download = 'backup-terrapp-' + new Date().toString() + '.zip';
+      (anchor as any).download = 'backup-terrapp-' + new Date().toString() + '.zip';
       anchor.click();
       window.URL.revokeObjectURL(objectUrl);
     });

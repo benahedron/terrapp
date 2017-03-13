@@ -4,9 +4,11 @@ const angular = require('angular');
 
 
 export class AdminBackupRestoreComponent{
+  $scope: ng.IScope;
   $http: ng.IHttpService;
   Upload: any;
   file: any;
+
 
   /*ngInjector*/
   constructor($http, Upload, $scope) {
@@ -20,7 +22,7 @@ export class AdminBackupRestoreComponent{
 
 
   save(form) {
-    this.Upload.upload({url: '/api/options/restore', data: {file: this.$scope.file}})
+    this.Upload.upload({url: '/api/options/restore', data: {file: (this.$scope as any).file}})
     .then((result) => {
       this.ok();
     })

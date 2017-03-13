@@ -46,7 +46,7 @@ interface IPickupEvent {
 interface IPickupUserEvent{
   _id: string;
   pickupEvent: IPickupEvent;
-  //basket: {type: Schema.Types.ObjectId, ref: 'Basket'},
+  basket: IBasket;
   pickupEventOverride: IPickupEvent;
   absent: boolean;
   done: boolean;

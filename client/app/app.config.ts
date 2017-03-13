@@ -4,7 +4,7 @@ export function routeConfig($urlRouterProvider, $locationProvider) {
   'ngInject';
 
   $urlRouterProvider
-    .otherwise('/');
+    .otherwise('/en/');
 
   $locationProvider.html5Mode(true);
 }

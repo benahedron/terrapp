@@ -57,7 +57,7 @@ export class ChangePickupOptionComponent {
     this.$http.put('/api/baskets/user/',defaultBaskets)
     .then((result) => {
       this.ok();
-    }));
+    });
   };
 
   ok() {

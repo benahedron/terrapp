@@ -11,7 +11,6 @@
     </div>
     <div uib-collapse="$ctrl.isCollapsed" class="navbar-collapse collapse" id="navbar-main">
       <ul class="nav navbar-nav">
-
         <li ui-sref-active="active"><a ui-sref="main({lang: $ctrl.TranslationService.getCurrentLanguage()})">{{'home'|tr}}</a></li>
       </ul>
       <ul class="nav navbar-nav"  ng-if="$ctrl.isMember()">
@@ -33,7 +32,7 @@
         <li ng-show="$ctrl.isLoggedIn()" ui-sref-active="active"><a ui-sref="settings({lang: $ctrl.TranslationService.getCurrentLanguage()})"><span class="glyphicon glyphicon-cog"></span></a></li>
         <li ng-show="$ctrl.isLoggedIn()"><a ui-sref="logout">Logout</a></li>
         <li>
-          <div class="btn-group"  uib-dropdown >
+          <div class="btn-group languageSelection"  uib-dropdown >
             <button type="button" class="btn btn-default" uib-dropdown-toggle>{{$ctrl.TranslationService.getCurrentLanguage()}}</button>
             <button type="button" class="btn btn-default" uib-dropdown-toggle aria-haspopup="true" aria-expanded="false">
               <span class="caret"></span>

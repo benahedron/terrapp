@@ -17,7 +17,7 @@ export class AdminExtraEventDeleteComponent{
   }
 
   ok() {
-    this.$http.delete('/api/extraEvents/'+this.extraEvent._id)
+    this.$http.delete('/api/extraEvents/'+(this.extraEvent as any)._id)
     .then(() => {
       (this as any).close({$value: this.extraEvent});
     })

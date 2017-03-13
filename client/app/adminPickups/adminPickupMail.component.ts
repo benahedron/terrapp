@@ -66,6 +66,7 @@ export class AdminPickupMailComponent extends AdminPickupBase{
   }
 
   send(mail) {
+    let scope = this;
     this.$http.post('/api/pickupEvents/send/'+this.pickup._id+'/'+mail._id, null)
     .then(res => {
       scope.pickup = res.data as IPickupEvent;

@@ -15,6 +15,7 @@ export class ScheduleComponent extends ModalBase{
   PickupUtils: IPickupUtilsService;
   noBaskets: Boolean = false;
   loading: Boolean = true;
+  baskets: IBasket[];
 
   /*@ngInject*/
   constructor($http, $uibModal, PickupOptionsService, PickupUtils) {
@@ -136,7 +137,7 @@ export class ScheduleComponent extends ModalBase{
     };
   }
 
-  getOptionResolve(userEvent) {
+  getOptionResolve() {
     let scope = this;
     return {
       season: function () {
@@ -165,12 +166,12 @@ export class ScheduleComponent extends ModalBase{
     this.modal('changePickupOption', this.getOptionResolve(), () => {
       scope.reload();
     });
-  });
+  }
 
   edit(userEvent) {
     let scope = this;
     this.modal('userPickupEdit', this.getResolve(userEvent), editedUserEvent => {
-      let newProcessedEvent = scope.processUserEvent(editedUserEvent, false);
+      let newProcessedEvent = scope.processUserEvent(editedUserEvent);
       let oldProcessedEvent = _.find(scope.userEvents, candidateEvent => {
         return candidateEvent.userEvent._id+'' === userEvent._id+'';
       })

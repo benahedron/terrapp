@@ -36,16 +36,15 @@ export class AdminExtraEventEditComponent{
         this.extraEvent = {
           title: '',
           date: new Date(),
-          location: _.first(this.pickupOptions)._id+'',
+          location: _.first(this.pickupOptions)._id+'' as any,
           description: '',
           durationMinutes: 60,
-          season: this.season;
+          season: this.season
         } as IExtraEvent;
         this.isNew = true;
       }
-    }
+    });
   }
-
 
   save(form) {
     this.submitted = true;
@@ -55,7 +54,7 @@ export class AdminExtraEventEditComponent{
       if (this.isNew) {
         method = this.$http.post;
       } else {
-        path += this.extraEvent._id;
+        path += (this.extraEvent as any)._id;
       }
 
       method('/api/extraEvents/'+path, this.extraEvent)

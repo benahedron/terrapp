@@ -30,6 +30,7 @@ export class NavbarComponent {
   isLoggedIn: Function;
   isAdmin: Function;
   isMember: Function;
+  getCurrentUser: Function;
   TranslationService:any;
   isCollapsed = true;
 
@@ -41,7 +42,6 @@ export class NavbarComponent {
     this.getCurrentUser = Auth.getCurrentUserSync;
     this.TranslationService = TranslationService;
   }
-
 }
 
 export default angular.module('directives.navbar', [])
