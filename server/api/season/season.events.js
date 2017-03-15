@@ -6,9 +6,6 @@
 
 import {EventEmitter} from 'events';
 import Season from './season.model';
-import PickupEvent from '../pickupEvent/pickupEvent.model';
-import PickupOption from '../pickupOption/pickupOption.model';
-import * as SeasonLogic from '../../components/utils/season.logic';
 import _ from 'lodash';
 
 var SeasonEvents = new EventEmitter();
@@ -34,13 +31,5 @@ function emitEvent(event) {
     SeasonEvents.emit(event, doc);
   };
 }
-
-SeasonEvents.on('save', season => {
-  SeasonLogic.onUpdateSeason(season);
-});
-
-SeasonEvents.on('remove', season => {
-  SeasonLogic.onRemoveSeason(season);
-});
 
 export default SeasonEvents;

@@ -12,6 +12,7 @@
 
 
 import Season from './season.model';
+import * as SeasonLogic from '../../components/utils/season.logic';
 import _ from 'lodash';
 
 function respondWithResult(res, statusCode) {
@@ -38,6 +39,21 @@ function patchUpdates(patches) {
 
     return entity.save();
   };
+}
+
+function updateSeason(res) {
+  return function(season) {
+    SeasonLogic.onUpdateSeason(season);
+    return season;
+  }
+}
+
+
+function removeSeason(res) {
+  return function(season) {
+    SeasonLogic.onRemoveSeason(season);
+    return season;
+  }
 }
 
 function removeEntity(res) {
@@ -88,6 +104,7 @@ export function show(req, res) {
 export function create(req, res) {
   return Season.create(req.body)
     .then(respondWithResult(res, 201))
+    .then(updateSeason(res))
     .catch(handleError(res));
 }
 
@@ -109,6 +126,7 @@ export function patch(req, res) {
   return Season.findById(req.params.id).exec()
     .then(handleEntityNotFound(res))
     .then(patchUpdates(req.body))
+    .then(updateSeason(res))
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
