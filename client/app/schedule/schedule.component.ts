@@ -16,10 +16,12 @@ export class ScheduleComponent extends ModalBase{
   noBaskets: Boolean = false;
   loading: Boolean = true;
   baskets: IBasket[];
+  $timeout: any;
 
   /*@ngInject*/
-  constructor($http, $uibModal, PickupOptionsService, PickupUtils) {
+  constructor($http, $timeout, $uibModal, PickupOptionsService, PickupUtils) {
     super($uibModal);
+    this.$timeout = $timeout;
     this.$http = $http;
     this.$uibModal = $uibModal;
     this.PickupOptionsService = PickupOptionsService;
@@ -164,7 +166,9 @@ export class ScheduleComponent extends ModalBase{
   changePickupOption() {
     let scope = this;
     this.modal('changePickupOption', this.getOptionResolve(), () => {
-      scope.reload();
+      scope.$timeout(() => {
+        scope.reload();
+      }, 500);
     });
   }
 

@@ -6,7 +6,6 @@
 
 import {EventEmitter} from 'events';
 import Basket from './basket.model';
-import * as BasketLogic from '../../components/utils/basket.logic';
 import _ from 'lodash';
 var BasketEvents = new EventEmitter();
 
@@ -32,12 +31,6 @@ function emitEvent(event) {
   };
 }
 
-BasketEvents.on('save', basket => {
-  BasketLogic.onUpdateBasket(basket);
-});
-BasketEvents.on('remove', basket => {
-  BasketLogic.onRemoveBasket(basket);
-});
 
 
 export default BasketEvents;

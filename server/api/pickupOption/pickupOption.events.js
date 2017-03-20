@@ -6,7 +6,6 @@
 
 import {EventEmitter} from 'events';
 import PickupOption from './pickupOption.model';
-import * as PickupOptionLogic from '../../components/utils/pickupOption.logic';
 import _ from 'lodash';
 var PickupOptionEvents = new EventEmitter();
 
@@ -31,13 +30,5 @@ function emitEvent(event) {
     PickupOptionEvents.emit(event, doc);
   };
 }
-
-PickupOptionEvents.on('remove', pickupOption => {
-  PickupOptionLogic.onRemovePickupOption(pickupOption);
-});
-
-PickupOptionEvents.on('save', pickupOption => {
-  PickupOptionLogic.onUpdatePickupOption(pickupOption);
-});
 
 export default PickupOptionEvents;

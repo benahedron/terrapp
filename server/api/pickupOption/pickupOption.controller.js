@@ -12,6 +12,7 @@
 
 import _ from 'lodash';
 import PickupOption from './pickupOption.model';
+import * as PickupOptionLogic from '../../components/utils/pickupOption.logic';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
@@ -27,6 +28,7 @@ function patchUpdates(patches) {
   return function(entity) {
     try {
       entity = _.merge(entity, patches);
+      PickupOptionLogic.onUpdatePickupOption(entity);
     } catch(err) {
       return Promise.reject(err);
     }
@@ -40,6 +42,7 @@ function removeEntity(res) {
     if(entity) {
       return entity.remove()
         .then(() => {
+          PickupOptionLogic.onRemovePickupOption(entity);
           res.status(204).end();
         });
     }

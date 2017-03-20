@@ -33,6 +33,9 @@ export class AdminPickupBase {
     this.$http.get('/api/pickupUserEvents/byEvent/'+this.pickup._id)
     .then(result => {
       scope.userEvents = result.data as IPickupUserEvent[];
+      scope.userEvents = _.filter(scope.userEvents, userEvent => {
+        return userEvent.basket !== null;
+      });
       _.each(scope.userEvents, userEvent => {
         scope.calculateStartTime(userEvent);
       });

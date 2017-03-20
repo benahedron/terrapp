@@ -23,7 +23,7 @@
             <td>
               <span ng-if="user.role==='admin'" class="label label-warning"><span class="glyphicon glyphicon-star"> </span>Admin</span>
               <span ng-if="user.membership !== undefined" class="label label-primary"><span class="glyphicon glyphicon-star"> </span>Member</span>
-              {{user.membership.lastName}} {{user.membership.firstName}} ({{user.email}})
+              {{user.membership.firstName}} {{user.membership.lastName}} ({{user.email}})
             </td>
             <td>
               <button class="btn btn-primary" ng-click="$ctrl.edit(user)"><span class="glyphicon glyphicon-pencil"> </span> Edit</button>

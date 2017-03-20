@@ -12,6 +12,9 @@ import PickupUserEvent from '../api/pickupUserEvent/pickupUserEvent.model';
 import User from '../api/user/user.model';
 import Basket from '../api/basket/basket.model';
 import Options from '../api/options/options.model';
+import * as SeasonLogic from '../components/utils/season.logic'
+import * as BasketLogic from '../components/utils/basket.logic'
+import * as PickupOptionLogic from '../components/utils/pickupOption.logic'
 import _ from 'lodash';
 
 var devSeasons = require('./dev.season.seed.json');
@@ -49,6 +52,9 @@ function createPickupOptions() {
     PickupOption.create(devPickupOptions)
     .then(pickupOptions => {
       seededPickupOptions = pickupOptions;
+      _.each(pickupOptions,  pickupOption => {
+        PickupOptionLogic.onUpdatePickupOption(pickupOption);
+      });
       createSeasons();
     });
   });
@@ -74,6 +80,9 @@ function createSeasons() {
 
     Season.create(devSeasons)
     .then(seasons => {
+      _.each(seasons,  season => {
+        SeasonLogic.onUpdateSeason(season);
+      });
       seededSeasons = seasons;
       createMembers();
     });
@@ -137,7 +146,10 @@ function createBaskets() {
   Basket.find({}).remove()
     .then(() => {
       Basket.create(newBaskets)
-      .then(/*baskets*/() => {
+      .then(baskets => {
+        _.each(baskets,  basket => {
+          BasketLogic.onUpdateBasket(basket);
+        });
         //seededBaskets = baskets;
         createOptions();
       });

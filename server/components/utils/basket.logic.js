@@ -22,6 +22,7 @@ import _ from 'lodash';
 export function onUpdateBasket(basket) {
   basket.populate('season').populate('defaultPickupOption').execPopulate()
   .then( populatedBasket => {
+
     PickupUserEvent.find({basket: populatedBasket._id})
     .populate({path: 'basket', populate: { path: 'season' }})
     .populate({path: 'pickupEvent', populate: { path: 'pickupOption' }})
@@ -90,6 +91,7 @@ export function onUpdateDefaultPickupOption(basket, defaultPickupOption, callbac
   basket.save()
   .then(savedBasket => {
     if(callback) {
+      onUpdateBasket(savedBasket);
       callback(savedBasket);
     }
   });

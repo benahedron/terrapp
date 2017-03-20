@@ -30,6 +30,7 @@ function patchUpdates(patches) {
   return function(entity) {
     try {
       jsonpatch.apply(entity, patches, /*validate*/ true);
+      BasketLogic.onUpdateBasket(entity);
     } catch(err) {
       return Promise.reject(err);
     }
@@ -43,6 +44,7 @@ function removeEntity(res) {
     if(entity) {
       return entity.remove()
         .then(() => {
+          BasketLogic.onRemoveBasket(entity);
           res.status(204).end();
         });
     }
@@ -91,6 +93,10 @@ export function show(req, res) {
 // Creates a new Basket in the DB
 export function create(req, res) {
   return Basket.create(req.body)
+    .then((basket) => {
+      BasketLogic.onUpdateBasket(basket);
+      return basket;
+    })
     .then(respondWithResult(res, 201))
     .catch(handleError(res));
 }
