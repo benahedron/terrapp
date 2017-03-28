@@ -6,6 +6,7 @@ import * as auth from '../../auth/auth.service';
 import './pickupOption.events';
 var router = express.Router();
 
+router.get('/current', controller.indexActiveOptions);
 router.get('/', auth.isAuthenticated(), controller.index);
 router.get('/:id', auth.isAuthenticated(), controller.show);
 router.post('/', auth.hasRole('admin'), controller.create);

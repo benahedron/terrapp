@@ -121,6 +121,26 @@
             {{'country_required' | tr}}
           </p>
         </div>
+        <div class="form-group" ng-class="{ 'has-success': form.defaultPickupOption.$valid && vm.submitted,
+                                            'has-error': form.defaultPickupOption.$invalid && vm.submitted }">
+           <label>{{'pickup_option' | tr}}</label>
+           <div class="container">
+             <input type="hidden" name="defaultPickupOption" ng-model="vm.user.membership.defaultPickupOption" required/>
+             <div class="btn-group"  uib-dropdown >
+               <button type="button" class="btn btn-primary" uib-dropdown-toggle>{{vm.user.membership.defaultPickupOption.name || ('select_pickup_option' | tr)}}</button>
+               <button type="button" class="btn btn-primary" uib-dropdown-toggle aria-haspopup="true" aria-expanded="false">
+                 <span class="caret"></span>
+                 <span class="sr-only">Toggle Dropdown</span>
+               </button>
+               <ul class="dropdown-menu">
+                 <li ng-repeat="pickupOption in vm.activePickupOptions"><a href="#" ng-click="vm.user.membership.defaultPickupOption = pickupOption">{{pickupOption.name}}</a></li>
+               </ul>
+             </div>
+              <p class="help-block" ng-show="form.defaultPickupOption.$error.required && vm.submitted">
+                {{'pickup_option_required' | tr}}
+              </p>
+           </div>
+        </div>
         <div>
           <button class="btn btn-inverse btn-lg btn-register" type="submit">
             {{'sign_up' | tr}}

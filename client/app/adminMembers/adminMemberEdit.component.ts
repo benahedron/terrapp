@@ -8,13 +8,31 @@ export class AdminMemberEditComponent{
   isNew: boolean = false;
   submitted: boolean = false;
   $http: ng.IHttpService;
+  pickupOptions: IPickupOption[];
+  PickupOptionsService: IPickupOptionsService;
 
   /*ngInjector*/
-  constructor($http) {
+  constructor($http, PickupOptionsService) {
     this.$http = $http;
+    this.PickupOptionsService = PickupOptionsService;
+  }
+
+  getPickupOptionName(id) {
+    let option = _.find(this.pickupOptions, candidate => {
+      return candidate._id === id;
+    });
+    if (option) {
+      return option.name;
+    } else {
+      return null;
+    }
   }
 
   $onInit() {
+    this.PickupOptionsService.get().then((pickupOptions) => {
+      this.pickupOptions = pickupOptions;
+    });
+
     let resolve = (this as any).resolve;
     if (_.has(resolve, 'user') && resolve.user !== null) {
       this.user = _.cloneDeep(resolve.user);

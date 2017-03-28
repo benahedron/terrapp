@@ -28,7 +28,9 @@
         <ul ng-repeat="member in $ctrl.members">
           <li>
             {{member.firstName}} {{member.lastName}}
-            <button class="btn btn-xs btn-primary" type="button" ng-disabled="!$ctrl.selectedPickupOption" ng-click="$ctrl.createBasket(member)" type="submit"><span class="glyphicon glyphicon-plus"> </span></button>
+            <button class="btn btn-xs btn-primary" type="button" ng-disabled="!$ctrl.selectedPickupOption" ng-click="$ctrl.createBasket(member, $ctrl.selectedPickupOption)" type="submit"><span class="glyphicon glyphicon-plus"> </span></button>
+
+            <button ng-if="$ctrl.getPickupOption(member.defaultPickupOption)" class="btn btn-xs btn-primary" type="button" ng-click="$ctrl.createBasket(member, $ctrl.getPickupOption(member.defaultPickupOption))" type="submit"><span class="glyphicon glyphicon-plus"> </span> {{$ctrl.getPickupOption(member.defaultPickupOption).name}}</button>
           </li>
         </ul>
       </div>

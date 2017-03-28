@@ -12,6 +12,8 @@
 
 import _ from 'lodash';
 import PickupOption from './pickupOption.model';
+import Season from '../season/season.model';
+import Options from '../options/options.model';
 import * as PickupOptionLogic from '../../components/utils/pickupOption.logic';
 
 function respondWithResult(res, statusCode) {
@@ -66,6 +68,23 @@ function handleError(res, statusCode) {
   };
 }
 
+// Gets a list of PickupOptions of the active season
+export function indexActiveOptions(req, res) {
+  Options.findOne({name: 'activeSeason'}).exec()
+    .then((option) => {
+      return Season.findById(option.value).populate('activePickupOptions').exec();
+    })
+    .then((season) => {
+      let result = _.map(season, 'activePickupOptions');
+      if (_.isArray(result)) {
+        return _.compact(result)[0];  
+      } else {
+        return [];
+      }
+    })
+    .then(respondWithResult(res))
+    .catch(handleError(res));
+}
 // Gets a list of PickupOptions
 export function index(req, res) {
   return PickupOption.find().exec()

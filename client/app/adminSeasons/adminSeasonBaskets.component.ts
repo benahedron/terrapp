@@ -34,17 +34,24 @@ export class AdminSeasonBasketsComponent{
 
   }
 
+  getPickupOption(id) {
+    let option = _.find(this.pickupOptions, candidate => {
+      return candidate._id === id;
+    });
+    return option;
+  }
 
-  createBasket(membership) {
+
+  createBasket(membership, pickupOption) {
     let scope = this;
-    this.$http.post("/api/baskets", {membership: membership._id, season: scope.season._id, defaultPickupOption: scope.selectedPickupOption._id})
+    this.$http.post("/api/baskets", {membership: membership._id, season: scope.season._id, defaultPickupOption: pickupOption._id})
       .then(res => {
         scope.baskets.push(
           {
             _id: (res.data as IBasket)._id,
             membership: membership,
             season: scope.season._id as any,
-            defaultPickupOption: scope.selectedPickupOption
+            defaultPickupOption: pickupOption
           });
       });
   }

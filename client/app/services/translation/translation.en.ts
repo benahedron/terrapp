@@ -32,6 +32,8 @@ export default {
   'country': 'Country',
   'country_required': 'A country is required',
   'app_slogan': 'Where you manage your vegetable baskets!',
+  'pickup_option': 'Pickup Option',
+  'pickup_option_required': 'Select a default pickup option!',
   'schedule': 'Schedule',
   'schedule_change_default': 'Change Default',
   'schedule_loading': 'Loading...',

@@ -27,18 +27,26 @@ export default class SignupController {
       address2: '',
       city: '',
       zip: '',
-      country: ''
+      country: '',
+      defaultPickupOption: null
     }
   };
   errors = {};
   submitted = false;
   Auth;
   $state;
+  activePickupOptions :any;
 
   /*@ngInject*/
-  constructor(Auth, $state) {
+  constructor(Auth, $state, $http) {
     this.Auth = Auth;
     this.$state = $state;
+
+    let scope = this;
+    $http.get('/api/pickupOptions/current')
+    .then( (res) => {
+      scope.activePickupOptions = res.data;
+    });
   }
 
   register(form) {
@@ -55,7 +63,8 @@ export default class SignupController {
           address2: this.user.membership.address2,
           city: this.user.membership.city,
           zip: this.user.membership.zip,
-          country: this.user.membership.country
+          country: this.user.membership.country,
+          defaultPickupOption: this.user.membership.defaultPickupOption._id
         }
       })
       .then(() => {

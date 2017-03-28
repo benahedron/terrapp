@@ -100,6 +100,25 @@
         An country is required
       </p>
     </div>
+    <div class="form-group" ng-class="{ 'has-success': form.defaultPickupOption.$valid && $ctrl.submitted, 'has-error': form.defaultPickupOption.$invalid && $ctrl.submitted }">
+      <label>Default pickup option</label>
+
+      <input type="hidden" name="defaultPickupOption" class="form-control" ng-model="$ctrl.user.membership.defaultPickupOption" ng-required="!$ctrl.isAdmin()"/>
+
+      <div class="btn-group"  uib-dropdown >
+        <button type="button" class="btn btn-primary" uib-dropdown-toggle>{{$ctrl.getPickupOptionName($ctrl.user.membership.defaultPickupOption) || ('select_pickup_option' | tr)}}</button>
+        <button type="button" class="btn btn-primary" uib-dropdown-toggle aria-haspopup="true" aria-expanded="false">
+          <span class="caret"></span>
+          <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu">
+          <li ng-repeat="pickupOption in $ctrl.pickupOptions"><a href="#" ng-click="$ctrl.user.membership.defaultPickupOption = pickupOption._id">{{pickupOption.name}}</a></li>
+        </ul>
+      </div>
+      <p class="help-block" ng-show="form.defaultPickupOption.$error.required && $ctrl.submitted">
+        A default pickup option is requiered.
+      </p>
+    </div>
   </div>
   <div class="modal-footer">
     <button class="btn btn-primary" type="submit">Save</button>

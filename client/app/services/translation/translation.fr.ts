@@ -31,6 +31,7 @@ export default {
   'city_required': 'A city is required',
   'country': 'Country',
   'country_required': 'A country is required',
+  'pickup_option': 'Pickup Option',
   'app_slogan': 'Where you manage your vegetable baskets!',
   'schedule': 'Horraire',
   'schedule_change_default': 'Change Default',

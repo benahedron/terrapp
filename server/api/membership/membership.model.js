@@ -1,6 +1,6 @@
 'use strict';
 
-import mongoose from 'mongoose';
+import mongoose, {Schema} from 'mongoose';
 
 var MembershipSchema = new mongoose.Schema({
   firstName: String,
@@ -11,6 +11,7 @@ var MembershipSchema = new mongoose.Schema({
   city: String,
   country: String,
   zip: String,
+  defaultPickupOption: {type: Schema.Types.ObjectId, ref: 'PickupOption'}
 });
 
 export default mongoose.model('Membership', MembershipSchema);
