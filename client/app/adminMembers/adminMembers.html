@@ -26,9 +26,9 @@
               {{user.membership.firstName}} {{user.membership.lastName}} ({{user.email}})
             </td>
             <td>
-              <button class="btn btn-primary" ng-click="$ctrl.edit(user)"><span class="glyphicon glyphicon-pencil"> </span> Edit</button>
-              <button class="btn btn-primary" ng-click="$ctrl.changePassword(user)"><span class="glyphicon glyphicon-lock"> </span> Password</button>
-              <button class="btn btn-primary" ng-if="user._id !== $ctrl.getCurrentUser()._id" ng-click="$ctrl.delete(user)"><span class="glyphicon glyphicon-trash"> </span> Delete</button>
+              <button class="btn btn-primary listButton" ng-click="$ctrl.edit(user)"><span class="glyphicon glyphicon-pencil"> </span> Edit</button>
+              <button class="btn btn-primary listButton" ng-click="$ctrl.changePassword(user)"><span class="glyphicon glyphicon-lock"> </span> Password</button>
+              <button class="btn btn-primary listButton" ng-if="user._id !== $ctrl.getCurrentUser()._id" ng-click="$ctrl.delete(user)"><span class="glyphicon glyphicon-trash"> </span> Delete</button>
             </td>
           </tr>
         </tbody>
