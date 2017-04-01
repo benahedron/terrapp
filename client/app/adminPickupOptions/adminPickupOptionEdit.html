@@ -38,6 +38,10 @@
     <div class="form-group">
       <iframe id="mapPreview" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="{{$ctrl.pickupOption.geoUri|geouri|trusted}}" style="border: 1px solid black"></iframe></small>
     </div>
+    <div class="form-group" ng-class="{ 'has-success': form.address.$valid && $ctrl.submitted, 'has-error': form.address.$invalid && $ctrl.submitted }">
+      <label>Address/Note</label>
+      <textarea name="address" class="form-control"  rows="3" ng-model="$ctrl.pickupOption.address"></textarea>.
+    </div>
     <div class="form-group" ng-class="{ 'has-success': form.weekDay.$valid && $ctrl.submitted, 'has-error': form.weekDay.$invalid && $ctrl.submitted }">
       <label>Offset days</label>
       <input type="number" name="weekDay" class="form-control" ng-model="$ctrl.pickupOption.weekDay" min="0" max="365" required/> in days.

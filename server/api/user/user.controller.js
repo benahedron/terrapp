@@ -2,6 +2,7 @@
 
 import User from './user.model';
 import Membership from '../membership/membership.model';
+import * as UserLogic from '../../components/utils/user.logic.js'
 import config from '../../config/environment';
 import jwt from 'jsonwebtoken';
 import _ from 'lodash';
@@ -130,9 +131,13 @@ export function show(req, res, next) {
  * restriction: 'admin'
  */
 export function destroy(req, res) {
-  return User.findByIdAndRemove(req.params.id).exec()
-    .then(function() {
-      res.status(204).end();
+  let userId = req.params.id;
+  return User.findById(userId).exec()
+    .then(user => {
+      user.remove()
+      .then(() => {
+        UserLogic.onRemoveUser(user);
+      });
     })
     .catch(handleError(res));
 }

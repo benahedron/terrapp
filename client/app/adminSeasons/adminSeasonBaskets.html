@@ -38,8 +38,13 @@
     <hr/>
     <div class="row">
       <div class="col-md-12" id="basketList">
+        <div class="form-group">
+          <label>Filter:</label>
+          <input type="name" name="searchString" class="form-control" ng-model="$ctrl.filter" ng-change="$ctrl.updateFilter()"/>
+        </div>
+
         <h4>Current baskets: ({{$ctrl.baskets.length}})</h4>
-        <div ng-repeat="basket in $ctrl.baskets" class="basketDeclaration">
+        <div ng-repeat="basket in $ctrl.filteredBaskets" class="basketDeclaration">
           <button class="btn btn-xs btn-primary" ng-click="$ctrl.deleteBasket(basket)" type="button"><span class="glyphicon glyphicon-remove"> </span></button>
           <b>{{basket.membership.firstName}} {{basket.membership.lastName}}</b>
           <i>@{{basket.defaultPickupOption.name}}</i>

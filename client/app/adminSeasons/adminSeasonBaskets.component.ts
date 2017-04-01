@@ -16,6 +16,10 @@ export class AdminSeasonBasketsComponent{
   members: IMembership[];
   baskets: IBasket[];
 
+  filteredBaskets: Object[];
+  filter: string = '';
+
+
   /*ngInjector*/
   constructor($http, $scope) {
     this.$http = $http;
@@ -31,7 +35,18 @@ export class AdminSeasonBasketsComponent{
     } else {
       scope.members = [];
     }
+  }
 
+  updateFilter() {
+    let scope = this;
+    let filter = scope.filter.toLowerCase();
+    this.filteredBaskets = _.filter(this.baskets, basket=> {
+      let candidate = (basket.membership.firstName +
+                      basket.membership.lastName +
+                      basket.membership.firstName).toLowerCase();
+
+      return candidate.indexOf(filter) >= 0;
+    });
   }
 
   getPickupOption(id) {
@@ -40,7 +55,6 @@ export class AdminSeasonBasketsComponent{
     });
     return option;
   }
-
 
   createBasket(membership, pickupOption) {
     let scope = this;
@@ -53,6 +67,8 @@ export class AdminSeasonBasketsComponent{
             season: scope.season._id as any,
             defaultPickupOption: pickupOption
           });
+
+          scope.updateFilter();
       });
   }
 
@@ -61,6 +77,7 @@ export class AdminSeasonBasketsComponent{
     this.$http.delete("/api/baskets/"+basket._id)
       .then(res => {
         scope.baskets = _.without(scope.baskets, basket);
+        scope.updateFilter();
       });
   }
 
@@ -73,6 +90,7 @@ export class AdminSeasonBasketsComponent{
       .then(res => {
         scope.baskets = res.data as IBasket[];
         scope.pickupOptions = scope.season.activePickupOptions;
+        scope.updateFilter();
       });
     } else {
       // Season is required!

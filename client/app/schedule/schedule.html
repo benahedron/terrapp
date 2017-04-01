@@ -44,8 +44,8 @@
         <div class="detailsBoxInfo">
           {{userEvent.title}}
         </div>
-        <pre class="alert alert-info detailBoxLocation detailBoxGeneric"><b>{{'schedule_location'|tr}</b> <pickup-option-map option="userEvent.location._id" hoverable="true"> </pickup-option-map></pre>
-        <pre class="alert alert-danger detailBoxGeneric" ng-if="userEvent.description"><b>{{'schedule_note'|tr}</b><p>{{userEvent.description}}</p></pre>
+        <pre class="alert alert-info detailBoxLocation detailBoxGeneric"><b>{{'schedule_location'|tr}}</b> <pickup-option-map option="userEvent.location._id" hoverable="true"> </pickup-option-map></pre>
+        <pre class="alert alert-danger detailBoxGeneric" ng-if="userEvent.description"><b>{{'schedule_note'|tr}}</b><p>{{userEvent.description}}</p></pre>
       </div>
     </div>
     <div class="col-md-8 col-xs-12 colCorrection" ng-if="userEvent.userEvent!=null">
