@@ -6,6 +6,7 @@ export default function($stateProvider) {
     .state('schedule', {
       url: '/:lang/schedule',
       template: '<schedule></schedule>',
-      authenticate: 'user'
+      authenticate: 'user',
+      parent: 'terrapp'
     });
 }

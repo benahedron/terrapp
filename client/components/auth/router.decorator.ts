@@ -17,7 +17,7 @@ export function routerDecorator($rootScope, $state, Auth) {
         event.preventDefault();
         return Auth.isLoggedIn().then(is => {
 
-          $state.go(is ? 'main' : 'login');
+          $state.go(is ? 'terrapp.main' : 'terrapp.login');
         });
       });
     } else {
@@ -28,7 +28,7 @@ export function routerDecorator($rootScope, $state, Auth) {
 
         event.preventDefault();
 
-        $state.go('login');
+        $state.go('terrapp.login');
       });
     }
   });

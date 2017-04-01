@@ -4,8 +4,9 @@ export default function($stateProvider) {
   'ngInject';
   $stateProvider
     .state('adminSeasons', {
-      url: '/:lang/adminSeasons',
+      url: '/adminSeasons',
       template: '<admin-seasons></admin-seasons>',
-      authenticate: 'admin'
+      authenticate: 'admin',
+      parent: 'terrapp'
     });
 }

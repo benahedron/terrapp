@@ -21,7 +21,7 @@ export default angular.module('terrappApp.account', [
     .run(function($rootScope) {
       'ngInject';
       $rootScope.$on('$stateChangeStart', function(event, next, nextParams, current) {
-        if (next.name === 'logout' && current && current.name && !current.authenticate) {
+        if (next.name === 'terrapp.logout' && current && current.name && !current.authenticate) {
           next.referrer = current.name;
         }
       });

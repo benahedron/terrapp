@@ -4,8 +4,9 @@ export default function($stateProvider) {
   'ngInject';
   $stateProvider
     .state('adminMembers', {
-      url: '/:lang/admin/members',
+      url: '/admin/members',
       template: '<admin-members></admin-members>',
-      authenticate: 'admin'
+      authenticate: 'admin',
+      parent: 'terrapp'
     });
 }

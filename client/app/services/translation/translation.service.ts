@@ -10,6 +10,7 @@ export class TranslationService {
     this.$state = $state;
     this.table['en'] = require('./translation.en').default;
     this.table['fr'] = require('./translation.fr').default;
+    this.currentLanguage = $stateParams.lang||'en';
     let scope = this;
     $rootScope.$on('$stateChangeStart',
       (event, toState, toParams, fromState, fromParams, options) => {

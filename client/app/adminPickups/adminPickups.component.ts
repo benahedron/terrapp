@@ -29,7 +29,7 @@ export class AdminPickupsComponent extends ModalBase{
     this.PickupUtils = PickupUtils;
     this.$stateParams = $stateParams;
     let scope = this;
-    if ($stateParams.seasonId === '') {
+    if (!$stateParams.seasonId || $stateParams.seasonId === '') {
       OptionsService.getActiveSeason().
       then((activeSeasonId) => {
         scope.$state.go('adminPickups', {seasonId: activeSeasonId, pickupOption:null, interval:0});
