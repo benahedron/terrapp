@@ -13,6 +13,7 @@ interface User {
     city: string;
     zip: string;
     country: string;
+    defaultPickupOption: any;
   }
 }
 
