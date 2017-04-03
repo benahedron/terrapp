@@ -21,7 +21,8 @@
       <label class="col-sm-3 control-label">{{'schedule_move_to'|tr}}</label>
       <div class="col-sm-9">
         <div class="btn-group"  uib-dropdown >
-          <button type="button" class="btn btn-primary" uib-dropdown-toggle>{{$ctrl.userEvent.pickupEventOverride.pickupOption.name|| ('select_alternative'|tr)}}</button>
+
+          <button type="button" class="btn btn-primary" uib-dropdown-toggle>{{$ctrl.userEvent.pickupEventOverride.pickupOptionOverride.name|| $ctrl.userEvent.pickupEventOverride.pickupOption.name|| ('select_alternative'|tr)}}</button>
           <button type="button" class="btn btn-primary" uib-dropdown-toggle aria-haspopup="true" aria-expanded="false">
             <span class="caret"></span>
             <span class="sr-only">Toggle Dropdown</span>

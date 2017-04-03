@@ -165,8 +165,8 @@ export function indexForMember(req, res) {
           let basketIds = _.map(baskets, '_id');
           return PickupUserEvent.find({basket: {'$in': basketIds}})
           .populate({path: 'basket', populate: { path: 'season' }})
-          .populate({path: 'pickupEvent', select: '-mails', populate: { path: 'pickupOption' }})
-          .populate({path: 'pickupEventOverride', select: '-mails', populate: { path: 'pickupOption' }})
+          .populate({path: 'pickupEvent', select: '-mails', populate: [{ path: 'pickupOption' }, { path: 'pickupOptionOverride' }]})
+          .populate({path: 'pickupEventOverride', select: '-mails', populate: [{ path: 'pickupOption' }, { path: 'pickupOptionOverride' }]})
           .then(pickupUserEvents => {
             let result = [];
             _.each(pickupUserEvents, pickupUserEvent => {
