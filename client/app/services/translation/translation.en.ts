@@ -75,7 +75,7 @@ export default {
   'shortmonth_1': 'Feb',
   'shortmonth_2': 'Mar',
   'shortmonth_3': 'Apr',
-  'shortmonth_4': 'Mai',
+  'shortmonth_4': 'May',
   'shortmonth_5': 'Jun',
   'shortmonth_6': 'Jul',
   'shortmonth_7': 'Aug',
