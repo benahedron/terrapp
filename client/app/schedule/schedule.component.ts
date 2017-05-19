@@ -64,8 +64,14 @@ export class ScheduleComponent extends ModalBase{
   }
 
   sortUserEvents() {
+    let now = new Date().getTime();
     this.userEvents = _.sortBy(this.userEvents, candidate => {
-      return candidate.startDate.getTime();
+      if (now > candidate.startDate.getTime()) {
+        /// Add to the end of the list
+        return candidate.startDate.getTime()+365*24*60*60*1000;
+      } else {
+        return candidate.startDate.getTime();
+      }
     });
   }
 
@@ -77,11 +83,13 @@ export class ScheduleComponent extends ModalBase{
       actualPickupOptionId = actualPickupOptionId._id;
     }
     let actualPickupOption = scope.getPickupOption(actualPickupOptionId);
+    let actualPickupOptionForDate = scope.getPickupOption(actualEvent.pickupOption);
     return {
       userEvent: userEvent,
+      actualEvent: actualEvent,
       eventNumber: userEvent.pickupEvent.eventNumber,
-      startDate: scope.PickupUtils.getStartDateFor(this.season, actualPickupOption, actualEvent),
-      endDate: scope.PickupUtils.getEndDateFor(this.season, actualPickupOption, actualEvent),
+      startDate: scope.PickupUtils.getStartDateFor(this.season, actualPickupOptionForDate, actualEvent),
+      endDate: scope.PickupUtils.getEndDateFor(this.season, actualPickupOptionForDate, actualEvent),
       userNote: userEvent.userNote,
       adminNote: actualEvent.adminNote,
       delegate: userEvent.delegate,
@@ -126,7 +134,7 @@ export class ScheduleComponent extends ModalBase{
     this.modal('userPickupEdit', this.getResolve(userEvent), editedUserEvent => {
       let newProcessedEvent = scope.processUserEvent(editedUserEvent);
       let oldProcessedEvent = _.find(scope.userEvents, candidateEvent => {
-        return candidateEvent.userEvent._id === userEvent._id;
+        return candidateEvent.userEvent._id+'' === userEvent._id+'';
       })
       if (oldProcessedEvent && newProcessedEvent) {
         _.assign(oldProcessedEvent, newProcessedEvent);

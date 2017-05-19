@@ -31,8 +31,8 @@ export class UserPickupEditComponent {
         _.each(scope.pickupEventAlternatives, alternativePickup => {
           alternativePickup.startDate = scope.PickupUtils.getStartDateFor(resolve.season, alternativePickup.pickupOption, alternativePickup);
         })
+        scope.reinit();
       });
-      scope.reinit();
     } else {
       this.cancel();
     }

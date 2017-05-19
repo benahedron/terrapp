@@ -38,7 +38,7 @@
           Information & Options
           <button class="pull-right btn btn-primary" ng-click="$ctrl.edit(userEvent.userEvent)">Edit</button>
         </div>
-        <pre class="alert alert-info detailBoxLocation detailBoxGeneric"><b>Location:</b> <pickup-option-map option="userEvent.pickupOption._id" hoverable="true"> </pickup-option-map><span ng-if="userEvent.userEvent.pickupEvent.pickupOptionOverride" class="label label-warning">This pickup is not at its default location.</span></pre>
+        <pre class="alert alert-info detailBoxLocation detailBoxGeneric"><b>Location:</b> <pickup-option-map option="userEvent.pickupOption._id" hoverable="true"> </pickup-option-map><span ng-if="userEvent.actualEvent.pickupOptionOverride" class="label label-warning">This pickup is not at its default location.</span></pre>
         <pre class="alert alert-danger detailBoxGeneric" ng-if="userEvent.adminNote"><b>Pickup note:</b><p>{{userEvent.adminNote}}</p></pre>
         <pre class="alert alert-warning detailBoxGeneric" ng-if="userEvent.delegate" ><b>Will be picked up by:</b> {{userEvent.delegate}}</pre>
         <pre class="alert alert-danger detailBoxGeneric" ng-if="userEvent.absent" ><b>You can't pickup</b></pre>
