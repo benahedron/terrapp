@@ -25,14 +25,30 @@
           <label>Find members:</label>
           <input type="name" name="searchString" class="form-control" ng-model="$ctrl.searchString" ng-change="$ctrl.updateSearch()"/>
         </div>
-        <ul ng-repeat="member in $ctrl.members">
-          <li>
-            {{member.firstName}} {{member.lastName}}
-            <button class="btn btn-xs btn-primary" type="button" ng-disabled="!$ctrl.selectedPickupOption" ng-click="$ctrl.createBasket(member, $ctrl.selectedPickupOption)" type="submit"><span class="glyphicon glyphicon-plus"> </span></button>
-
-            <button ng-if="$ctrl.getPickupOption(member.defaultPickupOption)" class="btn btn-xs btn-primary" type="button" ng-click="$ctrl.createBasket(member, $ctrl.getPickupOption(member.defaultPickupOption))" type="submit"><span class="glyphicon glyphicon-plus"> </span> {{$ctrl.getPickupOption(member.defaultPickupOption).name}}</button>
-          </li>
-        </ul>
+        <div ng-repeat="member in $ctrl.members" class="memberPanel">
+          <b>{{member.firstName}} {{member.lastName}}</b>
+          <div class="addMemberToSeason">
+            <div>
+              Add to selected: <button class="btn btn-xs btn-primary" type="button" ng-disabled="!$ctrl.selectedPickupOption" ng-click="$ctrl.createBasket(member, $ctrl.selectedPickupOption)" type="submit"><span class="glyphicon glyphicon-plus"> </span> </button>
+            </div>
+            <div ng-if="member.defaultPickupOption">
+              Add to member default location: <button ng-if="$ctrl.getPickupOption(member.defaultPickupOption)" class="btn btn-xs btn-primary" type="button" ng-click="$ctrl.createBasket(member, $ctrl.getPickupOption(member.defaultPickupOption))" type="submit"><span class="glyphicon glyphicon-plus"> </span> {{$ctrl.getPickupOption(member.defaultPickupOption).name}}</button>
+            </div>
+          </div>
+          <div class="removeMemberFromSeason" ng-init="subscriptions = $ctrl.getMemberBaskets(member)">
+            <div ng-if="subscriptions.length>0">
+              <div><i>Remove subscriptions:</i></div>
+              <div ng-repeat="basket in subscriptions" class="basketDeclaration">
+                <button class="btn btn-xs btn-primary" ng-click="$ctrl.deleteBasket(basket)" type="button"><span class="glyphicon glyphicon-remove"> </span></button>
+                <b>{{basket.membership.firstName}} {{basket.membership.lastName}}</b>
+                <i>@{{basket.defaultPickupOption.name}}</i>
+              </div>
+            </div>
+            <div ng-if="subscriptions.length==0">
+              (<i>This member has no subscriptions for this season yet.</i>)
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <hr/>

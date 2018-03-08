@@ -47,6 +47,19 @@ export class AdminSeasonBasketsComponent{
 
       return candidate.indexOf(filter) >= 0;
     });
+
+    this.filteredBaskets = _.sortBy(this.filteredBaskets, (basket) => {
+      return basket.membership.firstName +
+             basket.membership.lastName;
+    });
+
+    this.updateSearch();
+  }
+
+  getMemberBaskets(member) {
+    return _.filter(this.baskets, basket=> {
+      return basket.membership._id == member._id;
+    });
   }
 
   getPickupOption(id) {

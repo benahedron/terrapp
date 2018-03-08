@@ -95,7 +95,9 @@ export function index(req, res) {
 
 // Find members
 export function find(req, res) {
-  return Membership.find().exec()
+  return Membership.find()
+    .populate('defaultPickupOption.name')
+    .exec()
     .then(filterQuery(req.body.query, res))
     .then(respondWithResult(res))
     .catch(handleError(res));
