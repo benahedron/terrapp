@@ -17,7 +17,10 @@ var PickupEventSchema = new mongoose.Schema({
   startDateOverride: {type: Date, default: null},
   durationMinutesOverride: {type: Number, default: null},
   canceled: {type: Boolean, default: false},
-  mails: [MailSchema]
+  mails: [MailSchema],
+  availableExtras: [
+    {type: mongoose.Schema.Types.ObjectId, ref: 'ExtraOption'}
+  ]
 });
 
 export default mongoose.model('PickupEvent', PickupEventSchema);

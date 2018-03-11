@@ -42,6 +42,14 @@
       <textarea class="form-control" ng-model="$ctrl.adminNote" ng-change="$ctrl.update()" rows="3">
       </textarea>
     </div>
+    <div class="form-group">
+      <label>Extras</label>
+      <ul ng-if="$ctrl.season.availableExtras.length>0">
+        <li ng-repeat="extra in $ctrl.season.availableExtras" class="extra">
+          <input type="checkbox" ng-checked="$ctrl.hasPickupExtra(extra)" ng-click="$ctrl.changeExtraToPickup(extra)" /> {{extra.name}}
+        </li>
+      </ul>
+    </div>
     <span class="label label-primary">
       With these setting, the pickup will take place at <pickup-option-map option="$ctrl.getCurrentPickupOptionId()" hoverable="true"> </pickup-option-map> from
       {{$ctrl.getCurrentStartDate()|date:'dd.MM.yyyy HH:mm'}}

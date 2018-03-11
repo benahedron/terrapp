@@ -64,6 +64,11 @@
           <button class="btn btn-xs btn-primary" ng-click="$ctrl.deleteBasket(basket)" type="button"><span class="glyphicon glyphicon-remove"> </span></button>
           <b>{{basket.membership.firstName}} {{basket.membership.lastName}}</b>
           <i>@{{basket.defaultPickupOption.name}}</i>
+          <ul ng-if="$ctrl.season.availableExtras.length>0">
+            <li ng-repeat="extra in $ctrl.season.availableExtras" class="extra">
+              <input type="checkbox" ng-checked="$ctrl.hasBasketExtra(basket, extra)" ng-click="$ctrl.changeExtraToBasket($event, basket, extra)" /> {{extra.name}}
+            </li>
+          </ul>
         </div>
       </div>
     </div>

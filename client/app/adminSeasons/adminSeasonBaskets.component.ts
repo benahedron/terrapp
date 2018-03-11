@@ -27,7 +27,7 @@ export class AdminSeasonBasketsComponent{
 
   updateSearch() {
     let scope = this;
-    if (this.searchString.length>2) {
+    if (this.searchString && this.searchString.length>2) {
       this.$http.post("/api/memberships/find", {query: this.searchString})
         .then(res => {
           scope.members = res.data as IMembership[];
@@ -92,6 +92,26 @@ export class AdminSeasonBasketsComponent{
         scope.baskets = _.without(scope.baskets, basket);
         scope.updateFilter();
       });
+  }
+
+  hasBasketExtra(basket, extra) {
+    let match = _.find(basket.extras, candidate => {
+      if (typeof candidate == "string" && extra._id){
+        return extra._id == candidate;
+      } else {
+        return extra._id == candidate._id;
+      }
+    });
+    return (match != null);
+  }
+
+  changeExtraToBasket($event, basket, extra) {
+    if (this.hasBasketExtra(basket, extra)) {
+      basket.extras = _.without(basket.extras, extra);
+    } else {
+      basket.extras.push(extra);
+    }
+    this.$http.put("/api/baskets/"+basket._id, basket);
   }
 
   $onInit() {

@@ -66,7 +66,8 @@ function handleError(res, statusCode) {
 
 // Gets a list of PickupEvents
 export function index(req, res) {
-  return PickupEvent.find().exec()
+  return PickupEvent.find()
+    .exec()
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
@@ -92,14 +93,16 @@ export function indexPrecise(req, res) {
   if (req.params.interval != 0 && parseInt(req.params.interval)>0) {
     query.eventNumber = parseInt(req.params.interval)-1;
   }
-  return PickupEvent.find(query).exec()
+  return PickupEvent.find(query)
+    .exec()
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
 // Gets a single PickupEvent from the DB
 export function show(req, res) {
-  return PickupEvent.findById(req.params.id).exec()
+  return PickupEvent.findById(req.params.id)
+    .exec()
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));
@@ -117,8 +120,10 @@ export function upsert(req, res) {
   if(req.body._id) {
     delete req.body._id;
   }
-  return PickupEvent.findOneAndUpdate({_id: req.params.id}, req.body, {new: true, upsert: true, setDefaultsOnInsert: true, runValidators: true}).exec()
-
+  
+  console.log(req.body)
+  return PickupEvent.findOneAndUpdate({_id: req.params.id}, req.body, {new: true, upsert: true, setDefaultsOnInsert: true, runValidators: true})
+    .exec()
     .then(respondWithResult(res))
     .catch(handleError(res));
 }

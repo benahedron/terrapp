@@ -36,6 +36,7 @@ import adminSeasons from './adminSeasons/adminSeasons.component';
 import adminSeasonDelete from './adminSeasons/adminSeasonDelete.component';
 import adminSeasonEdit from './adminSeasons/adminSeasonEdit.component';
 import adminSeasonBaskets from './adminSeasons/adminSeasonBaskets.component';
+import adminSeasonExtras from './adminSeasons/adminSeasonExtras.component';
 import adminExtraEvent from './adminExtraEvents/adminExtraEvents.component';
 import adminExtraEventDelete from './adminExtraEvents/adminExtraEventDelete.component';
 import adminExtraEventEdit from './adminExtraEvents/adminExtraEventEdit.component';
@@ -96,6 +97,7 @@ angular.module('terrappApp', [
   adminSeasonDelete,
   adminSeasonEdit,
   adminSeasonBaskets,
+  adminSeasonExtras,
   adminPickups,
   adminPickupEdit,
   adminPickupManage,

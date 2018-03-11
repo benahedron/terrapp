@@ -87,6 +87,13 @@ export class AdminSeasonsComponent extends ModalBase{
     this.modal('adminSeasonBaskets', this.getResolve(season), (season) => {
     });
   }
+
+  manageExtras(season) {
+    let scope = this;
+    this.modal('adminSeasonExtras', this.getResolve(season), () => {}).catch(()=> {
+      this.reload();
+    });
+  }
 }
 
 export default angular.module('terrappApp.adminSeasons', [uiRouter])

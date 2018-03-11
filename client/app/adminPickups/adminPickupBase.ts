@@ -10,6 +10,7 @@ export class AdminPickupBase {
   pickupOptions: IPickupOption[];
   userEvents: IPickupUserEvent[];
   pickupEventAlternatives: IPickupEvent[];
+  extraInformation: {};
 
   constructor($http, PickupUtils, PickupOptionsService) {
     this.$http = $http;
@@ -42,12 +43,16 @@ export class AdminPickupBase {
       scope.userEvents = _.sortBy(scope.userEvents, userEvent => {
         return userEvent.basket.membership.lastName + userEvent.basket.membership.firstName;
       });
+
+      this.extraInformation = this.getExtraInformation();
+
       this.$http.get('/api/pickupEvents/alternatives/'+this.pickup._id+'/')
       .then(result => {
+
         scope.pickupEventAlternatives = result.data as IPickupEvent[];
         _.each(scope.pickupEventAlternatives, alternativePickup => {
           alternativePickup.startDate = scope.PickupUtils.getStartDateFor(scope.season, alternativePickup.pickupOption, alternativePickup);
-        })
+        });
       });
     });
   }
@@ -72,6 +77,62 @@ export class AdminPickupBase {
       }
     });
     return requiredBaskets;
+  }
+
+  public hasExtraInformation() {
+    return this.pickup.availableExtras.length>0;
+  }
+
+  public getExtraInformation() {
+    let extraInfo = {};
+    let scope = this;
+
+    
+    _.each(scope.pickup.availableExtras, extra => {
+      let fullExtra = _.find(scope.season.availableExtras, candidate => {
+        return (candidate._id == extra);
+      });
+      if (fullExtra) {
+        extraInfo[fullExtra._id] = {
+          'count': 0,
+          'name': fullExtra.name
+        };
+      }
+    });
+    
+    _.each(scope.userEvents, userEvent => {
+      
+      if (((userEvent.pickupEventOverride && userEvent.pickupEventOverride._id === scope.pickup._id) ||
+      (!userEvent.pickupEventOverride && userEvent.pickupEvent._id === scope.pickup._id))&&
+      !userEvent.absent) {
+        _.each(userEvent.basket.extras, extra => {
+          if (_.has(extraInfo, extra)) {
+            extraInfo[extra]['count']++; 
+          }
+        });
+      }
+    });
+    return extraInfo;
+  }
+
+
+
+  getExtras(userEvent) {
+    let pickupExtras = _.filter(this.season.availableExtras, candidate => {
+      return _.find(this.pickup.availableExtras, (child) => {
+        return candidate._id == child;
+      }) != null;
+    });
+    let result = _.filter(pickupExtras, candidate => {
+      return _.find(userEvent.basket.extras, (child) => {
+        return candidate._id == child;
+      }) != null;
+    });
+    return result;
+  }
+
+  hasExtras(userEvent) {
+    return this.getExtras(userEvent).length != 0;
   }
 
   public ok() {;

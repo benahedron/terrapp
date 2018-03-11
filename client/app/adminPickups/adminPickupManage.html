@@ -6,6 +6,13 @@
   </div>
   <div class="modal-body" id="modal-body">
     <p>Baskets to prepare: <b>{{$ctrl.getRequiredBaskets()}}</b></p>
+    <p ng-if="$ctrl.hasExtraInformation()">Extras: 
+        <ul > 
+          <li ng-repeat="extra in $ctrl.extraInformation">
+            <b>{{extra.name}}:</b> <i>{{extra.count}}</i>
+          </li>
+        </ul>
+    </p>
     <table class="table table-hover">
       <thead>
         <tr>
@@ -24,6 +31,12 @@
             <div>
               <span ng-class="{'userAbsent': userEvent.absent|| (userEvent.pickupEventOverride!=null && userEvent.pickupEventOverride._id!=$ctrl.pickup._id)}">
                 {{userEvent.basket.membership.firstName}} {{userEvent.basket.membership.lastName}}
+                <span ng-if="$ctrl.hasExtras(userEvent)">
+                    (Extras: 
+                    <span ng-repeat="extra in $ctrl.getExtras(userEvent)">
+                      {{extra.name}} <span ng-if="!$last">,</span></span>
+                    )
+                </span>
               </span>
               <div ng-if="userEvent.pickupEventOverride && userEvent.pickupEventOverride._id!=$ctrl.pickup._id">
                 <span class="label label-warning">

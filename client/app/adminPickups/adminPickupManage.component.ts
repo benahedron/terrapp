@@ -51,6 +51,24 @@ export class AdminPickupManageComponent extends AdminPickupBase{
       userEvent.pickupEventOverride = override;
     }
   }
+
+  getExtras(userEvent) {
+    let pickupExtras = _.filter(this.season.availableExtras, candidate => {
+      return _.find(this.pickup.availableExtras, (child) => {
+        return candidate._id == child;
+      }) != null;
+    });
+    let result = _.filter(pickupExtras, candidate => {
+      return _.find(userEvent.basket.extras, (child) => {
+        return candidate._id == child;
+      }) != null;
+    });
+    return result;
+  }
+
+  hasExtras(userEvent) {
+    return this.getExtras(userEvent).length != 0;
+  }
 }
 
 

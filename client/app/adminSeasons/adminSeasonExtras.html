@@ -1,0 +1,61 @@
+
+<div class="modal-header">
+  <h3 class="modal-title" id="modal-title">
+    Edit extras for the season: {{$ctrl.season.name}}
+  </h3>
+</div>
+<div class="modal-body" id="modal-body">
+  <div class="row basketCreation">
+    <form class="form" name="form" novalidate>
+      <div class="col-md-12">
+        <h4>Add extra:</h4>
+        <div class="form-group">
+          <label>Name:</label>
+          <input type="text" name="name" class="form-control" ng-model="$ctrl.newName"/>
+        </div>
+        <div class="form-group">
+          <label>Note:</label>
+          <input type="text" name="note" class="form-control" ng-model="$ctrl.newNote"/>
+        </div>
+        <div class="form-group">
+          <label></label>
+          <button class="btn btn-primary" ng-disabled="!$ctrl.canCreateExtra()" ng-click="$ctrl.createExtra()">Create</button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <hr/>
+  <div class="row">
+    <div class="col-md-12" id="extraList">
+      <h4>Current extras: ({{$ctrl.season.availableExtras.length}})</h4>
+      <div ng-repeat="extra in $ctrl.season.availableExtras" class="extraOption">
+        <b>{{extra.name}}</b><br/>
+        <i>{{extra.note}}</i>
+        <p>
+          <button class="btn btn-primary" ng-click="$ctrl.startEditingExtra(extra)">Edit</button>
+          <button class="btn btn-primary" ng-click="$ctrl.deleteExtra(extra)">Delete</button>
+        </p>
+        <div ng-if="$ctrl.currentlyEditing._id == extra._id">
+          <form class="form" name="form" novalidate>
+            <div class="form-group">
+              <label>Name:</label>
+              <input type="text" name="name" class="form-control" ng-model="$ctrl.currentlyEditing.name"/>
+            </div>
+            <div class="form-group">
+              <label>Note:</label>
+              <input type="text" name="note" class="form-control" ng-model="$ctrl.currentlyEditing.note"/>
+            </div>
+            <div class="form-group">
+              <label></label>
+              <button class="btn btn-primary" ng-disabled="!$ctrl.canCreateExtra($ctrl.currentlyEditing)" ng-click="$ctrl.saveEditedExtra($ctrl.currentlyEditing, extra)">Save</button>
+              <button class="btn btn-default" ng-click="$ctrl.currentlyEditing = null">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-primary" ng-click="$ctrl.ok()">Done</button>
+</div>

@@ -75,7 +75,7 @@ export function index(req, res) {
 export function indexByPickupEventId(req, res) {
   return PickupUserEvent.find({'$or': [{pickupEvent: req.params.id},{pickupEventOverride: req.params.id}]})
     .populate({path: 'basket', populate: { path: 'membership' }})
-    .populate({path: 'pickupEvent', populate: { path: 'pickupOption' }})
+    .populate({path: 'pickupEvent', populate: [{ path: 'pickupOption'}, { path: 'availableExtras'}]})
     .populate({path: 'pickupEventOverride', populate: { path: 'pickupOption' }}).exec()
     .then(respondWithResult(res))
     .catch(handleError(res));

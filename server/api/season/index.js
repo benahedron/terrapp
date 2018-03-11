@@ -14,5 +14,6 @@ router.post('/', auth.hasRole('admin'), controller.create);
 router.put('/:id', auth.hasRole('admin'), controller.upsert);
 router.patch('/:id', auth.hasRole('admin'), controller.patch);
 router.delete('/:id', auth.hasRole('admin'), controller.destroy);
+//router.delete('/:id/:extraId', auth.hasRole('admin'), controller.removeExtra);
 
 module.exports = router;

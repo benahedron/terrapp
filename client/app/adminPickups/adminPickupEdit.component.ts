@@ -16,6 +16,7 @@ export class AdminPickupEditComponent {
   pickupOptionOverride:  IPickupOption;
   durationOverride: number;
   adminNote: string;
+  availableExtras: Array<any>;
 
   PickupUtils: IPickupUtilsService;
   PickupOptionsService: IPickupOptionsService;
@@ -55,6 +56,7 @@ export class AdminPickupEditComponent {
     this.dateOptions = {minDate: this.getMinDate(), maxDate: this.getMaxDate()};
     this.durationOverride = this.pickup.durationMinutesOverride || this.getPickupOption(this.nonModifiedPickup).durationMinutes;
     this.adminNote = this.pickup.adminNote;
+    this.availableExtras = _.cloneDeep(this.pickup.availableExtras);
     this.update();
   }
 
@@ -84,6 +86,8 @@ export class AdminPickupEditComponent {
     } else {
       this.pickupOptionOverride = null;
     }
+
+    this.pickup.availableExtras = this.availableExtras;
 
     this.pickup.adminNote = this.adminNote;
   }
@@ -143,6 +147,25 @@ export class AdminPickupEditComponent {
     return new Date(maxTimestamp);
   }
 
+  hasPickupExtra(extra) {
+    let match = _.find(this.availableExtras, candidate => {
+      if (typeof candidate == "string" && extra._id){
+        return extra._id == candidate;
+      } else {
+        return extra._id == candidate._id;
+      }
+    });
+    return (match != null);
+  }
+
+  changeExtraToPickup(extra) {
+    if (this.hasPickupExtra(extra)) {
+      this.availableExtras = _.without(this.availableExtras, extra);
+    } else {
+      this.availableExtras.push(extra);
+    }
+    this.update();
+  }
 
   save(form) {
     this.submitted = true;

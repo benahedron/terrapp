@@ -18,7 +18,7 @@
             <th>First pickup</th>
             <th>Last pickup</th>
             <th>Number of pickups</th>
-            <th>Active pickup options</th>
+            <th>Pickup options</th>
             <th>Options</th>
           </tr>
         </thead>
@@ -36,6 +36,7 @@
               <button class="btn btn-primary listButton" ng-click="$ctrl.edit(season)"><span class="glyphicon glyphicon-pencil"> </span> Edit</button>
               <button class="btn btn-primary listButton" ng-click="$ctrl.manageBaskets(season)"><span class="glyphicon glyphicon-apple"> </span> Baskets</button>
               <button class="btn btn-primary listButton" ng-click="$ctrl.managePickups(season)"><span class="glyphicon glyphicon-time"> </span> Pickups</button>
+              <button class="btn btn-primary listButton" ng-click="$ctrl.manageExtras(season)"><span class="glyphicon glyphicon-star"> </span> Extras</button>
               <button ng-if="!$ctrl.isActive(season)" class="btn btn-primary listButton" ng-click="$ctrl.delete(season)"><span class="glyphicon glyphicon-trash"> </span> Delete</button>
               <button ng-if="!$ctrl.isActive(season)" class="btn btn-primary listButton" ng-click="$ctrl.setActive(season)"><span class="glyphicon glyphicon-play"> </span> Activate</button>
             </td>

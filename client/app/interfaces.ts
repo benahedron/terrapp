@@ -39,8 +39,14 @@ interface IPickupEvent {
   durationMinutesOverride: number;
   canceled: boolean;
   mails: IMail[];
+  availableExtras: IExtra[];
   // TODO: Only used for overriging now. Should be handled differently
   startDate: Date;
+}
+
+interface IExtra {
+  name: string;
+  note: string;
 }
 
 interface IPickupUserEvent{

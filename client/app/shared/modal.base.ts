@@ -14,7 +14,7 @@ export class ModalBase {
         resolve: resolve
     }, options || {}) as ng.ui.bootstrap.IModalSettings);
 
-    modalInstance.result.then((result) => {
+    return modalInstance.result.then((result) => {
       successCallback(result);
     });
   }

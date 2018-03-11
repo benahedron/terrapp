@@ -65,7 +65,8 @@ export function onUpdateSeason(season) {
           let newEvent = {
             season: season,
             pickupOption: pickupOptionId,
-            eventNumber: i
+            eventNumber: i,
+            availableExtras: []
           };
           toCreate.push(newEvent);
         }
