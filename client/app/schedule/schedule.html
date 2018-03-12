@@ -52,12 +52,14 @@
       <div class="detailsBox">
         <div class="detailsBoxInfo">
           {{'schedule_info_and_options' | tr}}
+
           <button class="pull-right leftMargin btn btn-primary" ng-if="userEvent.old && userEvent.userEvent.done"><span class="glyphicon glyphicon-ok"> </span> {{'picked_up'|tr}}</button>
           <button class="pull-right leftMargin btn btn-primary" ng-if="userEvent.old && !userEvent.userEvent.done"><span class="glyphicon glyphicon-remove"> </span> {{'not_picked_up'|tr}}</button>
           <button class="pull-right leftMargin btn btn-primary" ng-if="!userEvent.userEvent.editable"><span class="glyphicon glyphicon-lock"> </span></button>
           <button class="pull-right leftMargin btn btn-primary" ng-if="userEvent.userEvent.editable" ng-click="$ctrl.edit(userEvent.userEvent)">{{'edit'|tr}}</button>
         </div>
         <pre class="alert alert-info detailBoxLocation detailBoxGeneric"><b>{{'schedule_location'|tr}}</b> <pickup-option-map option="userEvent.pickupOption._id" hoverable="true"> </pickup-option-map><span ng-if="userEvent.actualEvent.pickupOptionOverride" class="label label-warning">{{'schedule_not_default_location'|tr}}</span></pre>
+        <pre class="alert alert-info detailBoxExtras detailBoxGeneric" ng-repeat="extra in userEvent.availableExtras"><span class="glyphicon glyphicon-star  "></span> {{extra.name}} ({{extra.quantity}} {{extra.unit}})</pre>
         <pre class="alert alert-danger detailBoxGeneric" ng-if="userEvent.adminNote"><b>{{'schedule_pickup_note'|tr}}</b><p>{{userEvent.adminNote}}</p></pre>
         <pre class="alert alert-warning detailBoxGeneric" ng-if="userEvent.delegate" ><b>{{'schedule_will_be_pickedup_by'|tr}}</b> {{userEvent.delegate}}</pre>
         <pre class="alert alert-danger detailBoxGeneric" ng-if="userEvent.absent" ><b>{{'schedule_cannot_pickup'|tr}}</b></pre>

@@ -122,6 +122,27 @@ export class ScheduleComponent extends ModalBase{
       actualPickupOptionForDateId = actualPickupOptionForDateId._id;
     }
     let actualPickupOptionForDate = scope.getPickupOption(actualPickupOptionForDateId);
+    let eventExtraIds = actualEvent.availableExtras;
+    let basketExtras = userEvent.basket.extras;
+    let availableExtras = [];
+    
+    if (basketExtras.length>0 && eventExtraIds.length>0) {
+      for (let eventExtraId of eventExtraIds) {
+        let match = _.find(basketExtras, candidate => {
+          return candidate.extra == eventExtraId;
+        });
+        if (match) {
+          let seasonExtra = _.find(this.season.availableExtras, (extra) => {
+            return extra._id == eventExtraId;
+          });
+          availableExtras.push({
+            "name": seasonExtra.name,
+            "unit": seasonExtra.unit,
+            "quantity": match.quantity
+          });
+        }
+      }
+    }
     return {
       userEvent: userEvent,
       actualEvent: actualEvent,
@@ -135,7 +156,8 @@ export class ScheduleComponent extends ModalBase{
       editable: userEvent.editable,
       old: userEvent.old,
       done: userEvent.done,
-      pickupOption: actualPickupOption
+      pickupOption: actualPickupOption,
+      availableExtras: availableExtras
     };
   }
 
