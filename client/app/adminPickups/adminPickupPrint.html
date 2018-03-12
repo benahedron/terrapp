@@ -14,7 +14,7 @@
           <p ng-if="$ctrl.hasExtraInformation()">Extras: 
               <ul > 
                 <li ng-repeat="extra in $ctrl.extraInformation">
-                  <b>{{extra.name}}:</b> <i>{{extra.count}}</i>
+                  <b>{{extra.name}}:</b> <i>{{extra.count}} {{extra.unit}}</i>
                 </li>
               </ul>
           </p>
@@ -62,10 +62,10 @@
             <pre ng-if="userEvent.userNote" class="userNotePre"><b>User note:</b><p>{{userEvent.userNote}}</p></pre>
             <span ng-if="userEvent.delegate" class="label label-warning"><b>Delegated to:</b> {{userEvent.delegate}}</span>
           </div>
-          <span ng-if="$ctrl.hasExtras(userEvent)">
+          <span ng-if="userEvent.$extras.length>0">
               (Extras: 
-              <span ng-repeat="extra in $ctrl.getExtras(userEvent)">
-                {{extra.name}} <span ng-if="!$last">,</span></span>
+              <span ng-repeat="extra in userEvent.$extras">
+                {{extra.quantity}} {{extra.unit}} {{extra.name}} <span ng-if="!$last">,</span></span>
               )
           </span>
         </td>

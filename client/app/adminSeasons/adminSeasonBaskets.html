@@ -65,8 +65,16 @@
           <b>{{basket.membership.firstName}} {{basket.membership.lastName}}</b>
           <i>@{{basket.defaultPickupOption.name}}</i>
           <ul ng-if="$ctrl.season.availableExtras.length>0">
-            <li ng-repeat="extra in $ctrl.season.availableExtras" class="extra">
-              <input type="checkbox" ng-checked="$ctrl.hasBasketExtra(basket, extra)" ng-click="$ctrl.changeExtraToBasket($event, basket, extra)" /> {{extra.name}}
+            <li ng-repeat="extra in basket.$extras" class="extra">
+                <div class="input-group smallInput">
+                    <span class="input-group-addon">
+                      <input type="checkbox" ng-model="extra.selected"  ng-change="$ctrl.updateBasket(basket)"/>
+                    </span>
+                    <input class="form-control" type="number" ng-disabled="!extra.selected" ng-model="extra.quantity" ng-change="$ctrl.updateBasket(basket)"/>
+                    <span class="input-group-addon" id="basic-addon2">{{extra.extra.name}}</span>
+                </div>
+                
+              </div>
             </li>
           </ul>
         </div>

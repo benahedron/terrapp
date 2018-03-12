@@ -38,6 +38,7 @@ export class AdminPickupBase {
         return userEvent.basket !== null;
       });
       _.each(scope.userEvents, userEvent => {
+        scope.getExtras(userEvent)
         scope.calculateStartTime(userEvent);
       });
       scope.userEvents = _.sortBy(scope.userEvents, userEvent => {
@@ -95,7 +96,8 @@ export class AdminPickupBase {
       if (fullExtra) {
         extraInfo[fullExtra._id] = {
           'count': 0,
-          'name': fullExtra.name
+          'name': fullExtra.name,
+          'unit': fullExtra.unit
         };
       }
     });
@@ -106,8 +108,8 @@ export class AdminPickupBase {
       (!userEvent.pickupEventOverride && userEvent.pickupEvent._id === scope.pickup._id))&&
       !userEvent.absent) {
         _.each(userEvent.basket.extras, extra => {
-          if (_.has(extraInfo, extra)) {
-            extraInfo[extra]['count']++; 
+          if (_.has(extraInfo, extra.extra)) {
+            extraInfo[extra.extra]['count'] += extra.quantity; 
           }
         });
       }
@@ -123,12 +125,20 @@ export class AdminPickupBase {
         return candidate._id == child;
       }) != null;
     });
-    let result = _.filter(pickupExtras, candidate => {
-      return _.find(userEvent.basket.extras, (child) => {
-        return candidate._id == child;
+    let result = [];
+    _.each(pickupExtras, candidate => {
+      _.each(userEvent.basket.extras, (child) => {
+        if (candidate._id == child.extra) {
+          result.push(
+            {
+              'quantity': child.quantity,
+              'unit': candidate.unit,
+              'name': candidate.name
+            });
+        }
       }) != null;
     });
-    return result;
+    userEvent.$extras = result;
   }
 
   hasExtras(userEvent) {

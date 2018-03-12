@@ -4,7 +4,8 @@ import mongoose from 'mongoose';
 
 var ExtraOptionSchema = new mongoose.Schema({
   name: {type: String, default: null},
-  note: {type: String, default: null}
+  note: {type: String, default: null},
+  unit: {type: String, default: null}
 });
 
 var SeasonSchema = new mongoose.Schema({

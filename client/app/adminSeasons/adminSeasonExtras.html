@@ -18,6 +18,10 @@
           <input type="text" name="note" class="form-control" ng-model="$ctrl.newNote"/>
         </div>
         <div class="form-group">
+          <label>Unit:</label>
+          <input type="text" name="unit" class="form-control" ng-model="$ctrl.newUnit"/>
+        </div>
+        <div class="form-group">
           <label></label>
           <button class="btn btn-primary" ng-disabled="!$ctrl.canCreateExtra()" ng-click="$ctrl.createExtra()">Create</button>
         </div>
@@ -44,6 +48,10 @@
             <div class="form-group">
               <label>Note:</label>
               <input type="text" name="note" class="form-control" ng-model="$ctrl.currentlyEditing.note"/>
+            </div>
+            <div class="form-group">
+              <label>Unit:</label>
+              <input type="text" name="unit" class="form-control" ng-model="$ctrl.currentlyEditing.unit"/>
             </div>
             <div class="form-group">
               <label></label>

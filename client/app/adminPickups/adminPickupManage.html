@@ -9,7 +9,7 @@
     <p ng-if="$ctrl.hasExtraInformation()">Extras: 
         <ul > 
           <li ng-repeat="extra in $ctrl.extraInformation">
-            <b>{{extra.name}}:</b> <i>{{extra.count}}</i>
+            <b>{{extra.name}}:</b> <i>{{extra.count}} {{extra.unit}}</i>
           </li>
         </ul>
     </p>
@@ -31,10 +31,10 @@
             <div>
               <span ng-class="{'userAbsent': userEvent.absent|| (userEvent.pickupEventOverride!=null && userEvent.pickupEventOverride._id!=$ctrl.pickup._id)}">
                 {{userEvent.basket.membership.firstName}} {{userEvent.basket.membership.lastName}}
-                <span ng-if="$ctrl.hasExtras(userEvent)">
+                <span ng-if="userEvent.$extras.length>0">
                     (Extras: 
-                    <span ng-repeat="extra in $ctrl.getExtras(userEvent)">
-                      {{extra.name}} <span ng-if="!$last">,</span></span>
+                    <span ng-repeat="extra in userEvent.$extras">
+                        {{extra.quantity}} {{extra.unit}} {{extra.name}} <span ng-if="!$last">,</span></span>
                     )
                 </span>
               </span>

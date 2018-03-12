@@ -11,6 +11,7 @@ export class AdminSeasonExtrasComponent{
 
   newName: String = "";
   newNote: String = "";
+  newUnit: String = "";
 
   currentlyEditing = null;
 
@@ -35,7 +36,8 @@ export class AdminSeasonExtrasComponent{
     }
     this.season.availableExtras.push({
       name: this.newName,
-      note: this.newNote
+      note: this.newNote,
+      unit: this.newUnit
     });
     this.save(() => {
       this.currentlyEditing = null;
@@ -46,6 +48,7 @@ export class AdminSeasonExtrasComponent{
   reset() {
     this.newName = "";
     this.newNote = "";
+    this.newUnit = "";
   }
 
   $onInit() {
@@ -71,6 +74,7 @@ export class AdminSeasonExtrasComponent{
   saveEditedExtra(modifiedExtra, extra) {
     extra.name = modifiedExtra.name;
     extra.note = modifiedExtra.note;
+    extra.unit = modifiedExtra.unit;
     this.save(() => {
       this.currentlyEditing = null;
     });

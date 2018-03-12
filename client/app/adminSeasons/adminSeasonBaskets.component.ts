@@ -94,24 +94,19 @@ export class AdminSeasonBasketsComponent{
       });
   }
 
-  hasBasketExtra(basket, extra) {
-    let match = _.find(basket.extras, candidate => {
-      if (typeof candidate == "string" && extra._id){
-        return extra._id == candidate;
-      } else {
-        return extra._id == candidate._id;
+  updateBasket(basket){
+    let candidate = _.cloneDeep(basket);
+    delete candidate.$extras;
+    candidate.extras = [];
+    for (let extra of basket.$extras) {
+      if (extra.selected) {
+        candidate.extras.push({
+          extra: extra.extra._id,
+          quantity: extra.quantity
+        })
       }
-    });
-    return (match != null);
-  }
-
-  changeExtraToBasket($event, basket, extra) {
-    if (this.hasBasketExtra(basket, extra)) {
-      basket.extras = _.without(basket.extras, extra);
-    } else {
-      basket.extras.push(extra);
     }
-    this.$http.put("/api/baskets/"+basket._id, basket);
+    this.$http.put("/api/baskets/"+basket._id, candidate);
   }
 
   $onInit() {
@@ -122,6 +117,19 @@ export class AdminSeasonBasketsComponent{
       scope.$http.get("/api/baskets/bySeason/"+this.season._id)
       .then(res => {
         scope.baskets = res.data as IBasket[];
+        _.each(scope.baskets, basket => {
+          basket.$extras = [];
+          _.each(this.season.availableExtras, extra => {
+            let candidate = _.find(basket.extras, candidate => {
+              return candidate.extra == extra._id;
+            });
+            basket.$extras.push({
+              extra: extra, 
+              selected: candidate!=null,
+              quantity: (candidate)?candidate.quantity:0
+            }
+          });
+        });
         scope.pickupOptions = scope.season.activePickupOptions;
         scope.updateFilter();
       });

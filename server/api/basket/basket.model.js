@@ -7,7 +7,10 @@ var BasketSchema = new mongoose.Schema({
   season: {type: Schema.Types.ObjectId, ref: 'Season'},
   defaultPickupOption: {type: Schema.Types.ObjectId, ref: 'PickupOption'},
   extras: [
-    {type: mongoose.Schema.Types.ObjectId, ref: 'ExtraOption'}
+    {
+      extra: {type: mongoose.Schema.Types.ObjectId, ref: 'ExtraOption'},
+      quantity: {type: Number, default: 1}
+    }
   ]
 });
 
