@@ -49,8 +49,8 @@ export class AdminSeasonBasketsComponent{
     });
 
     this.filteredBaskets = _.sortBy(this.filteredBaskets, (basket) => {
-      return basket.membership.firstName +
-             basket.membership.lastName;
+      return (basket as IBasket).membership.firstName +
+             (basket as IBasket).membership  .lastName;
     });
 
     this.updateSearch();
@@ -73,8 +73,7 @@ export class AdminSeasonBasketsComponent{
     let scope = this;
     this.$http.post("/api/baskets", {membership: membership._id, season: scope.season._id, defaultPickupOption: pickupOption._id})
       .then(res => {
-        scope.baskets.push(
-          {
+        (scope.baskets as any).push({
             _id: (res.data as IBasket)._id,
             membership: membership,
             season: scope.season._id as any,
@@ -118,16 +117,16 @@ export class AdminSeasonBasketsComponent{
       .then(res => {
         scope.baskets = res.data as IBasket[];
         _.each(scope.baskets, basket => {
-          basket.$extras = [];
+          (basket as any).$extras = [];
           _.each(this.season.availableExtras, extra => {
-            let candidate = _.find(basket.extras, candidate => {
+            let candidate:any = _.find(basket.extras, candidate => {
               return candidate.extra == extra._id;
             });
-            basket.$extras.push({
+            (basket as any).$extras.push({
               extra: extra, 
               selected: candidate!=null,
               quantity: (candidate)?candidate.quantity:0
-            }
+            });
           });
         });
         scope.pickupOptions = scope.season.activePickupOptions;

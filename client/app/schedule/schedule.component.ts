@@ -129,7 +129,7 @@ export class ScheduleComponent extends ModalBase{
     if (basketExtras.length>0 && eventExtraIds.length>0) {
       for (let eventExtraId of eventExtraIds) {
         let match = _.find(basketExtras, candidate => {
-          return candidate.extra == eventExtraId;
+          return (candidate as any).extra == eventExtraId;
         });
         if (match) {
           let seasonExtra = _.find(this.season.availableExtras, (extra) => {
@@ -138,7 +138,7 @@ export class ScheduleComponent extends ModalBase{
           availableExtras.push({
             "name": seasonExtra.name,
             "unit": seasonExtra.unit,
-            "quantity": match.quantity
+            "quantity": (match as any).quantity
           });
         }
       }

@@ -11,6 +11,13 @@ interface IPickupOption {
   active: boolean;
 }
 
+interface IExtra {
+  _id: string;
+  name: string;
+  note: string;
+  unit: string;
+}
+
 interface ISeason {
   _id: string;
   eventIntervalInDays: number;
@@ -18,6 +25,7 @@ interface ISeason {
   numberOfEvents: number;
   name: string;
   activePickupOptions: IPickupOption[];
+  availableExtras: IExtra[]
 }
 
 interface IMail {
@@ -39,14 +47,9 @@ interface IPickupEvent {
   durationMinutesOverride: number;
   canceled: boolean;
   mails: IMail[];
-  availableExtras: IExtra[];
+  availableExtras: string[];
   // TODO: Only used for overriging now. Should be handled differently
   startDate: Date;
-}
-
-interface IExtra {
-  name: string;
-  note: string;
 }
 
 interface IPickupUserEvent{
@@ -85,6 +88,10 @@ interface IBasket {
   membership: IMembership;
   season: ISeason;
   defaultPickupOption: IPickupOption;
+  extras: [{
+    quantity: number;
+    extra: string;
+  }]
 }
 
 interface ISeasonUtilsService{

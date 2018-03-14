@@ -141,11 +141,7 @@ export class AdminPickupBase {
     userEvent.$extras = result;
   }
 
-  hasExtras(userEvent) {
-    return this.getExtras(userEvent).length != 0;
-  }
-
-  public ok() {;
+  public ok() {
     (this as any).close({$value: 'ok'});
   };
 

@@ -38,7 +38,7 @@ export class AdminSeasonExtrasComponent{
       name: this.newName,
       note: this.newNote,
       unit: this.newUnit
-    });
+    } as IExtra);
     this.save(() => {
       this.currentlyEditing = null;
       this.reset();
@@ -80,7 +80,7 @@ export class AdminSeasonExtrasComponent{
     });
   }
 
-  save(cb) {
+  save(cb?) {
     this.$http.put('/api/seasons/'+this.season._id, this.season)
     .then((result) => {
       this.season = result.data as ISeason;

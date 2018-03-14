@@ -109,7 +109,7 @@ export function restore(req, res) {
       var db = _.last(parts);
       exec('cd '+ __dirname  + '/' +
         '&& unzip -P "'+config.backup.password+'" backup.zip' +
-        '&& mongorestore -drop backup/' + db +
+        '&& mongorestore --db '+db+' backup/' + db +
         '&& rm backup.zip ' +
         '&& rm -rf ' + __dirname + '/backup/' ,
         (err, stdout, stderr) => {
