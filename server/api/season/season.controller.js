@@ -17,8 +17,8 @@ import _ from 'lodash';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
-  return function(entity) {
-    if(entity) {
+  return function (entity) {
+    if (entity) {
       return res.status(statusCode).json(entity);
     }
     return null;
@@ -26,14 +26,14 @@ function respondWithResult(res, statusCode) {
 }
 
 function patchUpdates(patches) {
-  return function(entity) {
+  return function (entity) {
     try {
       let activePickupOptions = _.cloneDeep(patches.activePickupOptions);
       delete entity.activePickupOptions;
       entity = _.merge(entity, patches);
       entity.markModified('activePickupOptions');
       entity.activePickupOptions = activePickupOptions;
-    } catch(err) {
+    } catch (err) {
       return Promise.reject(err);
     }
 
@@ -42,7 +42,7 @@ function patchUpdates(patches) {
 }
 
 function updateSeason(res) {
-  return function(season) {
+  return function (season) {
     SeasonLogic.onUpdateSeason(season);
     return season;
   }
@@ -50,15 +50,15 @@ function updateSeason(res) {
 
 
 function removeSeason(res) {
-  return function(season) {
+  return function (season) {
     SeasonLogic.onRemoveSeason(season);
     return season;
   }
 }
 
 function removeEntity(res) {
-  return function(entity) {
-    if(entity) {
+  return function (entity) {
+    if (entity) {
       return entity.remove()
         .then(() => {
           res.status(204).end();
@@ -68,8 +68,8 @@ function removeEntity(res) {
 }
 
 function handleEntityNotFound(res) {
-  return function(entity) {
-    if(!entity) {
+  return function (entity) {
+    if (!entity) {
       res.status(404).end();
       return null;
     }
@@ -79,7 +79,7 @@ function handleEntityNotFound(res) {
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
-  return function(err) {
+  return function (err) {
     res.status(statusCode).send(err);
   };
 }
@@ -103,24 +103,24 @@ export function show(req, res) {
 // Creates a new Season in the DB
 export function create(req, res) {
   return Season.create(req.body)
-    .then(respondWithResult(res, 201))
     .then(updateSeason(res))
+    .then(respondWithResult(res, 201))
     .catch(handleError(res));
 }
 
 // Upserts the given Season in the DB at the specified ID
 export function upsert(req, res) {
-  if(req.body._id) {
+  if (req.body._id) {
     delete req.body._id;
   }
-  return Season.findOneAndUpdate({_id: req.params.id}, req.body, {new: true, upsert: true, setDefaultsOnInsert: true, runValidators: true}).exec()
+  return Season.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true, upsert: true, setDefaultsOnInsert: true, runValidators: true }).exec()
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
 
 // Updates an existing Season in the DB
 export function patch(req, res) {
-  if(req.body._id) {
+  if (req.body._id) {
     delete req.body._id;
   }
   return Season.findById(req.params.id).exec()

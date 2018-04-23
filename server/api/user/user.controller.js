@@ -9,14 +9,14 @@ import _ from 'lodash';
 
 function validationError(res, statusCode) {
   statusCode = statusCode || 422;
-  return function(err) {
+  return function (err) {
     return res.status(statusCode).json(err);
   };
 }
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
-  return function(err) {
+  return function (err) {
     return res.status(statusCode).send(err);
   };
 }
@@ -39,18 +39,18 @@ export function index(req, res) {
  * Creates a new user
  */
 export function create(req, res) {
-  if(!_.has(req.body, 'membership')) {
+  if (!_.has(req.body, 'membership')) {
     validationError(res);
   } else {
     var newMembership = Membership(req.body.membership);
     newMembership.save()
-      .then(function(membership) {
+      .then(function (membership) {
         var newUser = new User(req.body);
         newUser.provider = 'local';
         newUser.role = 'user';
         newUser.membership = membership;
         newUser.save()
-          .then(function(user) {
+          .then(function (user) {
             var token = jwt.sign({ _id: user._id }, config.secrets.session, {
               expiresIn: 60 * 60 * 5
             });
@@ -68,13 +68,13 @@ export function create(req, res) {
 export function createAsAdmin(req, res) {
   var newUser = new User(req.body);
 
-  if(_.has(req.body, 'membership')) {
+  if (_.has(req.body, 'membership')) {
     var newMembership = Membership(req.body.membership);
     newMembership.save()
-      .then(function(membership) {
+      .then(function (membership) {
         newUser.membership = membership;
         newUser.save()
-          .then(function(user) {
+          .then(function (user) {
             res.json(user);
           })
           .catch(validationError(res));
@@ -82,7 +82,7 @@ export function createAsAdmin(req, res) {
       .catch(validationError(res));
   } else {
     newUser.save()
-      .then(function(user) {
+      .then(function (user) {
         res.json(user);
       })
       .catch(validationError(res));
@@ -94,11 +94,11 @@ export function createAsAdmin(req, res) {
  */
 export function upsert(req, res) {
   var newUser = new User(req.body);
-  User.findOneAndUpdate({_id: req.body._id}, newUser)
-    .then(function(user) {
-      if(_.has(req.body, 'membership')) {
-        Membership.findOneAndUpdate({_id: req.body.membership._id}, req.body.membership)
-          .then(function(membership) {
+  User.findOneAndUpdate({ _id: req.body._id }, newUser)
+    .then(function (user) {
+      if (_.has(req.body, 'membership')) {
+        Membership.findOneAndUpdate({ _id: req.body.membership._id }, req.body.membership)
+          .then(function (membership) {
             user.membership = membership;
             res.json(user);
           });
@@ -118,7 +118,7 @@ export function show(req, res, next) {
 
   return User.findById(userId).exec()
     .then(user => {
-      if(!user) {
+      if (!user) {
         return res.status(404).end();
       }
       res.json(user.profile);
@@ -135,9 +135,9 @@ export function destroy(req, res) {
   return User.findById(userId).exec()
     .then(user => {
       user.remove()
-      .then(() => {
-        UserLogic.onRemoveUser(user);
-      });
+        .then(() => {
+          UserLogic.onRemoveUser(user);
+        });
     })
     .catch(handleError(res));
 }
@@ -152,7 +152,7 @@ export function changePassword(req, res) {
 
   return User.findById(userId).exec()
     .then(user => {
-      if(user.authenticate(oldPass)) {
+      if (user.authenticate(oldPass)) {
         user.password = newPass;
         return user.save()
           .then(() => {
@@ -171,7 +171,6 @@ export function changePassword(req, res) {
 export function changePasswordAsAdmin(req, res) {
   User.findById(req.params.id).exec()
     .then(user => {
-      console.log(req.body);
       user.password = req.body.password;
       return user.save()
         .then(() => {
@@ -189,7 +188,7 @@ export function me(req, res, next) {
 
   return User.findOne({ _id: userId }, '-salt -password').exec()
     .then(user => { // don't ever give out the password or salt
-      if(!user) {
+      if (!user) {
         return res.status(401).end();
       }
       res.json(user);

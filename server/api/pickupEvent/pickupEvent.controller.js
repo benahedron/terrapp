@@ -17,8 +17,8 @@ import _ from 'lodash'
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
-  return function(entity) {
-    if(entity) {
+  return function (entity) {
+    if (entity) {
       return res.status(statusCode).json(entity);
     }
     return null;
@@ -26,10 +26,10 @@ function respondWithResult(res, statusCode) {
 }
 
 function patchUpdates(patches) {
-  return function(entity) {
+  return function (entity) {
     try {
       _.assign(entity, patches);
-    } catch(err) {
+    } catch (err) {
       return Promise.reject(err);
     }
     return entity.save();
@@ -37,8 +37,8 @@ function patchUpdates(patches) {
 }
 
 function removeEntity(res) {
-  return function(entity) {
-    if(entity) {
+  return function (entity) {
+    if (entity) {
       return entity.remove()
         .then(() => {
           res.status(204).end();
@@ -48,8 +48,8 @@ function removeEntity(res) {
 }
 
 function handleEntityNotFound(res) {
-  return function(entity) {
-    if(!entity) {
+  return function (entity) {
+    if (!entity) {
       res.status(404).end();
       return null;
     }
@@ -59,7 +59,7 @@ function handleEntityNotFound(res) {
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
-  return function(err) {
+  return function (err) {
     res.status(statusCode).send(err);
   };
 }
@@ -76,7 +76,7 @@ export function index(req, res) {
 export function getAlternatives(req, res) {
   return PickupEvent.findById(req.params.id).exec()
     .then((pickupEvent, err) => {
-      return new Promise(function(fulfill, reject) {
+      return new Promise(function (fulfill, reject) {
         return PickupEventLogic.getAlternativesFor(pickupEvent, fulfill);
       });
     })
@@ -86,12 +86,12 @@ export function getAlternatives(req, res) {
 
 // Get a lost of PickupEvents for a given season and pickup option
 export function indexPrecise(req, res) {
-  let query = {season: req.params.seasonId};
+  let query = { season: req.params.seasonId };
   if (req.params.pickupOptionId && req.params.pickupOptionId != null && req.params.pickupOptionId != 'null' && req.params.pickupOptionId != 0) {
     query.pickupOption = req.params.pickupOptionId;
   }
-  if (req.params.interval != 0 && parseInt(req.params.interval)>0) {
-    query.eventNumber = parseInt(req.params.interval)-1;
+  if (req.params.interval != 0 && parseInt(req.params.interval) > 0) {
+    query.eventNumber = parseInt(req.params.interval) - 1;
   }
   return PickupEvent.find(query)
     .exec()
@@ -117,12 +117,11 @@ export function create(req, res) {
 
 // Upserts the given PickupEvent in the DB at the specified ID
 export function upsert(req, res) {
-  if(req.body._id) {
+  if (req.body._id) {
     delete req.body._id;
   }
-  
-  console.log(req.body)
-  return PickupEvent.findOneAndUpdate({_id: req.params.id}, req.body, {new: true, upsert: true, setDefaultsOnInsert: true, runValidators: true})
+
+  return PickupEvent.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true, upsert: true, setDefaultsOnInsert: true, runValidators: true })
     .exec()
     .then(respondWithResult(res))
     .catch(handleError(res));
@@ -130,7 +129,7 @@ export function upsert(req, res) {
 
 // Updates an existing PickupEvent in the DB
 export function patch(req, res) {
-  if(req.body._id) {
+  if (req.body._id) {
     delete req.body._id;
   }
 
@@ -154,7 +153,7 @@ export function sendMail(req, res) {
   return PickupEvent.findById(req.params.pickupId).exec()
     .then(pickupEvent => {
       let mail = _.find(pickupEvent.mails, mail => {
-        return mail._id+'' === req.params.mailId;
+        return mail._id + '' === req.params.mailId;
       });
       if (mail && !mail.date) {
         // Send

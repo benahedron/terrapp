@@ -3,7 +3,7 @@
 const angular = require('angular');
 
 
-export class AdminSeasonEditComponent{
+export class AdminSeasonEditComponent {
   season: ISeason;
   errors = {};
   isNew: Boolean = false;
@@ -30,8 +30,10 @@ export class AdminSeasonEditComponent{
       this.isNew = false;
     } else {
       this.season = {
+        firstEventDate: new Date(),
         eventIntervalInDays: 7,
-        numberOfEvents: 52
+        numberOfEvents: 52,
+        activePickupOptions: []
       } as ISeason;
       this.isNew = true;
     }
@@ -51,7 +53,7 @@ export class AdminSeasonEditComponent{
 
   save(form) {
     this.submitted = true;
-    if(form.$valid) {
+    if (form.$valid) {
       let method = this.$http.patch;
       let path = '';
       if (this.isNew) {
@@ -60,31 +62,31 @@ export class AdminSeasonEditComponent{
         path += this.season._id;
       }
 
-      method('/api/seasons/'+path, this.season)
-      .then((result) => {
-        this.season = result.data as ISeason;
-        this.ok();
-      })
-      .catch(err => {
-        err = err.data;
-        this.errors = {};
-        // Update validity of form fields that match the mongoose errors
-        angular.forEach(err.errors, (error, field) => {
-          form[field].$setValidity('mongoose', false);
-          this.errors[field] = error.message;
-        });
+      method('/api/seasons/' + path, this.season)
+        .then((result) => {
+          this.season = result.data as ISeason;
+          this.ok();
+        })
+        .catch(err => {
+          err = err.data;
+          this.errors = {};
+          // Update validity of form fields that match the mongoose errors
+          angular.forEach(err.errors, (error, field) => {
+            form[field].$setValidity('mongoose', false);
+            this.errors[field] = error.message;
+          });
 
-      });
+        });
     }
   }
 
   ok() {
     (this as any).resolve.season = this.season;
-    (this as any).close({$value: this.season});
+    (this as any).close({ $value: this.season });
   };
 
   cancel() {
-    (this as any).dismiss({$value: 'cancel'});
+    (this as any).dismiss({ $value: 'cancel' });
   };
 }
 

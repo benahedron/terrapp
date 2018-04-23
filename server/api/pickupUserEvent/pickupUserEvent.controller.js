@@ -102,11 +102,9 @@ export function upsert(req, res) {
   if (req.body._id) {
     delete req.body._id;
   }
-  console.log(req.body)
   if (req.body.$extras) {
     delete req.body.$extras;
   }
-  console.log(req.body)
   return PickupUserEvent.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true, upsert: true, setDefaultsOnInsert: true, runValidators: true })
     .populate({ path: 'basket', populate: { path: 'membership' } })
     .populate({ path: 'pickupEvent', populate: { path: 'pickupOption' } })
