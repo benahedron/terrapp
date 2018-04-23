@@ -16,8 +16,8 @@ import * as Utils from '../../components/utils/utils';
 
 function respondWithResult(res, statusCode) {
   statusCode = statusCode || 200;
-  return function(entity) {
-    if(entity) {
+  return function (entity) {
+    if (entity) {
       return res.status(statusCode).json(entity);
     }
     return null;
@@ -25,10 +25,10 @@ function respondWithResult(res, statusCode) {
 }
 
 function patchUpdates(patches) {
-  return function(entity) {
+  return function (entity) {
     try {
       jsonpatch.apply(entity, patches, /*validate*/ true);
-    } catch(err) {
+    } catch (err) {
       return Promise.reject(err);
     }
 
@@ -37,8 +37,8 @@ function patchUpdates(patches) {
 }
 
 function removeEntity(res) {
-  return function(entity) {
-    if(entity) {
+  return function (entity) {
+    if (entity) {
       return entity.remove()
         .then(() => {
           res.status(204).end();
@@ -48,8 +48,8 @@ function removeEntity(res) {
 }
 
 function handleEntityNotFound(res) {
-  return function(entity) {
-    if(!entity) {
+  return function (entity) {
+    if (!entity) {
       res.status(404).end();
       return null;
     }
@@ -59,7 +59,7 @@ function handleEntityNotFound(res) {
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
-  return function(err) {
+  return function (err) {
     res.status(statusCode).send(err);
   };
 }
@@ -73,10 +73,10 @@ export function index(req, res) {
 
 // Gets a list of PickupUserEvents given an  PickupEvent
 export function indexByPickupEventId(req, res) {
-  return PickupUserEvent.find({'$or': [{pickupEvent: req.params.id},{pickupEventOverride: req.params.id}]})
-    .populate({path: 'basket', populate: { path: 'membership' }})
-    .populate({path: 'pickupEvent', populate: [{ path: 'pickupOption'}, { path: 'availableExtras'}]})
-    .populate({path: 'pickupEventOverride', populate: { path: 'pickupOption' }}).exec()
+  return PickupUserEvent.find({ '$or': [{ pickupEvent: req.params.id }, { pickupEventOverride: req.params.id }] })
+    .populate({ path: 'basket', populate: { path: 'membership' } })
+    .populate({ path: 'pickupEvent', populate: [{ path: 'pickupOption' }, { path: 'availableExtras' }] })
+    .populate({ path: 'pickupEventOverride', populate: { path: 'pickupOption' } }).exec()
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
@@ -99,13 +99,18 @@ export function create(req, res) {
 
 // Upserts the given PickupUserEvent in the DB at the specified ID
 export function upsert(req, res) {
-  if(req.body._id) {
+  if (req.body._id) {
     delete req.body._id;
   }
-  return PickupUserEvent.findOneAndUpdate({_id: req.params.id}, req.body, {new: true, upsert: true, setDefaultsOnInsert: true, runValidators: true})
-    .populate({path: 'basket', populate: { path: 'membership' }})
-    .populate({path: 'pickupEvent', populate: { path: 'pickupOption' }})
-    .populate({path: 'pickupEventOverride', populate: { path: 'pickupOption' }}).exec()
+  console.log(req.body)
+  if (req.body.$extras) {
+    delete req.body.$extras;
+  }
+  console.log(req.body)
+  return PickupUserEvent.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true, upsert: true, setDefaultsOnInsert: true, runValidators: true })
+    .populate({ path: 'basket', populate: { path: 'membership' } })
+    .populate({ path: 'pickupEvent', populate: { path: 'pickupOption' } })
+    .populate({ path: 'pickupEventOverride', populate: { path: 'pickupOption' } }).exec()
     .then(respondWithResult(res))
     .catch(handleError(res));
 }
@@ -113,32 +118,32 @@ export function upsert(req, res) {
 
 // Patch as user, make sure only correct edits are possible.
 export function upsertAsUser(req, res) {
-  if(req.body._id) {
+  if (req.body._id) {
     delete req.body._id;
   }
-  return PickupUserEvent.findOne({_id: req.params.id})
-  .populate({path: 'basket', populate: { path: 'season' }})
-  .populate({path: 'pickupEvent', populate: { path: 'pickupOption' }})
-  .populate({path: 'pickupEventOverride', populate: { path: 'pickupOption' }})
-  .exec()
-  .then((existingUserEvents) => {
-    if (Utils.isEditableUserEvent(existingUserEvents)) {
-      return PickupUserEvent.findOneAndUpdate({_id: req.params.id}, req.body, {new: true, upsert: true, setDefaultsOnInsert: true, runValidators: true})
-        .populate('pickupEvent','-mails')
-        .populate('pickupEventOverride','-mails')
-        .exec()
-        .then(respondWithResult(res))
-        .catch(handleError(res));
-    } else {
-      /// Somebody tries to update old / uneditable basket.
-      res.sendStatus(304);
-    }
-  });
+  return PickupUserEvent.findOne({ _id: req.params.id })
+    .populate({ path: 'basket', populate: { path: 'season' } })
+    .populate({ path: 'pickupEvent', populate: { path: 'pickupOption' } })
+    .populate({ path: 'pickupEventOverride', populate: { path: 'pickupOption' } })
+    .exec()
+    .then((existingUserEvents) => {
+      if (Utils.isEditableUserEvent(existingUserEvents)) {
+        return PickupUserEvent.findOneAndUpdate({ _id: req.params.id }, req.body, { new: true, upsert: true, setDefaultsOnInsert: true, runValidators: true })
+          .populate('pickupEvent', '-mails')
+          .populate('pickupEventOverride', '-mails')
+          .exec()
+          .then(respondWithResult(res))
+          .catch(handleError(res));
+      } else {
+        /// Somebody tries to update old / uneditable basket.
+        res.sendStatus(304);
+      }
+    });
 }
 
 // Update the check state of an event
 export function updateDoneState(req, res) {
-  if(req.body._id) {
+  if (req.body._id) {
     delete req.body._id;
   }
   return PickupUserEvent.findById(req.params.id).exec()
@@ -153,7 +158,7 @@ export function updateDoneState(req, res) {
 
 // Updates an existing PickupUserEvent in the DB
 export function patch(req, res) {
-  if(req.body._id) {
+  if (req.body._id) {
     delete req.body._id;
   }
   return PickupUserEvent.findById(req.params.id).exec()
