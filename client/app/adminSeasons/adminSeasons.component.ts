@@ -4,9 +4,9 @@ const angular = require('angular');
 const uiRouter = require('angular-ui-router');
 
 import routes from './adminSeasons.routes';
-import {ModalBase} from '../shared/modal.base';
+import { ModalBase } from '../shared/modal.base';
 
-export class AdminSeasonsComponent extends ModalBase{
+export class AdminSeasonsComponent extends ModalBase {
   seasons: Object[];
   $http: ng.IHttpService;
   getDateForInterval: Function;
@@ -40,22 +40,22 @@ export class AdminSeasonsComponent extends ModalBase{
     return seasonToTest === this.activeSeason;
   }
 
-  private setActive(season){
+  private setActive(season) {
     this.OptionsService.setActiveSeason(season)
-    .then(() => {
-      this.reload();
-    });
+      .then(() => {
+        this.reload();
+      });
   }
 
   private reload() {
     this.OptionsService.getActiveSeason()
-    .then((activeSeason) => {
-      this.activeSeason = activeSeason;
-    })
+      .then((activeSeason) => {
+        this.activeSeason = activeSeason;
+      })
     this.$http.get("/api/seasons")
-    .then((res) => {
-      this.seasons = res.data as ISeason[];
-    });
+      .then((res) => {
+        this.seasons = res.data as ISeason[];
+      });
   }
 
   delete(season) {
@@ -75,11 +75,12 @@ export class AdminSeasonsComponent extends ModalBase{
     let scope = this;
     this.modal('adminSeasonEdit', this.getResolve(null), (season) => {
       scope.seasons.push(season);
+      scope.reload();
     });
   }
 
   managePickups(season) {
-    this.$state.go('adminPickups', {seasonId: season._id});
+    this.$state.go('adminPickups', { seasonId: season._id });
   }
 
   manageBaskets(season) {
@@ -90,7 +91,7 @@ export class AdminSeasonsComponent extends ModalBase{
 
   manageExtras(season) {
     let scope = this;
-    this.modal('adminSeasonExtras', this.getResolve(season), () => {}).catch(()=> {
+    this.modal('adminSeasonExtras', this.getResolve(season), () => { }).catch(() => {
       this.reload();
     });
   }
