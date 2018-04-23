@@ -34,7 +34,7 @@ export class AdminSeasonEditComponent {
         eventIntervalInDays: 7,
         numberOfEvents: 52,
         activePickupOptions: []
-      } as ISeason;
+      } as any;
       this.isNew = true;
     }
   }
