@@ -30,6 +30,14 @@ export function index(req, res) {
     .populate('membership')
     .exec()
     .then(users => {
+      users = _.sortBy(users, user => {
+        if (user.membership) {
+          return user.membership.lastName + user.membership.firstName;
+        } else {
+          // No membership
+          return "";
+        }
+      })
       res.status(200).json(users);
     })
     .catch(handleError(res));
