@@ -66,20 +66,20 @@
     <div class="form-group" ng-class="{ 'has-success': form.address1.$valid && $ctrl.submitted, 'has-error': form.address1.$invalid && $ctrl.submitted }">
       <label>Address 1</label>
 
-      <input type="text" name="address1" class="form-control" ng-model="$ctrl.user.membership.address1" ng-required="!$ctrl.isAdmin()"/>
+      <input type="text" name="address1" class="form-control" ng-model="$ctrl.user.membership.address1"/>
       <p class="help-block" ng-show="form.address1.$error.required && $ctrl.submitted">
         An address is required
       </p>
     </div>
-    <div class="form-group" ng-class="{ 'has-success': form.address2.$valid && $ctrl.submitted, 'has-error': form.address2.$invalid && $ctrl.submitted }">
+   <!--  <div class="form-group" ng-class="{ 'has-success': form.address2.$valid && $ctrl.submitted, 'has-error': form.address2.$invalid && $ctrl.submitted }">
       <label>Address 2</label>
 
       <input type="text" name="address2" class="form-control" ng-model="$ctrl.user.membership.address2" />
-    </div>
+    </div> -->
     <div class="form-group" ng-class="{ 'has-success': form.zip.$valid && $ctrl.submitted, 'has-error': form.zip.$invalid && $ctrl.submitted }">
       <label>ZIP</label>
 
-      <input type="text" name="zip" class="form-control" ng-model="$ctrl.user.membership.zip" ng-required="!$ctrl.isAdmin()"/>
+      <input type="text" name="zip" class="form-control" ng-model="$ctrl.user.membership.zip"/>
       <p class="help-block" ng-show="form.zip.$error.required && $ctrl.submitted">
         A ZIP code is required
       </p>
@@ -87,7 +87,7 @@
     <div class="form-group" ng-class="{ 'has-success': form.city.$valid && $ctrl.submitted, 'has-error': form.city.$invalid && $ctrl.submitted }">
       <label>City</label>
 
-      <input type="text" name="city" class="form-control" ng-model="$ctrl.user.membership.city" ng-required="!$ctrl.isAdmin()"/>
+      <input type="text" name="city" class="form-control" ng-model="$ctrl.user.membership.city"/>
       <p class="help-block" ng-show="form.city.$error.required && $ctrl.submitted">
         An city is required
       </p>
@@ -95,7 +95,7 @@
     <div class="form-group" ng-class="{ 'has-success': form.country.$valid && $ctrl.submitted, 'has-error': form.country.$invalid && $ctrl.submitted }">
       <label>Country</label>
 
-      <input type="text" name="country" class="form-control" ng-model="$ctrl.user.membership.country" ng-required="!$ctrl.isAdmin()"/>
+      <input type="text" name="country" class="form-control" ng-model="$ctrl.user.membership.country"/>
       <p class="help-block" ng-show="form.country.$error.required && $ctrl.submitted">
         An country is required
       </p>

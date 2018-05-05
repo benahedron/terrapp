@@ -78,25 +78,23 @@
                                             'has-error': form.address1.$invalid && vm.submitted }">
           <label>{{'address1' | tr}}</label>
 
-          <input type="text" name="address1" class="form-control" ng-model="vm.user.membership.address1"
-                 required/>
+          <input type="text" name="address1" class="form-control" ng-model="vm.user.membership.address1"/>
           <p class="help-block" ng-show="form.address1.$error.required && vm.submitted">
             {{'address1_required' | tr}}
           </p>
         </div>
-        <div class="form-group" ng-class="{ 'has-success': form.address2.$valid && vm.submitted,
+        <!-- <div class="form-group" ng-class="{ 'has-success': form.address2.$valid && vm.submitted,
                                             'has-error': form.address2.$invalid && vm.submitted }">
           <label>{{'address2' | tr}}</label>
 
           <input type="text" name="address2" class="form-control" ng-model="vm.user.membership.address2"
                  />
-        </div>
+        </div> -->
         <div class="form-group" ng-class="{ 'has-success': form.zip.$valid && vm.submitted,
                                             'has-error': form.zip.$invalid && vm.submitted }">
           <label>{{'zip' | tr}}</label>
 
-          <input type="text" name="zip" class="form-control" ng-model="vm.user.membership.zip"
-                 required/>
+          <input type="text" name="zip" class="form-control" ng-model="vm.user.membership.zip"/>
           <p class="help-block" ng-show="form.zip.$error.required && vm.submitted">
             {{'zip_required' | tr}}
           </p>
@@ -105,8 +103,7 @@
                                             'has-error': form.city.$invalid && vm.submitted }">
           <label>{{'city' | tr}}</label>
 
-          <input type="text" name="city" class="form-control" ng-model="vm.user.membership.city"
-                 required/>
+          <input type="text" name="city" class="form-control" ng-model="vm.user.membership.city"/>
           <p class="help-block" ng-show="form.city.$error.required && vm.submitted">
             {{'city_required' | tr}}
           </p>
@@ -115,8 +112,7 @@
                                             'has-error': form.country.$invalid && vm.submitted }">
           <label>{{'country' | tr}}</label>
 
-          <input type="text" name="country" class="form-control" ng-model="vm.user.membership.country"
-                 required/>
+          <input type="text" name="country" class="form-control" ng-model="vm.user.membership.country"/>
           <p class="help-block" ng-show="form.country.$error.required && vm.submitted">
             {{'country_required' | tr}}
           </p>
