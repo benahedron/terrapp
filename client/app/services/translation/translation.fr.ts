@@ -22,7 +22,7 @@ export default {
   'first_name_required': 'Un prénom est requis',
   'last_name': 'Nom',
   'last_name_required': 'Un nom est requis',
-  'address1': 'Adresse 1',
+  'address1': 'Adresse',
   'address1_required': 'Une adresse est requis',
   'address2': 'Adress 2',
   'zip': 'CP',

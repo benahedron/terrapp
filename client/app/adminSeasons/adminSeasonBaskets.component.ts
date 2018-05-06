@@ -49,8 +49,8 @@ export class AdminSeasonBasketsComponent{
     });
 
     this.filteredBaskets = _.sortBy(this.filteredBaskets, (basket) => {
-      return (basket as IBasket).membership.firstName +
-             (basket as IBasket).membership  .lastName;
+      return (basket as IBasket).membership.lastName +
+             (basket as IBasket).membership.firstName;
     });
 
     this.updateSearch();
